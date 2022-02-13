@@ -1,2 +1,2 @@
-[new_host]
+[arch_iso]
 192.168.60.131    ansible_user=root

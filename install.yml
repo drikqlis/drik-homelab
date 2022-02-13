@@ -1,7 +1,18 @@
 ---
 - name: Install Arch Linux
-  hosts: all
+  hosts: arch_iso
 
   tasks:
+    - name: Abort if the host is not booted from the Arch install media
+      fail:
+        msg: "This host is not booted from the Arch install media!"
+      when: ansible_nodename != 'archiso'
+
     - name: Set polish keyboard
       command: loadkeys pl
+
+    - name: Ensure NTP is running
+      service:
+        name: systemd-timesyncd
+        state: started
+        enabled: true
