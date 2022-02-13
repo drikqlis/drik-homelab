@@ -1,0 +1,7 @@
+---
+- name: Install Arch Linux
+  hosts: all
+
+  tasks:
+    - name: Set polish keyboard
+      command: loadkeys pl
