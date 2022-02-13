@@ -1,2 +1,2 @@
 [new_host]
-192.168.60.131    remote_user=root
+192.168.60.131    ansible_user=root
