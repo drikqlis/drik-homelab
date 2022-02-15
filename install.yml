@@ -8,8 +8,8 @@
 
   tasks:
 
-  # First tests and activities
-  # --------------------------------------------------------------------
+    # First tests and activities
+    # --------------------------------------------------------------------
 
     - name: Abort if the host is not booted from the Arch install media
       fail:
@@ -25,8 +25,8 @@
         state: started
         enabled: true
 
-  # Creating and encrypting partitons
-  # --------------------------------------------------------------------
+    # Creating and encrypting partitons
+    # --------------------------------------------------------------------
 
     - name: Wipe install drive and all its partitions
       command: find /dev -wholename "{{ install_drive }}*" -exec wipefs --force --all {} \;
@@ -76,6 +76,161 @@
       changed_when: false
 
     - name: Get UUID for root filesystem
-      command: blkid -s UUID -o value /dev/mapper/cryptroot
+      command: blkid -s UUID -o value "{{ install_drive }}{{ root_partition_suffix }}"
       register: root_uuid
       changed_when: false
+
+    - name: Get UUID for cryptroot filesystem
+      command: blkid -s UUID -o value /dev/mapper/cryptroot
+      register: cryptroot_uuid
+      changed_when: false
+
+    # Mounting filesystems
+    # --------------------------------------------------------------------
+
+    - name: Mount root filesystem
+      mount:
+        path: /mnt
+        src: UUID={{ cryptroot_uuid.stdout }}
+        fstype: ext4
+        state: mounted
+
+    - name: Create mountpoint for boot volume
+      file:
+        path: /mnt/boot
+        state: directory
+
+    - name: Mount boot filesystem
+      mount:
+        path: /mnt/boot
+        src: UUID={{ boot_uuid.stdout }}
+        fstype: vfat
+        state: mounted
+
+    # Installing basic packages
+    # --------------------------------------------------------------------
+
+    - name: Run pacstrap
+      command: pacstrap /mnt base base-devel linux-zen linux-zen-headers linux-firmware vim nano sudo networkmanager e2fsprogs dosfstools ntfs-3g intel-ucode git openssh python sudo
+
+    # Generating fstab
+    # --------------------------------------------------------------------
+
+    - name: Generate blank fstab
+      command: genfstab -U /mnt >> /mnt/etc/fstab
+
+    - name: Add root volume to fstab
+      mount:
+        fstab: /mnt/etc/fstab
+        path: /
+        src: /dev/mapper/cryptroot
+        fstype: ext4
+        opts: defaults,noatime
+        passno: "1"
+        state: present
+
+    - name: Add boot volume to fstab
+      mount:
+        fstab: /mnt/etc/fstab
+        path: /boot
+        src: UUID={{ boot_uuid.stdout }}
+        fstype: vfat
+        opts: defaults
+        passno: "2"
+        state: present
+
+    # Configuring time and locale
+    # --------------------------------------------------------------------
+
+    - name: Set local timezone
+      command: arch-chroot /mnt ln -sf /usr/share/zoneinfo/Europe/Warsaw /etc/localtime
+
+    - name: Set hardware clock from system clock
+      command: arch-chroot /mnt hwclock --systohc
+
+    - name: Configure locale.gen
+      lineinfile:
+        dest: /mnt/etc/locale.gen
+        regexp: "{{ item.regex }}"
+        line: "{{ item.line }}"
+      loop:
+        - {regex: en_US\.UTF-8 UTF-8, line: en_US.UTF-8 UTF-8}
+        - {regex: en_GB\.UTF-8 UTF-8, line: en_GB.UTF-8 UTF-8}
+        - {regex: pl_PL\.UTF-8 UTF-8, line: pl_PL.UTF-8 UTF-8}
+
+    - name: Create locale.conf
+      copy:
+        src: vars/locale.conf
+        dest: /mnt/etc/locale.conf
+
+    - name: Set keymap
+      copy:
+        content: "KEYMAP=pl"
+        dest: /mnt/etc/vconsole.conf
+
+    - name: Generate locales
+      command: arch-chroot /mnt locale-gen
+
+    # Setting hostname
+    # --------------------------------------------------------------------
+
+    - name: Set hostname
+      copy:
+        content: "{{ hostname }}"
+        dest: /mnt/etc/hostname
+
+    - name: Set hosts
+      copy:
+        content: |
+          127.0.0.1   localhost
+          ::1         localhost
+          127.0.1.1   {{ hostname }}.{{ localdomain }}  {{ hostname }}
+        dest: /mnt/etc/hosts
+
+    # Setting disk labels
+    # --------------------------------------------------------------------
+
+    - name: Set label for boot partition
+      command: arch-chroot /mnt fatlabel {{ install_drive }}{{ boot_partition_suffix }} "{{ boot_partition_label }}"
+
+    - name: Set label for root partition
+      command: arch-chroot /mnt cryptsetup config --label="{{ root_partition_label }}" {{ install_drive }}{{ root_partition_suffix }}
+
+    # Boot configuration
+    # --------------------------------------------------------------------
+
+    - name: Install systemd-boot
+      command: arch-chroot /mnt bootctl install
+
+    - name: Create unified kernel image preset
+      copy:
+        src: vars/linux-zen.preset
+        dest: /mnt/etc/mkinitcpio.d/linux-zen.preset
+
+    - name: Configure kernel parametres
+      copy:
+        content: rd.luks.name={{ root_uuid.stdout }}=cryptroot root=/dev/mapper/cryptroot rw nowatchdog nosgx
+        dest: /mnt/etc/kernel/cmdline
+
+    - name: Add mkinitcpio.conf hooks
+      lineinfile:
+        dest: /mnt/etc/mkinitcpio.conf
+        regexp: ^HOOKS=
+        line: HOOKS=(base systemd sd-encrypt autodetect keyboard sd-vconsole modconf block filesystems fsck)
+
+    - name: Add mkinitcpio.conf modules (intel)
+      lineinfile:
+        dest: /mnt/etc/mkinitcpio.conf
+        regexp: ^MODULES=
+        line: MODULES=(i915)
+      when: intel_gpu
+
+    - name: Add mkinitcpio.conf modules (nvidia)
+      lineinfile:
+        dest: /mnt/etc/mkinitcpio.conf
+        regexp: ^MODULES=
+        line: MODULES=(nvidia nvidia_modeset nvidia_uvm nvidia_drm)
+      when: nvidia_gpu
+
+    - name: Create new initramfs
+      command: arch-chroot /mnt mkinitcpio -P
