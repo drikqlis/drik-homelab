@@ -1,0 +1,4 @@
+---
+add_packages: nvidia-dkms nvidia-settings
+mkinicpio_modules: nvidia nvidia_modeset nvidia_uvm nvidia_drm
+kernel_cmd: nvidia-drm.modeset=1
