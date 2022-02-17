@@ -1,10 +1,11 @@
 ---
 - name: Install Arch Linux
-  hosts: arch_iso
+  hosts: archiso
 
   vars_files:
-    - vars/host_vars.yml
-    - vars/encrypted_vars.yml
+    - "vars/host_vars.yml"
+    - "vars/crypt_vars.yml"
+    - ["vars/{{ gpu_manufacturer }}_vars.yml", "vars/virt_vars.yml"]
 
   tasks:
 
@@ -70,6 +71,9 @@
         fstype: ext4
         force: yes
 
+    # Registering variables
+    # --------------------------------------------------------------------
+
     - name: Get UUID for boot filesystem
       command: blkid -s UUID -o value "{{ install_drive }}{{ boot_partition_suffix }}"
       register: boot_uuid
@@ -85,13 +89,19 @@
       register: cryptroot_uuid
       changed_when: false
 
+    - name: Get tpm driver
+      shell: systemd-cryptenroll --tpm2-device=list |& grep -o "tpm_.*"
+      ignore_errors: true
+      register: tpm_driver
+      changed_when: false
+
     # Mounting filesystems
     # --------------------------------------------------------------------
 
     - name: Mount root filesystem
       mount:
         path: /mnt
-        src: UUID={{ cryptroot_uuid.stdout }}
+        src: /dev/mapper/cryptroot
         fstype: ext4
         state: mounted
 
@@ -111,7 +121,7 @@
     # --------------------------------------------------------------------
 
     - name: Run pacstrap
-      command: pacstrap /mnt base base-devel linux-zen linux-zen-headers linux-firmware vim nano sudo networkmanager e2fsprogs dosfstools ntfs-3g intel-ucode git openssh python sudo
+      command: pacstrap /mnt base base-devel linux-zen linux-zen-headers linux-firmware vim nano sudo networkmanager e2fsprogs dosfstools ntfs-3g intel-ucode git openssh python sudo sbctl tpm2-tools {{ add_packages }}
 
     # Generating fstab
     # --------------------------------------------------------------------
@@ -123,7 +133,7 @@
       mount:
         fstab: /mnt/etc/fstab
         path: /
-        src: /dev/mapper/cryptroot
+        src: UUID={{ root_uuid.stdout }}
         fstype: ext4
         opts: defaults,noatime
         passno: "1"
@@ -160,7 +170,7 @@
 
     - name: Create locale.conf
       copy:
-        src: vars/locale.conf
+        src: files/locale.conf
         dest: /mnt/etc/locale.conf
 
     - name: Set keymap
@@ -196,7 +206,26 @@
     - name: Set label for root partition
       command: arch-chroot /mnt cryptsetup config --label="{{ root_partition_label }}" {{ install_drive }}{{ root_partition_suffix }}
 
-    # Boot configuration
+    # Platform specific modifications
+    # --------------------------------------------------------------------
+
+    - name: Make sure pacman hook dir exisits
+      file:
+        path: /mnt/etc/pacman.d/hooks
+        state: directory
+      when: gpu_manufacturer == "nvidia"
+
+    - name: Create pacman hook for updating initramfs after NVIDIA driver update
+      copy:
+        src: files/nvidia.hook
+        dest: /mnt/etc/pacman.d/hooks/nvidia.hook
+      when: gpu_manufacturer == "nvidia"
+
+    - name: Enable qemu-guest-agent service
+      command: arch-chroot /mnt systemctl enable qemu-guest-agent.service
+      when: gpu_manufacturer == "virt"
+
+    # systemd-boot configuration
     # --------------------------------------------------------------------
 
     - name: Install systemd-boot
@@ -204,13 +233,16 @@
 
     - name: Create unified kernel image preset
       copy:
-        src: vars/linux-zen.preset
+        src: files/linux-zen.preset
         dest: /mnt/etc/mkinitcpio.d/linux-zen.preset
 
     - name: Configure kernel parametres
       copy:
-        content: rd.luks.name={{ root_uuid.stdout }}=cryptroot root=/dev/mapper/cryptroot rw nowatchdog nosgx
+        content: rd.luks.name={{ root_uuid.stdout }}=cryptroot rd.luks.options={{ root_uuid.stdout }}=tpm2-device=auto root=/dev/mapper/cryptroot rw nowatchdog nosgx {{ kernel_cmd }}
         dest: /mnt/etc/kernel/cmdline
+
+    # mkinitcpio configuration
+    # --------------------------------------------------------------------
 
     - name: Add mkinitcpio.conf hooks
       lineinfile:
@@ -218,19 +250,36 @@
         regexp: ^HOOKS=
         line: HOOKS=(base systemd sd-encrypt autodetect keyboard sd-vconsole modconf block filesystems fsck)
 
-    - name: Add mkinitcpio.conf modules (intel)
+    - name: Add mkinitcpio.conf modules
       lineinfile:
         dest: /mnt/etc/mkinitcpio.conf
         regexp: ^MODULES=
-        line: MODULES=(i915)
-      when: intel_gpu
-
-    - name: Add mkinitcpio.conf modules (nvidia)
-      lineinfile:
-        dest: /mnt/etc/mkinitcpio.conf
-        regexp: ^MODULES=
-        line: MODULES=(nvidia nvidia_modeset nvidia_uvm nvidia_drm)
-      when: nvidia_gpu
+        line: MODULES=({{ mkinicpio_modules }} {{ tpm_driver.stdout }})
 
     - name: Create new initramfs
       command: arch-chroot /mnt mkinitcpio -P
+
+    # SecureBoot configuration
+    # --------------------------------------------------------------------
+
+    - name: Create SecureBoot keys
+      command: arch-chroot /mnt sbctl create-keys
+
+    - name: Enroll SecureBoot keys
+      command: arch-chroot /mnt sbctl enroll-keys --microsoft
+
+    - name: Sign efi files and boot loader
+      shell: |
+        arch-chroot /mnt sbctl sign --save /boot/EFI/Linux/archlinux-linux-zen.efi
+        arch-chroot /mnt sbctl sign --save /boot/EFI/Linux/archlinux-linux-zen-fallback.efi
+        arch-chroot /mnt sbctl sign --save /boot/EFI/BOOT/BOOTX64.EFI
+        arch-chroot /mnt sbctl sign --save /boot/EFI/systemd/systemd-bootx64.efi
+        arch-chroot /mnt sbctl sign --save /boot/vmlinuz-linux-zen
+
+    # TPM configuration
+    # --------------------------------------------------------------------
+
+    - name: Enroll TPM
+      command: arch-chroot /mnt /bin/bash -c 'export PASSWORD="{{ crypt_passphrase }}"; systemd-cryptenroll --tpm2-device=auto --tpm2-pcrs=0+7 {{ install_drive }}{{ root_partition_suffix }}'
+      no_log: true
+      when: tpm_driver.stdout | length > 0

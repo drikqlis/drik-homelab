@@ -6,5 +6,5 @@ root_partition_suffix: 2
 root_partition_label: arch
 hostname: arch-hp250
 localdomain: drik.it
-intel_gpu: true
-nvidia_gpu: false
+# nvidia, intel virt
+gpu_manufacturer: virt
