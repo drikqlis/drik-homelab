@@ -7,4 +7,5 @@ root_partition_label: arch
 hostname: arch-hp250
 localdomain: drik.it
 # nvidia, intel virt
-gpu_manufacturer: virt
+gpu_manufacturer: intel
+ssh_pub_keys: /home/mateusz/Nextcloud/Prywatne/Linux/SSH/public_keys.txt

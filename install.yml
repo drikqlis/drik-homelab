@@ -241,6 +241,14 @@
         content: rd.luks.name={{ root_uuid.stdout }}=cryptroot rd.luks.options={{ root_uuid.stdout }}=tpm2-device=auto root=/dev/mapper/cryptroot rw nowatchdog nosgx {{ kernel_cmd }}
         dest: /mnt/etc/kernel/cmdline
 
+    - name: Enable update systemd-boot service (as backup)
+      command: arch-chroot /mnt systemctl enable systemd-boot-update.service
+
+    - name: Create pacman hook for updating systemd-boot after systemd update
+      copy:
+        src: files/50-systemd-boot.hook
+        dest: /mnt/etc/pacman.d/hooks/50-systemd-boot.hook
+
     # mkinitcpio configuration
     # --------------------------------------------------------------------
 
@@ -269,17 +277,56 @@
       command: arch-chroot /mnt sbctl enroll-keys --microsoft
 
     - name: Sign efi files and boot loader
-      shell: |
-        arch-chroot /mnt sbctl sign --save /boot/EFI/Linux/archlinux-linux-zen.efi
-        arch-chroot /mnt sbctl sign --save /boot/EFI/Linux/archlinux-linux-zen-fallback.efi
-        arch-chroot /mnt sbctl sign --save /boot/EFI/BOOT/BOOTX64.EFI
-        arch-chroot /mnt sbctl sign --save /boot/EFI/systemd/systemd-bootx64.efi
-        arch-chroot /mnt sbctl sign --save /boot/vmlinuz-linux-zen
+      command: arch-chroot /mnt {{ item }}
+      loop:
+        - sbctl sign --save /boot/EFI/Linux/archlinux-linux-zen.efi
+        - sbctl sign --save /boot/EFI/Linux/archlinux-linux-zen-fallback.efi
+        - sbctl sign --save /boot/EFI/BOOT/BOOTX64.EFI
+        - sbctl sign --save /boot/EFI/systemd/systemd-bootx64.efi
+        - sbctl sign --save /boot/vmlinuz-linux-zen
+
+    # Enable network
+    # --------------------------------------------------------------------
+
+    - name: Enable dns service
+      command: arch-chroot /mnt systemctl enable systemd-resolved
+
+    - name: Enable network service
+      command: arch-chroot /mnt systemctl enable NetworkManager
+
+    # Create user
+    # --------------------------------------------------------------------
+
+    - name: Create user account
+      command: arch-chroot /mnt useradd --create-home --user-group --groups wheel {{ user_name }} --password {{ user_password }}
+
+    - name: Create user's ssh directory
+      file:
+        path: /mnt/home/{{ user_name }}/.ssh
+        state: directory
+
+    - name: Set mode, owner, and group on user's ssh directory
+          command: arch-chroot /mnt {{ item }}
+          loop:
+            - chmod 0700 /home/{{ user_name }}/.ssh
+            - chown {{ user_name }}:{{ user_name }} /home/{{ user_name }}/.ssh
+
+    - name: Copy over ssh pub keys as an authorized keys
+      copy:
+        src: "{{ ssh_pub_keys }}"
+        dest: /mnt/home/{{ user_name }}/.ssh/authorized_keys
+
+    - name: Set mode, owner, and group on user's authorized_key file
+      command: arch-chroot /mnt {{ item }}
+      loop:
+        - chmod 0600 /home/{{ user_name }}/.ssh/authorized_keys
+        - chown {{ user_name }}:{{ user_name }} /home/{{ user_name }}/.ssh/authorized_keys
+
 
     # TPM configuration
     # --------------------------------------------------------------------
 
-    - name: Enroll TPM
-      command: arch-chroot /mnt /bin/bash -c 'export PASSWORD="{{ crypt_passphrase }}"; systemd-cryptenroll --tpm2-device=auto --tpm2-pcrs=0+7 {{ install_drive }}{{ root_partition_suffix }}'
-      no_log: true
-      when: tpm_driver.stdout | length > 0
+#    - name: Enroll TPM
+#      command: arch-chroot /mnt /bin/bash -c 'export PASSWORD="{{ crypt_passphrase }}"; systemd-cryptenroll --tpm2-device=auto --tpm2-pcrs=0+7 {{ install_drive }}{{ root_partition_suffix }}'
+#      no_log: true
+#      when: tpm_driver.stdout | length > 0

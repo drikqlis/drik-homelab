@@ -1,4 +1,4 @@
 ---
 crypt_passphrase: passphrase_here
-username: test
+user_name: test
 user_password: password

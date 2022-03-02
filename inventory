@@ -1,2 +1,2 @@
 [archiso]
-archiso.drik.it    ansible_user=root
+192.168.60.141    ansible_user=root
