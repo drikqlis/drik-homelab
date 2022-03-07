@@ -1,0 +1,97 @@
+---
+# Installing GUI
+# --------------------------------------------------------------------
+
+- name: Ensure GUI is installed
+  hosts: archinstalled
+  become: true
+
+  tasks:
+
+    # Install packages
+    # --------------------------------------------------------------------
+
+    - name: Ensure packages are updated
+      pacman:
+        update_cache: yes
+        upgrade: yes
+
+    - name: Ensure packages are installed
+      pacman:
+        name:
+          - bluez
+          - bluez-utils
+          - sddm
+          - plasma
+          - plasma-wayland-session
+          - kdenetwork-filesharing
+          - kio-fuse
+          - kdeconnect
+          - sshfs
+          - avahi
+          - ark
+          - unrar
+          - p7zip
+          - kate
+          - okular
+          - kcalc
+          - konsole
+          - kwalletmanager
+          - print-manager
+          - krita
+          - firefox
+          - dolphin
+          - gwenview
+          - hunspell
+          - hunspell-pl
+          - hunspell-en_us
+          - noto-fonts
+          - noto-fonts-emoji
+          - noto-fonts-cjk
+          - ttf-dejavu
+          - ttf-liberation
+          - ttf-opensans
+          - partitionmanager
+          - power-profiles-daemon
+          - filelight
+          - pipewire
+          - pipewire-alsa
+          - pipewire-jack
+          - pipewire-pulse
+          - xdg-desktop-portal
+          - xdg-desktop-portal-kde
+          - xdg-desktop-portal-gtk
+          - gnome-settings-daemon
+          - gsettings-desktop-schemas
+          - gsettings-qt
+          - plasma-browser-integration
+          - spectacle
+        state: present
+
+    # Enable SDDM
+    # --------------------------------------------------------------------
+
+    - name: Enable sddm service
+      systemd:
+        name: sddm
+        state: started
+        enabled: yes
+
+    # GTK portal
+    # --------------------------------------------------------------------
+
+    - name: Use GTK portal
+      copy:
+        content: GTK_USE_PORTAL=1
+        dest: /etc/environment
+
+    # Network discovery
+    # --------------------------------------------------------------------
+
+    - name: Enable avahi service
+      systemd:
+        name: avahi-daemon
+        state: started
+        enabled: yes
+
+
