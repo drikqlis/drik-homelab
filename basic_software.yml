@@ -61,7 +61,6 @@
         dest: /etc/xdg/reflector/reflector.conf
         regexp: "{{ item.regexp }}"
         line: "{{ item.line }}"
-        backrefs: yes
       with_items:
         - { regexp: "^#?.?--country", line: "--country Poland,Germany,France" }
         - { regexp: "^#?.?--sort", line: "--sort rate" }
@@ -110,6 +109,34 @@
         state: started
         enabled: yes
 
+    # Enable NTP
+    # --------------------------------------------------------------------
+
+    - name: Enable timesyncd service
+      systemd:
+        name: systemd-timesyncd
+        state: started
+        enabled: yes
+      notify:
+        - run-timedatectl
+
+    # Limit log size
+    # --------------------------------------------------------------------
+
+    - name: Limit log size to 200mb
+      lineinfile:
+        dest: /etc/systemd/journald.conf
+        regexp: ^#?SystemMaxUse=
+        line: SystemMaxUse=200M
+
+    # Default editor
+    # --------------------------------------------------------------------
+
+    - name: Set nano as default editor
+      copy:
+        content: EDITOR=nano
+        dest: /etc/environment
+
   # Handlers
   # --------------------------------------------------------------------
 
@@ -128,3 +155,6 @@
       systemd:
         name: reflector
         state: started
+
+    - name: run-timedatectl
+      command: timedatectl set-ntp true
