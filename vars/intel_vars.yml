@@ -1,4 +1,0 @@
----
-add_packages: mesa vulkan-intel intel-media-driver intel-gpu-tools
-mkinicpio_modules: i915
-kernel_cmd:

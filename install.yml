@@ -1,11 +1,9 @@
 ---
+# Installation
+# --------------------------------------------------------------------
+
 - name: Install Arch Linux
   hosts: archiso
-
-  vars_files:
-    - "vars/host_vars.yml"
-    - "vars/crypt_vars.yml"
-    - ["vars/{{ gpu_manufacturer }}_vars.yml", "vars/virt_vars.yml"]
 
   tasks:
 
@@ -121,7 +119,7 @@
     # --------------------------------------------------------------------
 
     - name: Run pacstrap
-      command: pacstrap /mnt base base-devel linux-zen linux-zen-headers linux-firmware vim nano sudo networkmanager e2fsprogs dosfstools ntfs-3g intel-ucode git openssh python sudo sbctl tpm2-tools {{ add_packages }}
+      command: pacstrap /mnt base base-devel linux-zen linux-zen-headers linux-firmware vim nano sudo networkmanager e2fsprogs dosfstools ntfs-3g intel-ucode git openssh python python-pexpect sudo sbctl tpm2-tools {{ add_packages }}
 
     # Generating fstab
     # --------------------------------------------------------------------
@@ -168,10 +166,17 @@
         - {regex: en_GB\.UTF-8 UTF-8, line: en_GB.UTF-8 UTF-8}
         - {regex: pl_PL\.UTF-8 UTF-8, line: pl_PL.UTF-8 UTF-8}
 
-    - name: Create locale.conf
+    - name: Create locale.conf (en_PL)
       copy:
-        src: files/locale.conf
+        src: files/locale_en_PL.conf
         dest: /mnt/etc/locale.conf
+      when: system_lang == "en_PL"
+
+    - name: Create locale.conf (pl_PL)
+      copy:
+        src: files/locale_pl_PL.conf
+        dest: /mnt/etc/locale.conf
+      when: system_lang == "pl_PL"
 
     - name: Set keymap
       copy:
@@ -213,7 +218,6 @@
       file:
         path: /mnt/etc/pacman.d/hooks
         state: directory
-      when: gpu_manufacturer == "nvidia"
 
     - name: Create pacman hook for updating initramfs after NVIDIA driver update
       copy:
@@ -224,6 +228,12 @@
     - name: Enable qemu-guest-agent service
       command: arch-chroot /mnt systemctl enable qemu-guest-agent.service
       when: gpu_manufacturer == "virt"
+
+    - name: Leave a file to check gpu_manufacturer
+      copy:
+        content: "{{ gpu_manufacturer }}"
+        dest: /mnt/usr/local/etc/gpu_manufacturer
+
 
     # systemd-boot configuration
     # --------------------------------------------------------------------
@@ -285,7 +295,7 @@
         - sbctl sign --save /boot/EFI/systemd/systemd-bootx64.efi
         - sbctl sign --save /boot/vmlinuz-linux-zen
 
-    # Enable network
+    # Enable services
     # --------------------------------------------------------------------
 
     - name: Enable dns service
@@ -293,6 +303,9 @@
 
     - name: Enable network service
       command: arch-chroot /mnt systemctl enable NetworkManager
+
+    - name: Enable network service
+      command: arch-chroot /mnt systemctl enable sshd
 
     # Create user
     # --------------------------------------------------------------------
@@ -306,10 +319,10 @@
         state: directory
 
     - name: Set mode, owner, and group on user's ssh directory
-          command: arch-chroot /mnt {{ item }}
-          loop:
-            - chmod 0700 /home/{{ user_name }}/.ssh
-            - chown {{ user_name }}:{{ user_name }} /home/{{ user_name }}/.ssh
+      command: arch-chroot /mnt {{ item }}
+      loop:
+        - chmod 0700 /home/{{ user_name }}/.ssh
+        - chown {{ user_name }}:{{ user_name }} /home/{{ user_name }}/.ssh
 
     - name: Copy over ssh pub keys as an authorized keys
       copy:
@@ -322,11 +335,66 @@
         - chmod 0600 /home/{{ user_name }}/.ssh/authorized_keys
         - chown {{ user_name }}:{{ user_name }} /home/{{ user_name }}/.ssh/authorized_keys
 
+    - name: Give sudo access to wheel group
+      copy:
+        content: "%wheel      ALL=(ALL) ALL"
+        dest: /mnt/etc/sudoers.d/wheel
+        validate: /usr/sbin/visudo --check --file=%s
 
-    # TPM configuration
+    - name: Force public key authentication
+      blockinfile:
+        path: /mnt/etc/ssh/sshd_config
+        insertafter: EOF
+        block: |
+          # Modified by Arch-Ansible-Install
+          # Author Drik.IT
+          PasswordAuthentication no
+          AuthenticationMethods publickey
+
+    # Reboot and wait
     # --------------------------------------------------------------------
 
-#    - name: Enroll TPM
-#      command: arch-chroot /mnt /bin/bash -c 'export PASSWORD="{{ crypt_passphrase }}"; systemd-cryptenroll --tpm2-device=auto --tpm2-pcrs=0+7 {{ install_drive }}{{ root_partition_suffix }}'
-#      no_log: true
-#      when: tpm_driver.stdout | length > 0
+    - name: Reboot archiso and ignore errors
+      reboot:
+        reboot_timeout: 60
+      ignore_errors: true
+
+# Post-Installation
+# --------------------------------------------------------------------
+
+- name: Post-Installation
+  hosts: archinstalled
+  gather_facts: no
+
+  tasks:
+
+    # Waiting and gathering facts
+    # --------------------------------------------------------------------
+
+    - name: Wait for SSH to respond on host
+      wait_for_connection:
+
+    - name: Gather facts
+      setup:
+
+    # Enrolling TPM
+    # --------------------------------------------------------------------
+
+    - name: Enroll TPM
+      expect:
+        command: systemd-cryptenroll --tpm2-device=auto --tpm2-pcrs=0+7 {{ install_drive }}{{ root_partition_suffix }}
+        responses:
+          (?i)passphrase: "{{ crypt_passphrase }}"
+      no_log: true
+      become: true
+
+    # Clean-up
+    # --------------------------------------------------------------------
+
+    - name: Disable root
+      command: passwd -l root
+      become: true
+
+    - name: Reboot archinstalled
+      reboot:
+      become: true

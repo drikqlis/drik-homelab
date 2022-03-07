@@ -4,8 +4,10 @@ boot_partition_suffix: 1
 boot_partition_label: boot
 root_partition_suffix: 2
 root_partition_label: arch
-hostname: arch-hp250
+hostname: arch-hp257
 localdomain: drik.it
 # nvidia, intel virt
-gpu_manufacturer: intel
+gpu_manufacturer: virt
+# en_PL, pl_PL
+system_lang: en_PL
 ssh_pub_keys: /home/mateusz/Nextcloud/Prywatne/Linux/SSH/public_keys.txt

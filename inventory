@@ -1,2 +1,4 @@
 [archiso]
-192.168.60.141    ansible_user=root
+archiso    ansible_user=root
+[archinstalled]
+arch              ansible_host="{{ hostname }}" ansible_user="{{ user_name }}" ansible_become_password="{{ user_password_clear }}"
