@@ -81,9 +81,9 @@
     # --------------------------------------------------------------------
 
     - name: Use GTK portal
-      copy:
-        content: GTK_USE_PORTAL=1
-        dest: /etc/environment
+      lineinfile:
+        path: /etc/environment
+        line: GTK_USE_PORTAL=1
 
     # Network discovery
     # --------------------------------------------------------------------
@@ -94,4 +94,11 @@
         state: started
         enabled: yes
 
+    # Enable bluetooth
+    # --------------------------------------------------------------------
+
+    - name: Enable bluetooth service
+      systemd:
+        name: bluetooth
+        enabled: yes
 

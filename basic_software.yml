@@ -53,6 +53,19 @@
         mode: 0644
       notify: daemon-reload
 
+    # Configure pacman
+    # --------------------------------------------------------------------
+
+    - name: Ensure pacman config is correct
+      lineinfile:
+        dest: /etc/pacman.conf
+        regexp: "{{ item.regexp }}"
+        line: "{{ item.line }}"
+      with_items:
+        - { regexp: "^#?.?CleanMethod", line: "CleanMethod = KeepCurrent" }
+        - { regexp: "^#?.?ParallelDownloads", line: "ParallelDownloads = 5" }
+        - { regexp: "^#?.?Color", line: "Color" }
+
     # Configure reflector
     # --------------------------------------------------------------------
 
@@ -133,9 +146,18 @@
     # --------------------------------------------------------------------
 
     - name: Set nano as default editor
-      copy:
-        content: EDITOR=nano
-        dest: /etc/environment
+      lineinfile:
+        path: /etc/environment
+        line: EDITOR=nano
+
+    # Enable periodic TRIM for SSDs
+    # --------------------------------------------------------------------
+
+    - name: Enable fstrim.timer service
+      systemd:
+        name: fstrim.timer
+        state: started
+        enabled: yes
 
   # Handlers
   # --------------------------------------------------------------------
