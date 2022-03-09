@@ -1,13 +1,13 @@
 ---
-install_drive: /dev/sda
-boot_partition_suffix: 1
+install_drive: /dev/nvme0n1
+boot_partition_suffix: p1
 boot_partition_label: boot
-root_partition_suffix: 2
+root_partition_suffix: p2
 root_partition_label: arch
-hostname: arch-hp257
+hostname: MML-V5590
 localdomain: drik.it
 # nvidia, intel virt
-gpu_manufacturer: virt
+gpu_manufacturer: intel
 # en_PL, pl_PL
-system_lang: en_PL
+system_lang: pl_PL
 ssh_pub_keys: /home/mateusz/Nextcloud/Prywatne/Linux/SSH/public_keys.txt

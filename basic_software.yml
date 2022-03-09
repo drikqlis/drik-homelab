@@ -66,6 +66,18 @@
         - { regexp: "^#?.?ParallelDownloads", line: "ParallelDownloads = 5" }
         - { regexp: "^#?.?Color", line: "Color" }
 
+    - name: Ensure arch.drik.it repo is added
+      blockinfile:
+        path: /etc/pacman.conf
+        insertafter: EOF
+        block: |
+          # Modified by Arch-Ansible-Install
+          # Author Drik.IT
+          [aur]
+          SigLevel = Optional TrustAll
+          Server = https://arch.drik.it
+
+
     # Configure reflector
     # --------------------------------------------------------------------
 
