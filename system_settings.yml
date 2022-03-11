@@ -1,0 +1,72 @@
+---
+# Configuring system settings
+# --------------------------------------------------------------------
+
+- name: Ensure system settings are configured
+  hosts: archinstalled
+
+  tasks:
+
+    # Globals
+    # --------------------------------------------------------------------
+
+    - name: Set kdeglobals (global theme, single click, file dialog)
+      copy:
+        src: files/kde/kdeglobals
+        dest: /home/{{ user_name }}/.config/kdeglobals
+
+    - name: Set kwinrc (disable border buttons, borderless maximized, meta shortcut to krunner, night color)
+      copy:
+        src: files/kde/kwinrc
+        dest: /home/{{ user_name }}/.config/kwinrc
+
+    - name: Set khotkeysrc (type-clip, system monitor)
+      copy:
+        src: files/kde/khotkeysrc
+        dest: /home/{{ user_name }}/.config/khotkeysrc
+
+    # Dolphin
+    # --------------------------------------------------------------------
+
+    - name: Set dolphinrc (dolphin settings)
+      copy:
+        src: files/kde/dolphinrc
+        dest: /home/{{ user_name }}/.config/dolphinrc
+
+    - name: Set view mode to details in dolphin
+      copy:
+        src: files/kde/directory
+        dest: /home/{{ user_name }}/.local/share/dolphin/view_properties/global/.directory
+
+    - name: Hide unused items in places (dolphin)
+      xml:
+        path: /home/{{ user_name }}/.local/share/user-places.xbel
+        xpath: "{{ item }}"
+        value: "true"
+      loop:
+        - /xbel/info/metadata/GroupState-RecentlySaved-IsHidden
+        - /xbel/info/metadata/GroupState-SearchFor-IsHidden
+
+    - name: Delete junk folders from places
+      xml:
+        path: /home/{{ user_name }}/.local/share/user-places.xbel
+        xpath: "{{ item }}"
+        state: absent
+      loop:
+        - /xbel/bookmark[title='Music']
+        - /xbel/bookmark[title='Pictures']
+        - /xbel/bookmark[title='Videos']
+
+    - name: Hide duplicate disk in places
+      xml:
+        path: /home/{{ user_name }}/.local/share/user-places.xbel
+        xpath: /xbel/separator/info/metadata[UDI='/org/freedesktop/UDisks2/block_devices/dm_2d0']/IsHidden
+        value: "true"
+
+    # Kate
+    # --------------------------------------------------------------------
+
+    - name: Set katerc (kate settings)
+      copy:
+        src: files/kde/katerc
+        dest: /home/{{ user_name }}/.config/katerc

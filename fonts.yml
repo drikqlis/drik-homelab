@@ -1,0 +1,71 @@
+---
+# Configuring fonts
+# --------------------------------------------------------------------
+
+- name: Ensure fonts are configured
+  hosts: archinstalled
+
+  tasks:
+
+    # Configure fonts
+    # --------------------------------------------------------------------
+    - name: Make sure config dir exisits
+      file:
+        path: /home/{{ user_name }}/.config
+        state: directory
+
+    - name: Copy local.conf fonts config file
+      copy:
+        src: files/fonts-local.conf
+        dest: /etc/fonts/local.conf
+      become: true
+      notify:
+        - fc-cache
+
+    - name: Copy local.conf fonts config file
+      copy:
+        src: files/Xresources
+        dest: /home/{{ user_name }}/.Xresources
+      notify:
+        - fc-cache
+
+    - name: Create symbolic link for fonts part 1
+      file:
+        src: /usr/share/fontconfig/conf.avail/10-sub-pixel-rgb.conf
+        dest: /etc/fonts/conf.d/10-sub-pixel-rgb.conf
+        state: link
+      become: true
+      notify:
+        - fc-cache
+
+    - name: Create symbolic link for fonts part 2
+      file:
+        src: /usr/share/fontconfig/conf.avail/11-lcdfilter-default.conf
+        dest: /etc/fonts/conf.d/11-lcdfilter-default.conf
+        state: link
+      become: true
+      notify:
+        - fc-cache
+
+    - name: Make sure fontconfig dir exisits
+      file:
+        path: /home/{{ user_name }}/.config/fontconfig
+        state: directory
+
+    - name: Copy fonts.conf fonts config file
+      copy:
+        src: files/fonts.conf
+        dest: /home/{{ user_name }}/.config/fontconfig/fonts.conf
+      notify:
+        - fc-cache
+
+  # Handlers
+  # --------------------------------------------------------------------
+
+  handlers:
+
+    - name: merge-xrdb
+      command: xrdb -merge ~/.Xresources
+
+    - name: fc-cache
+      command: fc-cache -fv

@@ -1,0 +1,4 @@
+---
+add_packages: qemu-guest-agent
+mkinicpio_modules: virtio virtio_blk virtio_pci virtio_net virtio_ring
+kernel_cmd:
