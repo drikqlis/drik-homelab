@@ -2,7 +2,7 @@
 # Installing GUI
 # --------------------------------------------------------------------
 
-- name: Ensure GUI is installed
+- name: Ensure GUI is installed and started
   hosts: archinstalled
   become: true
 
@@ -68,6 +68,25 @@
           - spectacle
         state: present
 
+    # Set SDDM style
+    # --------------------------------------------------------------------
+
+    - name: Make sure sddm.conf.d dir exisits
+      file:
+        path: /etc/sddm.conf.d
+        state: directory
+        mode: 0755
+        owner: root
+        group: root
+
+    - name: Ensure sddm kde settings are applied
+      copy:
+        src: files/kde_settings.conf
+        dest: /etc/sddm.conf.d/kde_settings.conf
+        mode: 0644
+        owner: root
+        group: root
+
     # Enable SDDM
     # --------------------------------------------------------------------
 
@@ -122,6 +141,9 @@
         src: 192.168.0.0/16
       notify:
         - restart-ufw
+
+  # Handlers
+  # --------------------------------------------------------------------
 
   handlers:
 

@@ -1,3 +1,13 @@
+[Document 0]
+Bookmarks=
+Encoding=UTF-8
+Highlighting=None
+Highlighting Set By User=false
+Indentation Mode=normal
+Mode=Normal
+Mode Set By User=false
+URL=
+
 [Kate Plugins]
 compilerexplorer=false
 cuttlefishplugin=false
@@ -8,7 +18,7 @@ katecloseexceptplugin=false
 katecolorpickerplugin=true
 katectagsplugin=false
 katefilebrowserplugin=true
-katefiletreeplugin=true
+katefiletreeplugin=false
 kategdbplugin=false
 kategitblameplugin=false
 katekonsoleplugin=true
@@ -29,24 +39,25 @@ textfilterplugin=true
 
 [MainWindow0]
 Active ViewSpace=0
-Kate-MDI-Sidebar-0-Splitter=0,0,0,0,0
+DP-0 Height 2560x1440=951
+DP-0 Width 2560x1440=1324
+DP-0 XPosition 2560x1440=759
+DP-0 YPosition 2560x1440=386
+Kate-MDI-H-Splitter=354,1290,200
+Kate-MDI-Sidebar-0-Splitter=0,0,0,0
 Kate-MDI-Sidebar-1-Splitter=0
 Kate-MDI-Sidebar-2-Splitter=0
 Kate-MDI-Sidebar-3-Splitter=0,0,0,0,0
 Kate-MDI-Sidebar-Style=2
-Kate-MDI-Sidebar-Visible=false
+Kate-MDI-Sidebar-Visible=true
 Kate-MDI-ToolView-kate_plugin_katesearch-Persistent=false
 Kate-MDI-ToolView-kate_plugin_katesearch-Position=3
 Kate-MDI-ToolView-kate_plugin_katesearch-Sidebar-Position=1
 Kate-MDI-ToolView-kate_plugin_katesearch-Visible=false
 Kate-MDI-ToolView-kate_private_plugin_katefileselectorplugin-Persistent=false
 Kate-MDI-ToolView-kate_private_plugin_katefileselectorplugin-Position=0
-Kate-MDI-ToolView-kate_private_plugin_katefileselectorplugin-Sidebar-Position=3
+Kate-MDI-ToolView-kate_private_plugin_katefileselectorplugin-Sidebar-Position=0
 Kate-MDI-ToolView-kate_private_plugin_katefileselectorplugin-Visible=false
-Kate-MDI-ToolView-kate_private_plugin_katefiletreeplugin-Persistent=false
-Kate-MDI-ToolView-kate_private_plugin_katefiletreeplugin-Position=0
-Kate-MDI-ToolView-kate_private_plugin_katefiletreeplugin-Sidebar-Position=0
-Kate-MDI-ToolView-kate_private_plugin_katefiletreeplugin-Visible=false
 Kate-MDI-ToolView-kate_private_plugin_katekonsoleplugin-Persistent=false
 Kate-MDI-ToolView-kate_private_plugin_katekonsoleplugin-Position=3
 Kate-MDI-ToolView-kate_private_plugin_katekonsoleplugin-Sidebar-Position=3
@@ -67,17 +78,33 @@ Kate-MDI-ToolView-output-Persistent=false
 Kate-MDI-ToolView-output-Position=3
 Kate-MDI-ToolView-output-Sidebar-Position=0
 Kate-MDI-ToolView-output-Visible=false
+Kate-MDI-V-Splitter=150,917,326
 MenuBar=Disabled
+State=AAAA/wAAAAD9AAAAAAAABSwAAAO3AAAABAAAAAQAAAAIAAAACPwAAAABAAAAAgAAAAEAAAAWAG0AYQBpAG4AVABvAG8AbABCAGEAcgAAAAAA/////wAAAAAAAAAA
 ToolBarsMovable=Disabled
 
 [MainWindow0 Settings]
+DP-0 Height 2560x1440=951
+DP-0 Width 2560x1440=1324
+DP-0 XPosition 2560x1440=759
+DP-0 YPosition 2560x1440=386
 MenuBar=Disabled
+State=AAAA/wAAAAD9AAAAAAAABSwAAAO3AAAABAAAAAQAAAAIAAAACPwAAAABAAAAAgAAAAEAAAAWAG0AYQBpAG4AVABvAG8AbABCAGEAcgAAAAAA/////wAAAAAAAAAA
 ToolBarsMovable=Disabled
-WindowState=2
+WindowState=0
 
 [MainWindow0-Splitter 0]
 Children=MainWindow0-ViewSpace 0
 Orientation=2
+Sizes=879
+
+[MainWindow0-ViewSpace 0]
+Active View=
+Count=1
+Documents=\\0
+
+[Open Documents]
+Count=1
 
 [Open MainWindows]
 Count=1
@@ -92,7 +119,7 @@ Sort by=Date
 Sort directories first=true
 Sort reversed=true
 View Style=DetailTree
-auto sync folder=true
+auto sync folder=false
 filter history=
 
 [Plugin:katesearchplugin:MainWindow:0]

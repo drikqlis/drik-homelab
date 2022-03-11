@@ -25,6 +25,25 @@
         src: files/kde/khotkeysrc
         dest: /home/{{ user_name }}/.config/khotkeysrc
 
+    # Delete junk home folders
+    # --------------------------------------------------------------------
+
+    - name: Delete junk home folders
+      file:
+        path: /home/{{ user_name }}/{{ item }}
+        state: absent
+      loop:
+        - Videos
+        - Music
+        - Pictures
+        - Templates
+        - Public
+        - Wideo
+        - Muzyka
+        - Obrazy
+        - Szablony
+        - Publiczne
+
     # Dolphin
     # --------------------------------------------------------------------
 
@@ -56,6 +75,9 @@
         - /xbel/bookmark[title='Music']
         - /xbel/bookmark[title='Pictures']
         - /xbel/bookmark[title='Videos']
+        - /xbel/bookmark[title='Muzyka']
+        - /xbel/bookmark[title='Obrazy']
+        - /xbel/bookmark[title='Wideo']
 
     - name: Hide duplicate disk in places
       xml:
@@ -70,3 +92,68 @@
       copy:
         src: files/kde/katerc
         dest: /home/{{ user_name }}/.config/katerc
+
+    - name: Make sure sessions directory exists
+      file:
+        path: /home/{{ user_name }}/.local/share/kate/sessions
+        state: directory
+        recurse: yes
+
+    - name: Set kate session
+      copy:
+        src: files/kde/Notepad.katesession
+        dest: /home/{{ user_name }}/.local/share/kate/sessions/Notepad.katesession
+
+    - name: Always start Notepad session
+      lineinfile:
+        dest: /home/{{ user_name }}/.local/share/applications/org.kde.kate.desktop
+        regexp: Exec=kate -b %U
+        line: Exec=kate -b %U --start Notepad
+        backrefs: yes
+
+    # Konsole
+    # --------------------------------------------------------------------
+
+    - name: Set konsolerc (konsole settings)
+      copy:
+        src: files/kde/konsolerc
+        dest: /home/{{ user_name }}/.config/konsolerc
+
+    # Okular
+    # --------------------------------------------------------------------
+
+    - name: Set okularrc (okular settings)
+      copy:
+        src: files/kde/okularrc
+        dest: /home/{{ user_name }}/.config/okularrc
+
+    - name: Set okularpartrc (okular settings)
+      copy:
+        src: files/kde/okularpartrc
+        dest: /home/{{ user_name }}/.config/okularpartrc
+
+    # Gwenview
+    # --------------------------------------------------------------------
+
+    - name: Set gwenviewrc (gwenview settings)
+      copy:
+        src: files/kde/gwenviewrc
+        dest: /home/{{ user_name }}/.config/gwenviewrc
+
+    # Spectacle
+    # --------------------------------------------------------------------
+
+    - name: Set spectaclerc (spectacle settings)
+      template:
+        src: files/kde/spectaclerc.j2
+        dest: /home/{{ user_name }}/.config/spectaclerc
+
+    - name: Change spectacle shortcuts
+      lineinfile:
+        dest: /home/{{ user_name }}/.config/kglobalshortcutsrc
+        regexp: "{{ item.regex }}"
+        line: "{{ item.line }}"
+        backrefs: yes
+      loop:
+        - {regex: "RectangularRegionScreenShot=", line: "RectangularRegionScreenShot=Meta+Shift+S,Meta+Shift+Print,Capture Rectangular Region"}
+        - {regex: "WindowUnderCursorScreenShot=", line: "WindowUnderCursorScreenShot=Meta+Ctrl+S,Meta+Ctrl+Print,Capture Window Under Cursor"}

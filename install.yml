@@ -5,6 +5,9 @@
 - name: Install Arch Linux
   hosts: archiso
 
+  vars_files:
+    - ["vars/{{ gpu_manufacturer }}_vars.yml", "vars/virt_vars.yml"]
+
   tasks:
 
     # First tests and activities
@@ -119,7 +122,7 @@
     # --------------------------------------------------------------------
 
     - name: Run pacstrap
-      command: pacstrap /mnt base base-devel linux-zen linux-zen-headers linux-firmware vim nano sudo htop networkmanager e2fsprogs dosfstools ntfs-3g intel-ucode git openssh python python-pexpect sudo sbctl tpm2-tools {{ add_packages }}
+      command: pacstrap /mnt base base-devel linux-zen linux-zen-headers linux-firmware vim nano sudo htop networkmanager e2fsprogs dosfstools ntfs-3g intel-ucode git openssh python python-pexpect python-lxml sudo sbctl tpm2-tools {{ add_packages }}
 
     # Generating fstab
     # --------------------------------------------------------------------
