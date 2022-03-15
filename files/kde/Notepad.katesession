@@ -39,17 +39,14 @@ textfilterplugin=true
 
 [MainWindow0]
 Active ViewSpace=0
-DP-0 Height 2560x1440=951
-DP-0 Width 2560x1440=1324
-DP-0 XPosition 2560x1440=759
-DP-0 YPosition 2560x1440=386
-Kate-MDI-H-Splitter=354,1290,200
+DP-0 Window-Maximized 2560x1440=true
+Kate-MDI-H-Splitter=415,2560,200
 Kate-MDI-Sidebar-0-Splitter=0,0,0,0
 Kate-MDI-Sidebar-1-Splitter=0
 Kate-MDI-Sidebar-2-Splitter=0
 Kate-MDI-Sidebar-3-Splitter=0,0,0,0,0
 Kate-MDI-Sidebar-Style=2
-Kate-MDI-Sidebar-Visible=true
+Kate-MDI-Sidebar-Visible=false
 Kate-MDI-ToolView-kate_plugin_katesearch-Persistent=false
 Kate-MDI-ToolView-kate_plugin_katesearch-Position=3
 Kate-MDI-ToolView-kate_plugin_katesearch-Sidebar-Position=1
@@ -78,25 +75,22 @@ Kate-MDI-ToolView-output-Persistent=false
 Kate-MDI-ToolView-output-Position=3
 Kate-MDI-ToolView-output-Sidebar-Position=0
 Kate-MDI-ToolView-output-Visible=false
-Kate-MDI-V-Splitter=150,917,326
+Kate-MDI-V-Splitter=150,1410,326
 MenuBar=Disabled
-State=AAAA/wAAAAD9AAAAAAAABSwAAAO3AAAABAAAAAQAAAAIAAAACPwAAAABAAAAAgAAAAEAAAAWAG0AYQBpAG4AVABvAG8AbABCAGEAcgAAAAAA/////wAAAAAAAAAA
+State=AAAA/wAAAAD9AAAAAAAACgAAAAWCAAAABAAAAAQAAAAIAAAACPwAAAABAAAAAgAAAAEAAAAWAG0AYQBpAG4AVABvAG8AbABCAGEAcgAAAAAA/////wAAAAAAAAAA
 ToolBarsMovable=Disabled
 
 [MainWindow0 Settings]
-DP-0 Height 2560x1440=951
-DP-0 Width 2560x1440=1324
-DP-0 XPosition 2560x1440=759
-DP-0 YPosition 2560x1440=386
+DP-0 Window-Maximized 2560x1440=true
 MenuBar=Disabled
-State=AAAA/wAAAAD9AAAAAAAABSwAAAO3AAAABAAAAAQAAAAIAAAACPwAAAABAAAAAgAAAAEAAAAWAG0AYQBpAG4AVABvAG8AbABCAGEAcgAAAAAA/////wAAAAAAAAAA
+State=AAAA/wAAAAD9AAAAAAAACgAAAAWCAAAABAAAAAQAAAAIAAAACPwAAAABAAAAAgAAAAEAAAAWAG0AYQBpAG4AVABvAG8AbABCAGEAcgAAAAAA/////wAAAAAAAAAA
 ToolBarsMovable=Disabled
-WindowState=0
+WindowState=2
 
 [MainWindow0-Splitter 0]
 Children=MainWindow0-ViewSpace 0
 Orientation=2
-Sizes=879
+Sizes=1386
 
 [MainWindow0-ViewSpace 0]
 Active View=
@@ -139,3 +133,5 @@ Search=
 SearchDiskFiles=
 SearchDiskFiless=
 UseRegExp=false
+
+[Recent Files]

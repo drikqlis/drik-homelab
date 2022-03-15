@@ -29,7 +29,6 @@ Tabbar Tab Limit=0
 [KFileDialog Settings]
 Places Icons Auto-resize=false
 Places Icons Static Size=16
-detailViewIconSize=16
 
 [KTextEditor Document]
 Allow End of Line Detection=true
@@ -114,6 +113,7 @@ Scroll Bar MiniMap=true
 Scroll Bar Preview=true
 Scroll Past End=false
 Search/Replace Flags=140
+Show Documentation With Completion=true
 Show Focus Frame Around Editor=true
 Show Line Count=false
 Show Scrollbars=0
@@ -127,6 +127,8 @@ Word Completion=true
 Word Completion Minimal Word Length=3
 Word Completion Remove Tail=true
 
+[KTextEditor::Search]
+
 [Konsole]
 AutoSyncronize=false
 KonsoleEscKeyBehaviour=true
@@ -134,6 +136,12 @@ KonsoleEscKeyExceptions=vi,vim,nvim
 RemoveExtension=false
 RunPrefix=
 SetEditor=false
+
+[MainWindow]
+MenuBar=Disabled
+State=AAAA/wAAAAD9AAAAAAAACgAAAAWCAAAABAAAAAQAAAAIAAAACPwAAAABAAAAAgAAAAEAAAAWAG0AYQBpAG4AVABvAG8AbABCAGEAcgAAAAAA/////wAAAAAAAAAA
+ToolBarsMovable=Disabled
+rdp0 Window-Maximized 1876x1012=true
 
 [UiSettings]
 ColorScheme=Default
@@ -148,3 +156,5 @@ showToolbar=true
 sortRole=0
 viewShade=81,49,95
 
+[kategit]
+lastExecutedGitCmds=git push origin main

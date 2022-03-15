@@ -157,3 +157,32 @@
       loop:
         - {regex: "RectangularRegionScreenShot=", line: "RectangularRegionScreenShot=Meta+Shift+S,Meta+Shift+Print,Capture Rectangular Region"}
         - {regex: "WindowUnderCursorScreenShot=", line: "WindowUnderCursorScreenShot=Meta+Ctrl+S,Meta+Ctrl+Print,Capture Window Under Cursor"}
+
+    # Clear cache
+    # --------------------------------------------------------------------      
+
+    - name: Delete user cache
+      file:
+        path: /home/{{ user_name }}/.cache
+        state: absent
+
+    - name: Recrate user cache folder
+      file:
+        path: /home/{{ user_name }}/.cache
+        state: directory
+        mode: 0755
+        owner: "{{ user_name }}"
+        group: "{{ user_name }}"
+
+    - name: Delete SDDM cache
+      file:
+        path: /var/lib/sddm/.cache
+        state: absent
+
+    - name: Recrate SDDM cache folder
+      file:
+        path: /var/lib/sddm/.cache
+        state: directory
+        mode: 0755
+        owner: sddm
+        group: sddm
