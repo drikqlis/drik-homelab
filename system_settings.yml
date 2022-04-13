@@ -106,10 +106,11 @@
 
     - name: Always start Notepad session
       lineinfile:
-        dest: /home/{{ user_name }}/.local/share/applications/org.kde.kate.desktop
+        dest: /usr/share/applications/org.kde.kate.desktop
         regexp: Exec=kate -b %U
         line: Exec=kate -b %U --start Notepad
         backrefs: yes
+      become: yes
 
     # Konsole
     # --------------------------------------------------------------------
@@ -178,6 +179,7 @@
       file:
         path: /var/lib/sddm/.cache
         state: absent
+      become: yes
 
     - name: Recrate SDDM cache folder
       file:
@@ -186,3 +188,4 @@
         mode: 0755
         owner: sddm
         group: sddm
+      become: yes
