@@ -21,9 +21,9 @@
       owner: root
       group: root
 
-  - name: Ensure sddm kde settings are applied
-    copy:
-      src: kde_settings.conf
+  - name: Apply temp settings for sddm to autologin once
+    template:
+      src: kde_settings.conf.j2
       dest: /etc/sddm.conf.d/kde_settings.conf
       mode: 0644
       owner: root
@@ -34,5 +34,16 @@
       name: sddm
       state: started
       enabled: yes
+
+  - name: Reboot and autologin to generate config files
+    reboot:
+
+  - name: Ensure correct sddm kde settings are applied
+    copy:
+      src: kde_settings.conf
+      dest: /etc/sddm.conf.d/kde_settings.conf
+      mode: 0644
+      owner: root
+      group: root
 
   become: yes

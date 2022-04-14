@@ -5,3 +5,7 @@
     name: reflector
     state: started
   become: yes
+
+- name: daemon-reload
+  systemd:
+    daemon_reload: true

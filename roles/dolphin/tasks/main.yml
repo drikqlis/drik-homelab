@@ -20,6 +20,15 @@
     src: dolphinrc
     dest: /home/{{ user_name }}/.config/dolphinrc
 
+- name: Ensure view_properties directory exists
+  file:
+    path: /home/{{ user_name }}/.local/share/dolphin/view_properties/global/
+    state: directory
+    owner: "{{ user_name }}"
+    group: "{{ user_name }}"
+    mode: 0755
+    recurse: yes
+
 - name: Set view mode to details in dolphin
   copy:
     src: directory
@@ -52,3 +61,11 @@
     path: /home/{{ user_name }}/.local/share/user-places.xbel
     xpath: /xbel/separator/info/metadata[UDI='/org/freedesktop/UDisks2/block_devices/dm_2d0']/IsHidden
     value: "true"
+  register: result
+  ignore_errors: yes
+  changed_when:
+    - 'result.msg is defined or result.changed == true'
+  failed_when: false
+  notify: add-block-device
+
+

@@ -1,0 +1,20 @@
+---
+
+- name: add-block-device
+  blockinfile:
+    path: /home/{{ user_name }}/.local/share/user-places.xbel
+    insertbefore: </xbel>
+    block: |
+      <separator href="file:///">
+        <info>
+        <metadata owner="http://www.kde.org">
+          <UDI>/org/freedesktop/UDisks2/block_devices/dm_2d0</UDI>
+          <isSystemItem>true</isSystemItem>
+          <IsHidden>true</IsHidden>
+        </metadata>
+        <metadata owner="http://freedesktop.org">
+          <bookmark:icon name="drive-harddisk-root"/>
+        </metadata>
+        </info>
+      </separator>
+  when: 'result.msg is defined'

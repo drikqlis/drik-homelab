@@ -347,10 +347,9 @@
     - name: Force public key authentication
       blockinfile:
         path: /mnt/etc/ssh/sshd_config
-        insertafter: EOF
+        insertbefore: BOF
         block: |
           # Modified by Arch-Ansible-Install
-          # Author Drik.IT
           PasswordAuthentication no
           AuthenticationMethods publickey
 
