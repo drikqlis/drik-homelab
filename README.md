@@ -1,5 +1,5 @@
 # Arch-Ansible-Install
-Ansible playbooks to install Arch Linux.
+Ansible playbooks for personalized Arch Linux install.
 
 1. Clear Secure Boot keys and set it into setup mode.
 2. Make sure UEFI and TPM is enabled and legacy boot disabled.

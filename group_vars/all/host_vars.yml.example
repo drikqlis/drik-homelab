@@ -4,10 +4,9 @@ boot_partition_suffix: 1
 boot_partition_label: boot
 root_partition_suffix: 2
 root_partition_label: arch
-hostname: config1
-localdomain: drik.it
+hostname: archhost
+localdomain: local
 # nvidia, intel virt
 gpu_manufacturer: intel
 # en_PL, pl_PL
 system_lang: en_PL
-

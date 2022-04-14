@@ -3,3 +3,4 @@ crypt_passphrase: passphrase_here
 user_name: test
 user_password: $6$0k0mV9a6NOHuP$MggiE3vOgH.fcEZgbWf1w7tZXQRZY5PxmzdGwfyZ254/j/BboPHLjQy8TT7kzgK17HY72x/epMkkSTnTl4KTe0
 user_password_clear: password
+ssh_pub_keys: /home/user/public_keys.txt
