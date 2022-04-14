@@ -1,0 +1,50 @@
+---
+
+- name: Post installation configration
+  hosts: archinstalled
+
+  tasks:
+
+    - name: Basic configuration
+      include_role:
+        name: '{{ roleinputvar }}'
+      loop:
+        - basic
+        - ntp
+        - pacman
+        - ufw
+      loop_control:
+        loop_var: roleinputvar
+
+    - name: GUI basic installation and configuration
+      include_role:
+        name: '{{ roleinputvar }}'
+      loop:
+        - fonts
+        - plasma
+        - sddm
+        - latte
+        - kdeconnect
+        - bluetooth
+        - print
+        - apps
+      loop_control:
+        loop_var: roleinputvar
+      when: gpu_manufacturer != "virt"
+
+
+    - name: Personalize GUI settings
+      include_role:
+        name: '{{ roleinputvar }}'
+      loop:
+        - system_settings
+        - dolphin
+        - kate
+        - konsole
+        - okular
+        - gwenview
+        - spectacle
+        - clear_cache
+      loop_control:
+        loop_var: roleinputvar
+      when: gpu_manufacturer != "virt"

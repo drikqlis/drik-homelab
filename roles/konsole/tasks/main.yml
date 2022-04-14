@@ -1,0 +1,21 @@
+---
+
+- block:
+
+  - name: Ensure packages are updated
+    pacman:
+      update_cache: yes
+      upgrade: yes
+
+  - name: Ensure konsole is installed
+    pacman:
+      name:
+        - konsole
+      state: present
+
+  become: yes
+
+- name: Set konsolerc (konsole settings)
+  copy:
+    src: konsolerc
+    dest: /home/{{ user_name }}/.config/konsolerc

@@ -1,0 +1,32 @@
+---
+
+- name: Set kdeglobals (global theme, single click, file dialog)
+  copy:
+    src: kdeglobals
+    dest: /home/{{ user_name }}/.config/kdeglobals
+
+- name: Set kwinrc (disable border buttons, borderless maximized, meta shortcut to krunner, night color)
+  copy:
+    src: kwinrc
+    dest: /home/{{ user_name }}/.config/kwinrc
+
+- name: Set khotkeysrc (type-clip, system monitor)
+  copy:
+    src: khotkeysrc
+    dest: /home/{{ user_name }}/.config/khotkeysrc
+
+- name: Delete junk home folders
+  file:
+    path: /home/{{ user_name }}/{{ item }}
+    state: absent
+  loop:
+    - Videos
+    - Music
+    - Pictures
+    - Templates
+    - Public
+    - Wideo
+    - Muzyka
+    - Obrazy
+    - Szablony
+    - Publiczne

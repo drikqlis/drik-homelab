@@ -1,0 +1,27 @@
+---
+
+- block:
+
+  - name: Ensure packages are updated
+    pacman:
+      update_cache: yes
+      upgrade: yes
+
+  - name: Ensure okular is installed
+    pacman:
+      name:
+        - okular
+      state: present
+
+  become: yes
+
+- name: Set okularrc (okular settings)
+  copy:
+    src: okularrc
+    dest: /home/{{ user_name }}/.config/okularrc
+
+- name: Set okularpartrc (okular settings)
+  copy:
+    src: okularpartrc
+    dest: /home/{{ user_name }}/.config/okularpartrc
+

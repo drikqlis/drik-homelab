@@ -1,0 +1,5 @@
+---
+
+- name: set-papersize
+  command: paperconfig -p a4
+  become: yes

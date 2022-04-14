@@ -1,0 +1,7 @@
+---
+
+- name: run-reflector
+  systemd:
+    name: reflector
+    state: started
+  become: yes

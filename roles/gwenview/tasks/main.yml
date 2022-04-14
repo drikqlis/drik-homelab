@@ -1,0 +1,23 @@
+---
+
+- block:
+
+  - name: Ensure packages are updated
+    pacman:
+      update_cache: yes
+      upgrade: yes
+
+  - name: Ensure gwenview is installed
+    pacman:
+      name:
+        - gwenview
+      state: present
+
+  become: yes
+
+- name: Set gwenviewrc (gwenview settings)
+  copy:
+    src: gwenviewrc
+    dest: /home/{{ user_name }}/.config/gwenviewrc
+
+

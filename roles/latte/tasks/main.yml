@@ -1,0 +1,21 @@
+---
+
+- block:
+
+  - name: Ensure packages are updated
+    pacman:
+      update_cache: yes
+      upgrade: yes
+
+  - name: Ensure latte and applets are installed
+    pacman:
+      name:
+        - latte-dock-git
+        - plasma5-applets-window-title-git
+        - plasma5-applets-tiledmenu
+        - plasma5-applets-window-buttons-git
+        - appmenu-gtk-module
+        - plasma5-applets-window-appmenu-git
+      state: present
+
+  become: yes

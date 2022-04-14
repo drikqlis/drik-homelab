@@ -1,0 +1,80 @@
+---
+
+- block:
+
+  - name: Ensure packages and cache are updated
+    pacman:
+      update_cache: yes
+      upgrade: yes
+
+  - name: Ensure packages are installed
+    pacman:
+      name:
+        - pacman-contrib
+        - reflector
+      state: present
+
+  - name: Ensure paccache timer is enabled and started
+    systemd:
+      name: paccache.timer
+      enabled: yes
+      state: started
+
+  - name: Ensure paccache.service.d directory exists
+    file:
+      path: /etc/systemd/system/paccache.service.d/
+      state: directory
+      owner: root
+      group: root
+      mode: 0755
+
+  - name: Ensure paccache.service override exists
+    copy:
+      content: |
+        [Service]
+        ExecStart=
+        ExecStart=/usr/bin/paccache -rk1 ; /usr/bin/paccache -ruk0
+      dest: /etc/systemd/system/paccache.service.d/override.conf
+      owner: root
+      group: root
+      mode: 0644
+    notify: daemon-reload
+
+  - name: Ensure pacman config is correct
+    lineinfile:
+      dest: /etc/pacman.conf
+      regexp: "{{ item.regexp }}"
+      line: "{{ item.line }}"
+    with_items:
+      - { regexp: "^#?.?CleanMethod", line: "CleanMethod = KeepCurrent" }
+      - { regexp: "^#?.?ParallelDownloads", line: "ParallelDownloads = 5" }
+      - { regexp: "^#?.?Color", line: "Color" }
+
+  - name: Ensure arch.drik.it repo is added
+    blockinfile:
+      path: /etc/pacman.conf
+      insertafter: EOF
+      block: |
+        # Modified by Arch-Ansible-Install
+        # Author Drik.IT
+        [aur]
+        SigLevel = Optional TrustAll
+        Server = https://arch.drik.it
+
+  - name: Ensure reflector config is correct
+    lineinfile:
+      dest: /etc/xdg/reflector/reflector.conf
+      regexp: "{{ item.regexp }}"
+      line: "{{ item.line }}"
+    with_items:
+      - { regexp: "^#?.?--country", line: "--country Poland,Germany,France" }
+      - { regexp: "^#?.?--sort", line: "--sort rate" }
+
+  - name: Ensure reflector timer is enabled and started
+    systemd:
+      name: reflector.timer
+      enabled: yes
+      state: started
+    notify: run-reflector
+
+  become: yes

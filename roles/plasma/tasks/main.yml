@@ -1,0 +1,70 @@
+---
+
+- block:
+
+  - name: Ensure packages are updated
+    pacman:
+      update_cache: yes
+      upgrade: yes
+
+  - name: Ensure plasma is installed
+    pacman:
+      name:
+        - plasma
+        - plasma-wayland-session
+        - kdenetwork-filesharing
+        - kio-fuse
+        - kdeconnect
+        - sshfs
+        - avahi
+        - ark
+        - unrar
+        - p7zip
+        - kate
+        - okular
+        - kcalc
+        - konsole
+        - kwalletmanager
+        - print-manager
+        - krita
+        - firefox
+        - dolphin
+        - gwenview
+        - hunspell
+        - hunspell-pl
+        - hunspell-en_us
+        - noto-fonts
+        - noto-fonts-emoji
+        - noto-fonts-cjk
+        - ttf-dejavu
+        - ttf-liberation
+        - ttf-opensans
+        - partitionmanager
+        - power-profiles-daemon
+        - filelight
+        - pipewire
+        - pipewire-alsa
+        - pipewire-jack
+        - pipewire-pulse
+        - xdg-desktop-portal
+        - xdg-desktop-portal-kde
+        - xdg-desktop-portal-gtk
+        - gnome-settings-daemon
+        - gsettings-desktop-schemas
+        - gsettings-qt
+        - plasma-browser-integration
+        - spectacle
+      state: present
+
+  - name: Use GTK portal
+    lineinfile:
+      path: /etc/environment
+      line: GTK_USE_PORTAL=1
+
+  - name: Enable avahi service (network discovery)
+    systemd:
+      name: avahi-daemon
+      state: started
+      enabled: yes
+
+  become: yes

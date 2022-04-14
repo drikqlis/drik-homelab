@@ -1,0 +1,5 @@
+---
+
+- name: run-timedatectl
+  command: timedatectl set-ntp true
+  become: yes

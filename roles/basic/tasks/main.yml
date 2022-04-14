@@ -1,0 +1,22 @@
+---
+
+- block:
+
+  - name: Limit log size to 200mb
+    lineinfile:
+      dest: /etc/systemd/journald.conf
+      regexp: ^#?SystemMaxUse=
+      line: SystemMaxUse=200M
+
+  - name: Set nano as default editor
+    lineinfile:
+      path: /etc/environment
+      line: EDITOR=nano
+
+  - name: Enable fstrim.timer service for SSD
+    systemd:
+      name: fstrim.timer
+      state: started
+      enabled: yes
+
+  become: yes

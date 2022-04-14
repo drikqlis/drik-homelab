@@ -1,0 +1,14 @@
+---
+
+- name: Run select roles
+  hosts: archinstalled
+
+  tasks:
+
+    - name: Run select roles
+      include_role:
+        name: '{{ roleinputvar }}'
+      loop:
+        - clear_cache
+      loop_control:
+        loop_var: roleinputvar

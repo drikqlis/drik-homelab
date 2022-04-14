@@ -1,0 +1,54 @@
+---
+
+- block:
+
+  - name: Ensure packages are updated
+    pacman:
+      update_cache: yes
+      upgrade: yes
+
+  - name: Ensure dolphin is installed
+    pacman:
+      name:
+        - dolphin
+      state: present
+
+  become: yes
+
+- name: Set dolphinrc (dolphin settings)
+  copy:
+    src: dolphinrc
+    dest: /home/{{ user_name }}/.config/dolphinrc
+
+- name: Set view mode to details in dolphin
+  copy:
+    src: directory
+    dest: /home/{{ user_name }}/.local/share/dolphin/view_properties/global/.directory
+
+- name: Hide unused items in places (dolphin)
+  xml:
+    path: /home/{{ user_name }}/.local/share/user-places.xbel
+    xpath: "{{ item }}"
+    value: "true"
+  loop:
+    - /xbel/info/metadata/GroupState-RecentlySaved-IsHidden
+    - /xbel/info/metadata/GroupState-SearchFor-IsHidden
+
+- name: Delete junk folders from places
+  xml:
+    path: /home/{{ user_name }}/.local/share/user-places.xbel
+    xpath: "{{ item }}"
+    state: absent
+  loop:
+    - /xbel/bookmark[title='Music']
+    - /xbel/bookmark[title='Pictures']
+    - /xbel/bookmark[title='Videos']
+    - /xbel/bookmark[title='Muzyka']
+    - /xbel/bookmark[title='Obrazy']
+    - /xbel/bookmark[title='Wideo']
+
+- name: Hide duplicate disk in places
+  xml:
+    path: /home/{{ user_name }}/.local/share/user-places.xbel
+    xpath: /xbel/separator/info/metadata[UDI='/org/freedesktop/UDisks2/block_devices/dm_2d0']/IsHidden
+    value: "true"

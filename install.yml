@@ -171,13 +171,13 @@
 
     - name: Create locale.conf (en_PL)
       copy:
-        src: files/locale_en_PL.conf
+        src: locale_en_PL.conf
         dest: /mnt/etc/locale.conf
       when: system_lang == "en_PL"
 
     - name: Create locale.conf (pl_PL)
       copy:
-        src: files/locale_pl_PL.conf
+        src: locale_pl_PL.conf
         dest: /mnt/etc/locale.conf
       when: system_lang == "pl_PL"
 
@@ -224,7 +224,7 @@
 
     - name: Create pacman hook for updating initramfs after NVIDIA driver update
       copy:
-        src: files/nvidia.hook
+        src: nvidia.hook
         dest: /mnt/etc/pacman.d/hooks/nvidia.hook
       when: gpu_manufacturer == "nvidia"
 
@@ -246,7 +246,7 @@
 
     - name: Create unified kernel image preset
       copy:
-        src: files/linux-zen.preset
+        src: linux-zen.preset
         dest: /mnt/etc/mkinitcpio.d/linux-zen.preset
 
     - name: Configure kernel parametres
@@ -259,7 +259,7 @@
 
     - name: Create pacman hook for updating systemd-boot after systemd update
       copy:
-        src: files/50-systemd-boot.hook
+        src: 50-systemd-boot.hook
         dest: /mnt/etc/pacman.d/hooks/50-systemd-boot.hook
 
     # mkinitcpio configuration

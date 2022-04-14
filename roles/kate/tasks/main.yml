@@ -1,0 +1,57 @@
+---
+
+- block:
+
+  - name: Ensure packages are updated
+    pacman:
+      update_cache: yes
+      upgrade: yes
+
+  - name: Ensure kate is installed
+    pacman:
+      name:
+        - kate
+      state: present
+
+  become: yes
+
+- name: Set katerc (kate settings)
+  copy:
+    src: katerc
+    dest: /home/{{ user_name }}/.config/katerc
+
+- name: Make sure sessions directory exists
+  file:
+    path: /home/{{ user_name }}/.local/share/kate/sessions
+    state: directory
+    recurse: yes
+
+- name: Set kate session
+  copy:
+    src: Notepad.katesession
+    dest: /home/{{ user_name }}/.local/share/kate/sessions/Notepad.katesession
+
+- name: Always start Notepad session
+  lineinfile:
+    dest: /usr/share/applications/org.kde.kate.desktop
+    regexp: Exec=kate -b %U
+    line: Exec=kate -b %U --start Notepad
+    backrefs: yes
+  become: yes
+
+- name: Make sure syntax directory exists
+  file:
+    path: /home/{{ user_name }}/.local/share/org.kde.syntax-highlighting/syntax
+    state: directory
+    recurse: yes
+
+- name: Copy Jinja2 files for Ansible syntax
+  copy:
+    src: "{{ item }}"
+    dest: "/home/{{ user_name }}/.local/share/org.kde.syntax-highlighting/syntax/{{ item }}"
+  loop:
+    - yaml-jinja2.xml
+    - jinja2.xml
+    - javascript-jinja2.xml
+    - html-jinja2.xml
+    - css-jinja2.xml
