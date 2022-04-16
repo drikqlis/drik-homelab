@@ -1,0 +1,11 @@
+---
+
+- name: set-kded5rc
+  copy:
+    src: kded5rc
+    dest: /home/{{ user_name }}/.config/kded5rc
+    mode: 0600
+    owner: "{{ user_name }}"
+    group: "{{ user_name }}"
+  when: 'result.msg is defined'
+

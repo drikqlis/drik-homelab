@@ -19,3 +19,6 @@
   copy:
     src: konsolerc
     dest: /home/{{ user_name }}/.config/konsolerc
+    mode: 0600
+    owner: "{{ user_name }}"
+    group: "{{ user_name }}"

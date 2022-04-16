@@ -19,6 +19,18 @@
   copy:
     src: dolphinrc
     dest: /home/{{ user_name }}/.config/dolphinrc
+    mode: 0600
+    owner: "{{ user_name }}"
+    group: "{{ user_name }}"
+
+- name: Set dolphistaterc (dolphin state)
+  copy:
+    src: dolphinstaterc
+    dest: /home/{{ user_name }}/.local/share/dolphin/dolphinstaterc
+    mode: 0600
+    owner: "{{ user_name }}"
+    group: "{{ user_name }}"
+
 
 - name: Ensure view_properties directory exists
   file:
@@ -67,5 +79,13 @@
     - 'result.msg is defined or result.changed == true'
   failed_when: false
   notify: add-block-device
+
+- name: Set trash to no limit
+  template:
+    src: ktrashrc.j2
+    dest: /home/{{ user_name }}/.config/ktrashrc
+    mode: 0600
+    owner: "{{ user_name }}"
+    group: "{{ user_name }}"
 
 

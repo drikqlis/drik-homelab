@@ -19,6 +19,9 @@
   copy:
     src: katerc
     dest: /home/{{ user_name }}/.config/katerc
+    mode: 0600
+    owner: "{{ user_name }}"
+    group: "{{ user_name }}"
 
 - name: Make sure sessions directory exists
   file:
@@ -30,6 +33,9 @@
   copy:
     src: Notepad.katesession
     dest: /home/{{ user_name }}/.local/share/kate/sessions/Notepad.katesession
+    mode: 0600
+    owner: "{{ user_name }}"
+    group: "{{ user_name }}"
 
 - name: Always start Notepad session
   lineinfile:

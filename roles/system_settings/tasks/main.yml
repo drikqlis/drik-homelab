@@ -4,16 +4,25 @@
   copy:
     src: kdeglobals
     dest: /home/{{ user_name }}/.config/kdeglobals
+    mode: 0600
+    owner: "{{ user_name }}"
+    group: "{{ user_name }}"
 
 - name: Set kwinrc (disable border buttons, borderless maximized, meta shortcut to krunner, night color)
   copy:
     src: kwinrc
     dest: /home/{{ user_name }}/.config/kwinrc
+    mode: 0600
+    owner: "{{ user_name }}"
+    group: "{{ user_name }}"
 
 - name: Set khotkeysrc (type-clip, system monitor)
   copy:
     src: khotkeysrc
     dest: /home/{{ user_name }}/.config/khotkeysrc
+    mode: 0600
+    owner: "{{ user_name }}"
+    group: "{{ user_name }}"
 
 - name: Delete junk home folders
   file:
@@ -30,3 +39,31 @@
     - Obrazy
     - Szablony
     - Publiczne
+
+- name: Disable browser integration reminder service
+  replace:
+    path: /home/{{ user_name }}/.config/kded5rc
+    regexp: '^\[Module-browserintegrationreminder\]\nautoload=.*'
+    replace: '[Module-browserintegrationreminder]\nautoload=false'
+  register: result
+  ignore_errors: yes
+  changed_when:
+    - 'result.msg is defined or result.changed == true'
+  failed_when: false
+  notify: set-kded5rc
+
+- name: Set ksmserverrc (confirm logout off, start with empty session)
+  copy:
+    src: ksmserverrc
+    dest: /home/{{ user_name }}/.config/ksmserverrc
+    mode: 0600
+    owner: "{{ user_name }}"
+    group: "{{ user_name }}"
+
+- name: Set krunnerrc (disable browser history, tabs and bookmarks search)
+  copy:
+    src: krunnerrc
+    dest: /home/{{ user_name }}/.config/krunnerrc
+    mode: 0600
+    owner: "{{ user_name }}"
+    group: "{{ user_name }}"

@@ -19,6 +19,10 @@
   template:
     src: spectaclerc.j2
     dest: /home/{{ user_name }}/.config/spectaclerc
+    mode: 0600
+    owner: "{{ user_name }}"
+    group: "{{ user_name }}"
+
 
 - name: Change spectacle shortcuts
   lineinfile:

@@ -19,9 +19,15 @@
   copy:
     src: okularrc
     dest: /home/{{ user_name }}/.config/okularrc
+    mode: 0600
+    owner: "{{ user_name }}"
+    group: "{{ user_name }}"
 
 - name: Set okularpartrc (okular settings)
   copy:
     src: okularpartrc
     dest: /home/{{ user_name }}/.config/okularpartrc
+    mode: 0600
+    owner: "{{ user_name }}"
+    group: "{{ user_name }}"
 
