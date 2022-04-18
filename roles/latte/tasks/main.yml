@@ -19,3 +19,59 @@
       state: present
 
   become: yes
+
+- name: Set lattedockrc (global latte settings)
+  copy:
+    src: lattedockrc
+    dest: /home/{{ user_name }}/.config/lattedockrc
+    mode: 0600
+    owner: "{{ user_name }}"
+    group: "{{ user_name }}"
+
+- name: Make sure latte dir exisits
+  file:
+    path: /home/{{ user_name }}/.config/latte
+    state: directory
+    mode: 0755
+    owner: "{{ user_name }}"
+    group: "{{ user_name }}"
+
+- name: Set drik.layout.latte (latte dock layout)
+  copy:
+    src: drik.layout.latte
+    dest: /home/{{ user_name }}/.config/latte/drik.layout.latte
+    mode: 0644
+    owner: "{{ user_name }}"
+    group: "{{ user_name }}"
+
+- name: Make sure autostart dir exisits
+  file:
+    path: /home/{{ user_name }}/.config/autostart
+    state: directory
+    mode: 0755
+    owner: "{{ user_name }}"
+    group: "{{ user_name }}"
+
+- name: Autostart latte
+  copy:
+    src: org.kde.latte-dock.desktop
+    dest: /home/{{ user_name }}/.config/autostart/org.kde.latte-dock.desktop
+    mode: 0644
+    owner: "{{ user_name }}"
+    group: "{{ user_name }}"
+
+- name: Set plasmashellrc (disable default panel)
+  copy:
+    src: plasmashellrc
+    dest: /home/{{ user_name }}/.config/plasmashellrc
+    mode: 0600
+    owner: "{{ user_name }}"
+    group: "{{ user_name }}"
+
+- name: Set plasma-org.kde.plasma.desktop-appletsrc (disable default panel part two)
+  copy:
+    src: plasma-org.kde.plasma.desktop-appletsrc
+    dest: /home/{{ user_name }}/.config/plasma-org.kde.plasma.desktop-appletsrc
+    mode: 0600
+    owner: "{{ user_name }}"
+    group: "{{ user_name }}"

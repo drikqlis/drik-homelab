@@ -1,0 +1,52 @@
+[ActionsWidget]
+ColumnState=AAAA/wAAAAAAAAABAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAboAAAACAQAAAQAAAAAAAAAAAAAAAHD/////AAAAgQAAAAAAAAACAAAA+gAAAAEAAAAAAAAAwAAAAAEAAAAAAAAD6AAAAABw
+
+[General]
+Number of Actions=0
+
+[KFileDialog Settings]
+Places Icons Auto-resize=false
+Places Icons Static Size=16
+detailViewIconSize=16
+
+[LatteSettingsDialog]
+downloadWindowSize=980,600
+windowSize=1100,806
+
+[LatteSettingsDialog][DetailsDialog]
+windowSize=560,640
+
+[LatteSettingsDialog][TabLayouts]
+columnWidths=55,508,129,104
+sortColumn=3
+sortOrder=0
+
+[LatteSettingsDialog][ViewsDialog]
+columnWidths=59,256,142,135,131
+sortColumn=2
+sortOrder=0
+windowSize=980,630
+
+[PIMEventsPlugin]
+calendars=16,17,18,19
+
+[PlasmaThemeExtended]
+outlineWidth=1
+
+[UniversalSettings]
+badges3DStyle=false
+canDisableBorders=true
+contextMenuActionsAlwaysShown=_preferences,_quit_latte
+inAdvancedModeForEditSettings=true
+isAvailableGeometryBroadcastedToPlasma=true
+launchers=
+memoryUsage=0
+metaPressAndHoldEnabled=false
+mouseSensitivity=2
+parabolicSpread=3
+parabolicThicknessMarginInfluence=1
+screenTrackerInterval=2500
+showInfoWindow=true
+singleModeLayoutName=drik
+userConfiguredAutostart=true
+version=2
