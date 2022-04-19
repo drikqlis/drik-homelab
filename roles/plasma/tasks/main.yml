@@ -67,4 +67,38 @@
       state: started
       enabled: yes
 
+  - name: Make sure gtk-2.0 dir exisits
+    file:
+      path: /etc/gtk-2.0
+      state: directory
+      mode: 0755
+      owner: root
+      group: root
+
+  - name: Make sure gtk-3.0 dir exisits
+    file:
+      path: /etc/gtk-3.0
+      state: directory
+      mode: 0755
+      owner: root
+      group: root
+
+  - name: Symlink gtkrc (dark mode for sudo apps)
+    file:
+      src: /home/{{ user_name }}/.gtkrc-2.0
+      dest: /etc/gtk-2.0/gtkrc
+      state: link
+
+  - name: Symlink settings.ini (dark mode for sudo apps part two)
+    file:
+      src: /home/{{ user_name }}/.config/gtk-3.0/settings.ini
+      dest: /etc/gtk-3.0/settings.ini
+      state: link
+
+  - name: Symlink Trolltech.conf (dark mode for sudo apps part two)
+    file:
+      src: /home/{{ user_name }}/.config/Trolltech.conf
+      dest: /etc/xdg/Trolltech.conf
+      state: link
+
   become: yes

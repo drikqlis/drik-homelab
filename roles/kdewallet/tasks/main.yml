@@ -1,0 +1,39 @@
+---
+
+- block:
+
+  - name: Set kwalletmanager5rc (kdewallet manager settings)
+    copy:
+      src: kwalletmanager5rc
+      dest: /home/{{ user_name }}/.config/kwalletmanager5rc
+      mode: 0600
+      owner: "{{ user_name }}"
+      group: "{{ user_name }}"
+
+  - name: Make sure kwalletd dir exists
+    file:
+      path: /home/{{ user_name }}/.local/share/kwalletd
+      state: directory
+      mode: 0755
+      owner: "{{ user_name }}"
+      group: "{{ user_name }}"
+
+  - name: Copy kdewallet.salt
+    copy:
+      src: "{{ user_name }}-kdewallet.salt"
+      dest: /home/{{ user_name }}/.local/share/kwalletd/kdewallet.salt
+      mode: 0644
+      owner: "{{ user_name }}"
+      group: "{{ user_name }}"
+
+  - name: Copy kdewallet.kwl
+    copy:
+      src: "{{ user_name }}-kdewallet.kwl"
+      dest: /home/{{ user_name }}/.local/share/kwalletd/kdewallet.kwl
+      mode: 0600
+      owner: "{{ user_name }}"
+      group: "{{ user_name }}"
+
+  when:
+    - kwl is file
+    - salt is file

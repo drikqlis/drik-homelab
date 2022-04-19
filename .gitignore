@@ -1,2 +1,4 @@
 group_vars/all/crypt_vars.yml
 group_vars/all/host_vars.yml
+*.salt
+*.kwl

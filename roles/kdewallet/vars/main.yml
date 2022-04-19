@@ -1,0 +1,4 @@
+---
+
+salt: "roles/kdewallet/files/{{ user_name }}-kdewallet.salt"
+kwl: "roles/kdewallet/files/{{ user_name }}-kdewallet.kwl"

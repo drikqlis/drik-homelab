@@ -28,7 +28,7 @@
     owner: "{{ user_name }}"
     group: "{{ user_name }}"
 
-- name: Make sure latte dir exisits
+- name: Make sure latte dir exists
   file:
     path: /home/{{ user_name }}/.config/latte
     state: directory
@@ -44,7 +44,7 @@
     owner: "{{ user_name }}"
     group: "{{ user_name }}"
 
-- name: Make sure autostart dir exisits
+- name: Make sure autostart dir exists
   file:
     path: /home/{{ user_name }}/.config/autostart
     state: directory
