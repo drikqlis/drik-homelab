@@ -384,7 +384,7 @@
 
     - name: Enroll TPM
       expect:
-        command: systemd-cryptenroll --tpm2-device=auto --tpm2-pcrs=0+7 {{ install_drive }}{{ root_partition_suffix }}
+        command: systemd-cryptenroll --tpm2-device=auto --tpm2-pcrs=0+1+7+8 {{ install_drive }}{{ root_partition_suffix }}
         responses:
           (?i)passphrase: "{{ crypt_passphrase }}"
       no_log: true

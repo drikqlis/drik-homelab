@@ -9,6 +9,6 @@
       include_role:
         name: '{{ roleinputvar }}'
       loop:
-        - kdewallet
+        - librewolf
       loop_control:
         loop_var: roleinputvar

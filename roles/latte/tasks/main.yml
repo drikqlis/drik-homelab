@@ -60,18 +60,6 @@
     owner: "{{ user_name }}"
     group: "{{ user_name }}"
 
-- name: Set plasmashellrc (disable default panel)
-  copy:
-    src: plasmashellrc
-    dest: /home/{{ user_name }}/.config/plasmashellrc
-    mode: 0600
-    owner: "{{ user_name }}"
-    group: "{{ user_name }}"
-
-- name: Set plasma-org.kde.plasma.desktop-appletsrc (disable default panel part two)
-  copy:
-    src: plasma-org.kde.plasma.desktop-appletsrc
-    dest: /home/{{ user_name }}/.config/plasma-org.kde.plasma.desktop-appletsrc
-    mode: 0600
-    owner: "{{ user_name }}"
-    group: "{{ user_name }}"
+- name: Remove default plasma panel
+  command:
+    cmd: qdbus org.kde.plasmashell /PlasmaShell org.kde.PlasmaShell.evaluateScript "for(i=0;i<panelIds.length;i++)panel=panelById(panelIds[i]),panel&&panel.remove();"

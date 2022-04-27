@@ -46,6 +46,7 @@
         - spectacle
         - latte
         - kdewallet
+        - librewolf
         - clear_cache
       loop_control:
         loop_var: roleinputvar

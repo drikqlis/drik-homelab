@@ -1,4 +1,5 @@
 [General]
+BrowserApplication=librewolf.desktop
 Name=Breeze Dark
 XftAntialias=true
 XftHintStyle=hintslight

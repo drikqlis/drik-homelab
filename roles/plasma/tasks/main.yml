@@ -54,6 +54,7 @@
         - gsettings-qt
         - plasma-browser-integration
         - spectacle
+        - skanpage
       state: present
 
   - name: Use GTK portal
@@ -88,17 +89,20 @@
       src: /home/{{ user_name }}/.gtkrc-2.0
       dest: /etc/gtk-2.0/gtkrc
       state: link
+      force: yes
 
   - name: Symlink settings.ini (dark mode for sudo apps part two)
     file:
       src: /home/{{ user_name }}/.config/gtk-3.0/settings.ini
       dest: /etc/gtk-3.0/settings.ini
       state: link
+      force: yes
 
   - name: Symlink Trolltech.conf (dark mode for sudo apps part two)
     file:
       src: /home/{{ user_name }}/.config/Trolltech.conf
       dest: /etc/xdg/Trolltech.conf
       state: link
+      force: yes
 
   become: yes

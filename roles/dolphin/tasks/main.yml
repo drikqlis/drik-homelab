@@ -23,15 +23,6 @@
     owner: "{{ user_name }}"
     group: "{{ user_name }}"
 
-- name: Set dolphistaterc (dolphin state)
-  copy:
-    src: dolphinstaterc
-    dest: /home/{{ user_name }}/.local/share/dolphin/dolphinstaterc
-    mode: 0600
-    owner: "{{ user_name }}"
-    group: "{{ user_name }}"
-
-
 - name: Ensure view_properties directory exists
   file:
     path: /home/{{ user_name }}/.local/share/dolphin/view_properties/global/
@@ -40,6 +31,14 @@
     group: "{{ user_name }}"
     mode: 0755
     recurse: yes
+
+- name: Set dolphistaterc (dolphin state)
+  copy:
+    src: dolphinstaterc
+    dest: /home/{{ user_name }}/.local/share/dolphin/dolphinstaterc
+    mode: 0600
+    owner: "{{ user_name }}"
+    group: "{{ user_name }}"
 
 - name: Set view mode to details in dolphin
   copy:

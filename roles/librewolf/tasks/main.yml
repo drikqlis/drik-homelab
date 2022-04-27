@@ -1,0 +1,32 @@
+---
+
+- block:
+
+  - name: Ensure packages are updated
+    pacman:
+      update_cache: yes
+      upgrade: yes
+
+  - name: Ensure librewolf is installed
+    pacman:
+      name:
+        - librewolf-bin
+      state: present
+
+  become: yes
+
+- name: Make sure .librewolf dir exisits
+  file:
+    path: /home/{{ user_name }}/.librewolf
+    state: directory
+    mode: 0700
+    owner: "{{ user_name }}"
+    group: "{{ user_name }}"
+
+- name: Make sure librewolf.overrides.cfg exists
+  copy:
+    src: librewolf.cfg
+    dest: /home/{{ user_name }}/.librewolf/librewolf.overrides.cfg
+    mode: 0644
+    owner: "{{ user_name }}"
+    group: "{{ user_name }}"
