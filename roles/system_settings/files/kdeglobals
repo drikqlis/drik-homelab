@@ -7,6 +7,9 @@ XftSubPixel=rgb
 shadeSortColumn=true
 widgetStyle=Breeze
 
+[Icons]
+Theme=drik-dark
+
 [KDE]
 AnimationDurationFactor=0.7071067811865475
 ColorScheme=BreezeDark

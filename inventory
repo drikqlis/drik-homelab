@@ -2,5 +2,3 @@
 archiso    ansible_user=root
 [archinstalled]
 arch              ansible_host="{{ hostname }}" ansible_user="{{ user_name }}" ansible_become_password="{{ user_password_clear }}"
-[self]
-martyna@mml-v5590.drik.it

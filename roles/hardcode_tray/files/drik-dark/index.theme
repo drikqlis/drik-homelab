@@ -1,0 +1,52 @@
+[Icon Theme]
+Name=Drik Dark
+Comment=Papirus icon theme for dark themes
+Inherits=breeze-dark,hicolor
+
+Example=folder
+
+FollowsColorScheme=true
+
+# Directory list
+Directories=22x22/panel,22x22/apps,22x22/status,96x96/apps,128x128/apps,64x64/apps,48x48/apps,32x32/apps
+
+[22x22/panel]
+Context=Status
+Size=22
+Type=Fixed
+
+[22x22/apps]
+Context=Applications
+Size=22
+Type=Fixed
+
+[22x22/status]
+Context=Applications
+Size=22
+Type=Fixed
+
+[96x96/apps]
+Context=Applications
+Size=96
+Type=Fixed
+
+[128x128/apps]
+Context=Applications
+Size=128
+Type=Fixed
+
+[64x64/apps]
+Context=Applications
+Size=64
+Type=Fixed
+
+[48x48/apps]
+Context=Applications
+Size=48
+Type=Fixed
+
+[32x32/apps]
+Context=Applications
+Size=32
+Type=Fixed
+

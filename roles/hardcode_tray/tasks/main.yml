@@ -1,0 +1,41 @@
+---
+
+- block:
+
+  - name: Ensure packages are updated
+    pacman:
+      update_cache: yes
+      upgrade: yes
+
+  - name: Ensure hardcode-tray and icons are installed
+    pacman:
+      name:
+        - hardcode-tray
+        - papirus-icon-theme
+        - libappindicator-gtk3
+      state: present
+
+  - name: Make sure drik-dark icon theme is present
+    copy:
+      src: drik-dark
+      dest: /usr/share/icons
+      mode: 0755
+      owner: root
+      group: root
+    notify: update_tray
+
+  - name: Copy python script to update icons
+    template:
+      src: hook.py.j2
+      dest: /usr/share/hardcode-tray/hook.py
+    notify: update_tray
+
+  - name: Copy pacman hook for update icons
+    copy:
+      src: 90-hardcode-tray.hook
+      dest: /etc/pacman.d/hooks/90-hardcode-tray.hook
+
+  become: yes
+
+
+

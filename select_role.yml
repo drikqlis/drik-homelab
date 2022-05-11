@@ -9,6 +9,6 @@
       include_role:
         name: '{{ roleinputvar }}'
       loop:
-        - librewolf
+        - hardcode_tray
       loop_control:
         loop_var: roleinputvar

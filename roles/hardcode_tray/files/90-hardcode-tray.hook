@@ -1,0 +1,13 @@
+[Trigger]
+Operation = Install
+Operation = Upgrade
+Type = Package
+Target = signal-desktop
+Target = bitwarden
+
+[Action]
+Description = Updating tray icons...
+Depends = hardcode-tray
+When = PostTransaction
+Exec = /usr/bin/python /usr/share/hardcode-tray/hook.py
+NeedsTargets
