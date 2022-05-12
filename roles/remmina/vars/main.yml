@@ -1,0 +1,4 @@
+---
+
+connections: "roles/remmina/files/{{ user_name }}-connections"
+

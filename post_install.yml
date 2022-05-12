@@ -49,6 +49,7 @@
         - librewolf
         - hardcode_tray
         - vpn_gui
+        - remmina
         - clear_cache
       loop_control:
         loop_var: roleinputvar

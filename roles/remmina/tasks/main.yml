@@ -1,0 +1,43 @@
+---
+
+- block:
+
+  - name: Ensure packages are updated
+    pacman:
+      update_cache: yes
+      upgrade: yes
+
+  - name: Ensure remmina and optional dependencies are installed
+    pacman:
+      name:
+        - remmina
+        - freerdp
+        - libvncserver
+      state: present
+
+  become: yes
+
+- name: Make sure remmina dir exisits
+  file:
+    path: /home/{{ user_name }}/.config/remmina
+    state: directory
+    mode: 0755
+    owner: "{{ user_name }}"
+    group: "{{ user_name }}"
+
+- name: Ensure remmina preferences are set
+  template:
+    src: remmina.perf.j2
+    dest: /home/{{ user_name }}/.config/remmina/remmina.pref
+    mode: 0644
+    owner: "{{ user_name }}"
+    group: "{{ user_name }}"
+
+- name: Make sure connections for user are copied if they exist
+  copy:
+    src: "{{ user_name }}-connections/"
+    dest: /home/{{ user_name }}/.local/share/remmina/
+  when:
+    - connections is directory
+
+

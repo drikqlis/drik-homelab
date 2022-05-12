@@ -10,5 +10,6 @@
         name: '{{ roleinputvar }}'
       loop:
         - hardcode_tray
+        - remmina
       loop_control:
         loop_var: roleinputvar
