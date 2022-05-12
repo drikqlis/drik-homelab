@@ -1,0 +1,38 @@
+---
+
+- block:
+
+  - name: Ensure packages are updated
+    pacman:
+      update_cache: yes
+      upgrade: yes
+
+  - name: Ensure signal is installed
+    pacman:
+      name:
+        - signal-desktop
+      state: present
+
+  - name: Edit signal-desktop shortcut to start to tray
+    replace:
+      path: /usr/share/applications/signal-desktop.desktop
+      regexp: '^Exec=.*'
+      replace: 'Exec=LC_ALL=pl signal-desktop --use-tray-icon --start-in-tray -- %u'
+
+  become: yes
+
+- name: Make sure autostart dir exists
+  file:
+    path: /home/{{ user_name }}/.config/autostart
+    state: directory
+    mode: 0755
+    owner: "{{ user_name }}"
+    group: "{{ user_name }}"
+
+- name: Autostart signal
+  copy:
+    src: signal-desktop.desktop
+    dest: /home/{{ user_name }}/.config/autostart/signal-desktop.desktop
+    mode: 0644
+    owner: "{{ user_name }}"
+    group: "{{ user_name }}"

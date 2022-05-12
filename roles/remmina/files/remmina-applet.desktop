@@ -1,0 +1,21 @@
+[Desktop Entry]
+Comment[en_US]=Connect to remote desktops through the applet menu
+Comment=Connect to remote desktops through the applet menu
+Exec=sleep 5; remmina -i
+GenericName[en_US]=
+GenericName=
+Hidden=false
+Icon=org.remmina.Remmina
+MimeType=
+Name[en_US]=Remmina Applet
+Name=Remmina Applet
+Path=
+StartupNotify=true
+Terminal=false
+TerminalOptions=
+Type=Application
+Version=1.0
+X-DBUS-ServiceName=
+X-DBUS-StartupType=
+X-KDE-SubstituteUID=false
+X-KDE-Username=

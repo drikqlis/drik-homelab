@@ -40,4 +40,19 @@
   when:
     - connections is directory
 
+- name: Make sure autostart dir exists
+  file:
+    path: /home/{{ user_name }}/.config/autostart
+    state: directory
+    mode: 0755
+    owner: "{{ user_name }}"
+    group: "{{ user_name }}"
+
+- name: Autostart remmina
+  copy:
+    src: remmina-applet.desktop
+    dest: /home/{{ user_name }}/.config/autostart/remmina-applet.desktop
+    mode: 0644
+    owner: "{{ user_name }}"
+    group: "{{ user_name }}"
 

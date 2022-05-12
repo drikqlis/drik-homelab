@@ -9,7 +9,6 @@
       include_role:
         name: '{{ roleinputvar }}'
       loop:
-        - hardcode_tray
-        - remmina
+        - signal
       loop_control:
         loop_var: roleinputvar
