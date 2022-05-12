@@ -1,0 +1,54 @@
+---
+
+- block:
+
+  - name: Ensure multilib repo is added
+    replace:
+      path: /etc/pacman.conf
+      regexp: '^#?\[multilib\]\n#?Include.*'
+      replace: '[multilib]\nInclude = /etc/pacman.d/mirrorlist'
+
+  - name: Ensure packages are updated
+    pacman:
+      update_cache: yes
+      upgrade: yes
+
+  - name: Ensure steam and other packages are installed
+    pacman:
+      name:
+        - lib32-mesa
+        - steam
+        - libstrangle-git
+        - lib32-gamemode
+        - gamemode
+        - proton-ge-custom-bin
+      state: present
+
+  - name: Additional packages for nvidia
+    pacman:
+      name:
+        - lib32-nvidia-utils
+      state: present
+    when:
+      - gpu_manufacturer == "nvidia"
+
+  - name: Ensure gamemode group exists
+    group:
+      name: gamemode
+      state: present
+
+  - name: Add user to gamemode group
+    user:
+      name: "{{ user_name }}"
+      groups: gamemode
+      append: yes
+
+  become: yes
+
+- name: Make sure gamemode config is correct
+  copy:
+    src: gamemode.ini
+    dest: /home/{{ user_name }}/.config/gamemode.ini
+    mode: 0644
+    owner: "{{ user_name }}"
+    group: "{{ user_name }}"

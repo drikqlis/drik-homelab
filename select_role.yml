@@ -9,6 +9,6 @@
       include_role:
         name: '{{ roleinputvar }}'
       loop:
-        - signal
+        - steam
       loop_control:
         loop_var: roleinputvar
