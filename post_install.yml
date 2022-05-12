@@ -50,6 +50,7 @@
         - vpn_gui
         - remmina
         - signal
+        - steam
         - hardcode_tray
         - clear_cache
       loop_control:
