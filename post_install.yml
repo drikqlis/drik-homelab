@@ -47,6 +47,8 @@
         - latte
         - kdewallet
         - librewolf
+        - hardcode_tray
+        - vpn_gui
         - clear_cache
       loop_control:
         loop_var: roleinputvar

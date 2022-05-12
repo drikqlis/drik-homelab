@@ -1,0 +1,32 @@
+---
+
+- block:
+
+  - name: Ensure packages are updated
+    pacman:
+      update_cache: yes
+      upgrade: yes
+
+  - name: Ensure vpn software and networkmanager integrations are installed
+    pacman:
+      name:
+        - networkmanager-l2tp
+        - networkmanager-strongswan
+        - networkmanager-pptp
+        - strongswan
+        - networkmanager-openconnect
+        - openconnect
+      state: present
+
+- name: Touch l2tp config file to allow the service to start
+  file:
+    path: /etc/xl2tpd/xl2tpd.conf
+    state: touch
+
+- name: Enable and start xl2tpd service
+  systemd:
+    name: xl2tpd
+    state: started
+    enabled: yes
+
+  become: yes
