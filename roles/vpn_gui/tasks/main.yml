@@ -16,17 +16,20 @@
         - strongswan
         - networkmanager-openconnect
         - openconnect
+        - networkmanager-fortisslvpn
+        - openfortivpn
+        - systemd-resolvconf
       state: present
 
-- name: Touch l2tp config file to allow the service to start
-  file:
-    path: /etc/xl2tpd/xl2tpd.conf
-    state: touch
+  - name: Touch l2tp config file to allow the service to start
+    file:
+      path: /etc/xl2tpd/xl2tpd.conf
+      state: touch
 
-- name: Enable and start xl2tpd service
-  systemd:
-    name: xl2tpd
-    state: started
-    enabled: yes
+  - name: Enable and start xl2tpd service
+    systemd:
+      name: xl2tpd
+      state: started
+      enabled: yes
 
   become: yes

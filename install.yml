@@ -225,7 +225,7 @@
     - name: Create pacman hook for updating initramfs after NVIDIA driver update
       copy:
         src: nvidia.hook
-        dest: /mnt/etc/pacman.d/hooks/nvidia.hook
+        dest: /mnt/etc/pacman.d/hooks/30-nvidia.hook
       when: gpu_manufacturer == "nvidia"
 
     - name: Enable qemu-guest-agent service
@@ -283,11 +283,44 @@
     # SecureBoot configuration
     # --------------------------------------------------------------------
 
+    - name: Make sure keys dirs exist
+      file:
+        path: "{{ item }}"
+        state: directory
+        mode: 0755
+        owner: root
+        group: root
+      loop:
+        - /mnt/usr/share/secureboot/keys
+        - /mnt/usr/share/secureboot/keys/PK
+        - /mnt/usr/share/secureboot/keys/KEK
+        - /mnt/usr/share/secureboot/keys/db
+      when:
+        - keys is directory
+
+    - name: Copy SecureBoot keys if they exist
+      copy:
+        src: "{{ hostname }}-keys/{{ item }}/"
+        dest: "/mnt/usr/share/secureboot/keys/{{ item }}/"
+        mode: 0400
+        owner: root
+        group: root
+      loop:
+        - PK
+        - KEK
+        - db
+      when:
+        - keys is directory
+
     - name: Create SecureBoot keys
       command: arch-chroot /mnt sbctl create-keys
+      when:
+        - keys is not directory
 
     - name: Enroll SecureBoot keys
       command: arch-chroot /mnt sbctl enroll-keys --microsoft
+      when:
+        - keys is not directory
 
     - name: Sign efi files and boot loader
       command: arch-chroot /mnt {{ item }}
@@ -389,6 +422,7 @@
           (?i)passphrase: "{{ crypt_passphrase }}"
       no_log: true
       become: true
+      ignore_errors: true
 
     # Clean-up
     # --------------------------------------------------------------------

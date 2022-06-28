@@ -22,6 +22,12 @@
         - lib32-gamemode
         - gamemode
         - proton-ge-custom-bin
+        - lib32-gnutls
+        - lib32-libldap
+        - lib32-libgpg-error
+        - lib32-sqlite
+        - lib32-libpulse
+        - lib32-alsa-plugins
       state: present
 
   - name: Additional packages for nvidia

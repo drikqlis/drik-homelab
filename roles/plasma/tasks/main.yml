@@ -55,6 +55,11 @@
         - plasma-browser-integration
         - spectacle
         - skanpage
+        - kdegraphics-thumbnailers
+        - kimageformats
+        - qt5-imageformats
+        - kdesdk-thumbnailers
+        - ffmpegthumbs
       state: present
 
   - name: Use GTK portal

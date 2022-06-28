@@ -68,6 +68,14 @@
     owner: "{{ user_name }}"
     group: "{{ user_name }}"
 
+- name: Make sure KDE dir exists
+  file:
+    path: /home/{{ user_name }}/.config/KDE
+    state: directory
+    mode: 0755
+    owner: "{{ user_name }}"
+    group: "{{ user_name }}"
+
 - name: Set Sonnet.conf (spell check settings)
   copy:
     src: Sonnet.conf

@@ -22,7 +22,7 @@
       loop:
         - fonts
         - plasma
-        - sddm
+#        - sddm
         - latte
         - kdeconnect
         - bluetooth
