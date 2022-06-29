@@ -11,6 +11,12 @@ Angle=15
 [Effect-PresentWindows]
 BorderActivateAll=9
 
+[Effect-presentwindows]
+BorderActivateAll=9
+
+[Effect-windowview]
+BorderActivateAll=9
+
 [Effect-ShowFps]
 TextPosition=2
 
@@ -45,3 +51,5 @@ ShowDesktopMode=1
 BorderlessMaximizedWindows=true
 SeparateScreenFocus=true
 
+[org.kde.kdecoration2]
+ButtonsOnRight=IAX
