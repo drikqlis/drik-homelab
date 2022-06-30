@@ -10,7 +10,7 @@
   - name: Ensure hardcode-tray and icons are installed
     pacman:
       name:
-        - hardcode-tray
+        - hardcode-tray-git
         - papirus-icon-theme
         - libappindicator-gtk3
       state: present
@@ -24,16 +24,16 @@
       group: root
     notify: update_tray
 
-  - name: Copy python script to update icons
-    template:
-      src: hook.py.j2
-      dest: /usr/share/hardcode-tray/hook.py
-    notify: update_tray
+#  - name: Copy python script to update icons
+#    template:
+#      src: hook.py.j2
+#      dest: /usr/share/hardcode-tray/hook.py
+#    notify: update_tray
 
-  - name: Copy pacman hook for update icons
-    copy:
-      src: 90-hardcode-tray.hook
-      dest: /etc/pacman.d/hooks/90-hardcode-tray.hook
+#  - name: Copy pacman hook for update icons
+#    copy:
+#      src: 90-hardcode-tray.hook
+#      dest: /etc/pacman.d/hooks/90-hardcode-tray.hook
 
   become: yes
 

@@ -28,6 +28,8 @@
         - libvncserver
         - thunderbird
         - nextcloud-client
+        - vscodium-bin
+        - bitwarden
       state: present
 
   become: yes
