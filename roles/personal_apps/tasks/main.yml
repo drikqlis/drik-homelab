@@ -1,0 +1,19 @@
+---
+
+- block:
+
+  - name: Ensure packages are updated
+    pacman:
+      update_cache: yes
+      upgrade: yes
+
+  - name: Ensure user apps are installed
+    pacman:
+      name:
+        - jellyfin-media-player
+        - mumble
+        - speech-dispatcher
+        - espeak-ng
+      state: present
+
+  become: yes

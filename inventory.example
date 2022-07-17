@@ -1,0 +1,30 @@
+[install_medium]
+archiso 
+
+[install_medium:vars]
+ansible_user=root
+
+[managed:children]
+personal
+work
+vm
+
+[managed:vars]
+ansible_user="{{ user_name }}"
+ansible_become_password="{{ user_password_clear }}"
+
+[personal]
+
+[personal:vars]
+host_type=personal
+
+[work]
+
+[work:vars]
+host_type=work
+
+[vm]
+
+[vm:vars]
+host_type=vm
+gpu_manufacturer=virt

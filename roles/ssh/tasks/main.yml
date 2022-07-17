@@ -1,0 +1,51 @@
+---
+
+- name: Make sure systemd user dir exists
+  file:
+    path: /home/{{ user_name }}/.config/systemd/user
+    state: directory
+    mode: 0755
+    owner: "{{ user_name }}"
+    group: "{{ user_name }}"
+
+- name: Set ssh-agent service
+  copy:
+    src: ssh-agent.service
+    dest: /home/{{ user_name }}/.config/systemd/user/ssh-agent.service
+    mode: 0644
+    owner: "{{ user_name }}"
+    group: "{{ user_name }}"
+
+- name: Add required ENV variables
+  blockinfile:
+    path: /home/{{ user_name }}/.bash_profile
+    insertbefore: EOF
+    block: |
+      # Modified by Arch-Ansible-Install
+      export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket"
+      export SSH_ASKPASS='/usr/bin/ksshaskpass'
+
+- name: Enable ssh-agent service
+  systemd:
+    name: ssh-agent
+    state: started
+    enabled: yes
+    scope: user
+
+#- name: Add ssh-add to autostart (ed25519)
+#  copy:
+#    content: |
+#      [Desktop Entry]
+#      Exec=ssh-add -q ~/.ssh/id_ed25519
+#      Name=ssh-add
+#      Type=Application
+#    dest: nano ~/.config/autostart/ssh-add-ed25519.desktop
+
+- name: Add ssh-add to autostart (rsa)
+  copy:
+    content: |
+      [Desktop Entry]
+      Exec=ssh-add -q ~/.ssh/id_rsa
+      Name=ssh-add
+      Type=Application
+    dest: /home/{{ user_name }}/.config/autostart/ssh-add-rsa.desktop

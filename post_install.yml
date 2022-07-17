@@ -1,58 +1,157 @@
 ---
 
 - name: Post installation configration
-  hosts: archinstalled
+  hosts: managed
 
   tasks:
 
     - name: Basic configuration
-      include_role:
-        name: '{{ roleinputvar }}'
-      loop:
-        - basic
-        - ntp
-        - pacman
-        - ufw
-      loop_control:
-        loop_var: roleinputvar
+      block:
+      - name: Basic configuration
+        include_role:
+          name: basic
+        tags: [vm, personal, work, basic]
 
-    - name: GUI basic installation and configuration
-      include_role:
-        name: '{{ roleinputvar }}'
-      loop:
-        - fonts
-        - plasma
-        - sddm
-        - latte
-        - kdeconnect
-        - bluetooth
-        - print
-        - apps
-      loop_control:
-        loop_var: roleinputvar
-      when: gpu_manufacturer != "virt"
+      - name: NTP configuration
+        include_role:
+          name: ntp
+        tags: [vm, personal, work, ntp]
 
+      - name: Pacman configuration
+        include_role:
+          name: pacman
+        tags: [vm, personal, work, pacman]
 
-    - name: Personalize GUI settings
-      include_role:
-        name: '{{ roleinputvar }}'
-      loop:
-        - system_settings
-        - dolphin
-        - kate
-        - konsole
-        - okular
-        - gwenview
-        - spectacle
-        - latte
-        - kdewallet
-        - librewolf
-        - vpn_gui
-        - remmina
-        - signal
-        - steam
-        - hardcode_tray
-        - clear_cache
-      loop_control:
-        loop_var: roleinputvar
-      when: gpu_manufacturer != "virt"
+      - name: Firewall configuration
+        include_role:
+          name: ufw
+        tags: [vm, personal, work, ufw]
+
+    - name: GUI configuration
+      when: host_type != "vm"
+      block:
+      - name: Fonts configuration
+        include_role:
+          name: fonts
+        tags: [personal, work, fonts]
+
+      - name: Plasma configuration
+        include_role:
+          name: plasma
+        tags: [personal, work, plasma]
+
+      - name: SDDM configuration
+        include_role:
+          name: sddm
+        tags: [personal, work, sddm]
+
+      - name: Latte configuration
+        include_role:
+          name: latte
+        tags: [personal, work, latte]
+
+      - name: KDEconnect configuration
+        include_role:
+          name: kdeconnect
+        tags: [personal, work, kdeconnect]
+
+      - name: Bluetooth configuration
+        include_role:
+          name: bluetooth
+        tags: [personal, work, bluetooth]
+
+      - name: Print configuration
+        include_role:
+          name: print
+        tags: [personal, work, print]
+
+      - name: Basic apps configuration
+        include_role:
+          name: basic_apps
+        tags: [personal, work, basic_apps]
+
+      - name: Personal apps configuration
+        when: host_type == "personal"
+        include_role:
+          name: personal_apps
+        tags: [personal, personal_apps]
+
+    - name: GUI personalization 
+      when: host_type != "vm"
+      block:
+      - name: System settings configuration
+        include_role:
+          name: system_settings
+        tags: [personal, work, system_settings]
+
+      - name: Dolphin configuration
+        include_role:
+          name: dolphin
+        tags: [personal, work, dolphin]
+
+      - name: Kate configuration
+        include_role:
+          name: kate
+        tags: [personal, work, kate]
+
+      - name: Konsole configuration
+        include_role:
+          name: konsole
+        tags: [personal, work, konsole]
+
+      - name: Okular configuration
+        include_role:
+          name: okular
+        tags: [personal, work, okular]
+
+      - name: Gwenview configuration
+        include_role:
+          name: gwenview
+        tags: [personal, work, gwenview]
+
+      - name: Spectacle configuration
+        include_role:
+          name: spectacle
+        tags: [personal, work, spectacle]
+
+      - name: KDEwallet configuration
+        include_role:
+          name: kdewallet
+        tags: [personal, work, kdewallet]
+
+      - name: Librewolf configuration
+        include_role:
+          name: librewolf
+        tags: [personal, work, librewolf]
+
+      - name: VPN GUI configuration
+        include_role:
+          name: vpn_gui
+        tags: [personal, work, vpn_gui]
+
+      - name: Remmina configuration
+        when: host_type == "personal"
+        include_role:
+          name: remmina
+        tags: [personal, remmina]
+
+      - name: Signal configuration
+        include_role:
+          name: signal
+        tags: [personal, work, signal]
+        
+      - name: Steam configuration
+        when: host_type == "personal"
+        include_role:
+          name: steam
+        tags: [personal, steam]  
+
+      - name: Hardcode_tray configuration
+        include_role:
+          name: hardcode_tray
+        tags: [personal, work, hardcode_tray]
+
+      - name: Clear plasma cache
+        include_role:
+          name: clear_cache
+        tags: [personal, work, clear_cache]

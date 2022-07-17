@@ -1,7 +1,8 @@
-group_vars/all/crypt_vars.yml
-group_vars/all/host_vars.yml
+host_vars/*.yml
 roles/remmina/files/*-connections
 files/*-keys
 *.salt
 *.kwl
 *.remmina
+vault_pass
+inventory

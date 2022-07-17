@@ -115,3 +115,35 @@
     mode: 0600
     owner: "{{ user_name }}"
     group: "{{ user_name }}"
+
+- name: Set xdg-desktop-portal-kderc (file dialog for Firefox etc)
+  copy:
+    src: xdg-desktop-portal-kderc
+    dest: /home/{{ user_name }}/.config/xdg-desktop-portal-kderc
+    mode: 0600
+    owner: "{{ user_name }}"
+    group: "{{ user_name }}"
+
+- name: Set xdg-desktop-portal-kderc (file dialog for Firefox etc)
+  copy:
+    src: plasmashellrc
+    dest: /home/{{ user_name }}/.config/plasmashellrc
+    mode: 0600
+    owner: "{{ user_name }}"
+    group: "{{ user_name }}"
+
+- name: Set xdg-desktop-portal-kderc (file dialog for Firefox etc)
+  copy:
+    src: systemsettingsrc
+    dest: /home/{{ user_name }}/.config/systemsettingsrc
+    mode: 0600
+    owner: "{{ user_name }}"
+    group: "{{ user_name }}"
+
+- name: Set kritarc (file dialog for Krita)
+  copy:
+    src: kritarc
+    dest: /home/{{ user_name }}/.config/kritarc
+    mode: 0600
+    owner: "{{ user_name }}"
+    group: "{{ user_name }}"

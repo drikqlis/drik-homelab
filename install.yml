@@ -3,7 +3,7 @@
 # --------------------------------------------------------------------
 
 - name: Install Arch Linux
-  hosts: archiso
+  hosts: install_medium
 
   vars_files:
     - ["vars/{{ gpu_manufacturer }}_vars.yml", "vars/virt_vars.yml"]
@@ -283,7 +283,7 @@
     # SecureBoot configuration
     # --------------------------------------------------------------------
 
-    - name: Make sure keys dirs exist
+    - name: Make sure SecureBoot keys dirs exist
       file:
         path: "{{ item }}"
         state: directory
@@ -296,7 +296,7 @@
         - /mnt/usr/share/secureboot/keys/KEK
         - /mnt/usr/share/secureboot/keys/db
       when:
-        - keys is directory
+        - secureboot_keys is directory
 
     - name: Copy SecureBoot keys if they exist
       copy:
@@ -310,17 +310,17 @@
         - KEK
         - db
       when:
-        - keys is directory
+        - secureboot_keys is directory
 
     - name: Create SecureBoot keys
       command: arch-chroot /mnt sbctl create-keys
       when:
-        - keys is not directory
+        - secureboot_keys is not directory
 
     - name: Enroll SecureBoot keys
       command: arch-chroot /mnt sbctl enroll-keys --microsoft
       when:
-        - keys is not directory
+        - secureboot_keys is not directory
 
     - name: Sign efi files and boot loader
       command: arch-chroot /mnt {{ item }}

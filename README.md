@@ -8,11 +8,11 @@ Ansible playbooks for personalized Arch Linux install.
  4. Set root password using `passwd` command.
  5. Restart the ssh service using `systemctl restart sshd` command.
  6. Generate user password hash using `mkpasswd --method=sha-512` on any Debian based distro.
- 7. Create crypt\_vars.yml from example file and encrypt using `ansible-vault edit group_vars/all/crypt_vars.yml` command.
- 8. Create host\_vars.yml from example file.
+ 7. Create and encrypt host variables from example file.
+ 8. Add host to inventory.
  9. Copy kdewallet.salt and kdewallet.kwl from `/home/{{ user_name }}/.local/share/kwalletd` to `roles/kdewallet/files` and rename them to `{{ user-name }}-kdewallet.salt/kwl` if importing from previous installation.
 10. Copy remmina connections from `/home/{{ user_name }}/.local/share/remmina/` to `roles/remmina/files/{{ user_name }}-connections/`
-11. Run installation playbook using `ansible-playbook install.yml -k --ask-vault-pass` command.
+11. Run installation playbook using `ansible-playbook install.yml -k --extra-vars "@hostname.yml"` command.
 12. Enter passphrase to unlock system and wait for it to boot. It may be needed to clear DNS cache on Ansible machine using `resolvectl flush-caches`.
-13. Run post installation playbook using `ansible-playbook post_install.yml --ask-vault-pass` command.
-14. You can run select roles by editing select\_role.yml playbook and using `ansible-playbook select_role.yml --ask-vault-pass` command.
+13. Run post installation playbook using `ansible-playbook post_install.yml -l hostname` command.
+14. You can run select roles by running coresponding tags, for example: `ansible-playbook post_install.yml -t sddm -l hostname`.

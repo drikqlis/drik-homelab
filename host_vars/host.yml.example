@@ -1,0 +1,19 @@
+---
+install_drive:
+boot_partition_suffix:
+boot_partition_label:
+root_partition_suffix:
+root_partition_label:
+hostname:
+localdomain:
+# nvidia, intel, virt
+gpu_manufacturer:
+# en_PL, pl_PL
+system_lang:
+secureboot_keys:
+
+crypt_passphrase:
+user_name:
+user_password:
+user_password_clear:
+ssh_pub_keys:

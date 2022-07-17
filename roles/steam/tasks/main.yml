@@ -49,6 +49,12 @@
       groups: gamemode
       append: yes
 
+  - name: Add user to games group
+    user:
+      name: "{{ user_name }}"
+      groups: games
+      append: yes
+
   become: yes
 
 - name: Make sure gamemode config is correct
