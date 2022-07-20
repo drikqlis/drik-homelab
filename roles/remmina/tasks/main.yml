@@ -33,12 +33,12 @@
     owner: "{{ user_name }}"
     group: "{{ user_name }}"
 
-- name: Make sure connections for user are copied if they exist
+- name: Make sure user connections are copied if they exist
   copy:
-    src: "{{ user_name }}-connections/"
+    src: "users/{{ user_name }}/remmina/"
     dest: /home/{{ user_name }}/.local/share/remmina/
   when:
-    - connections is directory
+    - remmina_dir is directory
 
 - name: Make sure autostart dir exists
   file:

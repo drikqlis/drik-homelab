@@ -103,7 +103,7 @@
       state: link
       force: yes
 
-  - name: Symlink Trolltech.conf (dark mode for sudo apps part two)
+  - name: Symlink Trolltech.conf (dark mode for sudo apps part three)
     file:
       src: /home/{{ user_name }}/.config/Trolltech.conf
       dest: /etc/xdg/Trolltech.conf

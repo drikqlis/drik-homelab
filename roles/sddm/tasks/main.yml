@@ -7,10 +7,11 @@
       update_cache: yes
       upgrade: yes
 
-  - name: Ensure sddm is installed
+  - name: Ensure sddm and xdotool are installed
     pacman:
       name:
         - sddm
+        - xdotool
       state: present
 
   - name: Make sure sddm.conf.d dir exisits
@@ -45,5 +46,16 @@
       mode: 0644
       owner: root
       group: root
+
+  - name: Ensure correct sddm kde settings are applied
+    template:
+      src: sddm_sync.sh.j2
+      dest: /tmp/sddm_sync.sh
+      mode: 0755
+      owner: root
+      group: root
+
+  - name: Run sddm sync script
+    shell: /tmp/sddm_sync.sh
 
   become: yes

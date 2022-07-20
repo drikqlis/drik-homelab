@@ -1,0 +1,26 @@
+#!/bin/bash
+export DISPLAY=:0.0
+export XAUTHORITY="/home/{{ user_name }}/.Xauthority"
+export XCURSOR_THEME=breeze_cursors
+export KDE_FULL_SESSION=true
+export DESKTOP_SESSION=plasma
+export XDG_CURRENT_DESKTOP=KDE
+export KDE_SESSION_UID=1000
+export KDE_SESSION_VERSION=5
+export KDE_APPLICATIONS_AS_SCOPE=1
+export XDG_CONFIG_DIRS=/home/{{ user_name }}/.config/kdedefaults:/etc/xdg
+export XDG_SESSION_DESKTOP=KDE
+export HOME=/home/{{ user_name }}
+
+kcmshell5 kcm_sddm &
+sleep 5
+window=$(xdotool search --name Login)
+xdotool key --window $window --repeat 7 --repeat-delay 300 0xff09
+sleep 1
+xdotool key --window $window 0xff80
+sleep 1
+xdotool key --window $window 0xff09
+sleep 1
+xdotool key --window $window 0xff80
+sleep 5
+pkill kcmshell5

@@ -10,4 +10,4 @@ localdomain:
 gpu_manufacturer: virt
 # en_PL, pl_PL
 system_lang: en_PL
-secureboot_keys:
+secureboot_keys: ""

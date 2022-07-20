@@ -20,7 +20,7 @@
 
   - name: Copy kdewallet.salt
     copy:
-      src: "{{ user_name }}-kdewallet.salt"
+      src: "users/{{ user_name }}/kdewallet.salt"
       dest: /home/{{ user_name }}/.local/share/kwalletd/kdewallet.salt
       mode: 0644
       owner: "{{ user_name }}"
@@ -28,7 +28,7 @@
 
   - name: Copy kdewallet.kwl
     copy:
-      src: "{{ user_name }}-kdewallet.kwl"
+      src: "users/{{ user_name }}/kdewallet.kwl"
       dest: /home/{{ user_name }}/.local/share/kwalletd/kdewallet.kwl
       mode: 0600
       owner: "{{ user_name }}"

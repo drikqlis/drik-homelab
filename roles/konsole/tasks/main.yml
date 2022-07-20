@@ -22,3 +22,20 @@
     mode: 0600
     owner: "{{ user_name }}"
     group: "{{ user_name }}"
+
+- name: Make sure konsole directory exists
+  file:
+    path: /home/{{ user_name }}/.local/share/konsole
+    state: directory
+    mode: 0755
+    owner: "{{ user_name }}"
+    group: "{{ user_name }}"
+    recurse: yes
+
+- name: Set custom.profile (scrolling settings)
+  copy:
+    src: custom.profile
+    dest: /home/{{ user_name }}/.local/share/konsole/custom.profile
+    mode: 0600
+    owner: "{{ user_name }}"
+    group: "{{ user_name }}"

@@ -171,13 +171,13 @@
 
     - name: Create locale.conf (en_PL)
       copy:
-        src: locale_en_PL.conf
+        src: install/locale_en_PL.conf
         dest: /mnt/etc/locale.conf
       when: system_lang == "en_PL"
 
     - name: Create locale.conf (pl_PL)
       copy:
-        src: locale_pl_PL.conf
+        src: install/locale_pl_PL.conf
         dest: /mnt/etc/locale.conf
       when: system_lang == "pl_PL"
 
@@ -224,7 +224,7 @@
 
     - name: Create pacman hook for updating initramfs after NVIDIA driver update
       copy:
-        src: nvidia.hook
+        src: install/nvidia.hook
         dest: /mnt/etc/pacman.d/hooks/30-nvidia.hook
       when: gpu_manufacturer == "nvidia"
 
@@ -246,7 +246,7 @@
 
     - name: Create unified kernel image preset
       copy:
-        src: linux-zen.preset
+        src: install/linux-zen.preset
         dest: /mnt/etc/mkinitcpio.d/linux-zen.preset
 
     - name: Configure kernel parametres
@@ -259,7 +259,7 @@
 
     - name: Create pacman hook for updating systemd-boot after systemd update
       copy:
-        src: 50-systemd-boot.hook
+        src: install/50-systemd-boot.hook
         dest: /mnt/etc/pacman.d/hooks/50-systemd-boot.hook
 
     # mkinitcpio configuration
@@ -300,7 +300,7 @@
 
     - name: Copy SecureBoot keys if they exist
       copy:
-        src: "{{ hostname }}-keys/{{ item }}/"
+        src: "{{ secureboot_keys }}/{{ item }}/"
         dest: "/mnt/usr/share/secureboot/keys/{{ item }}/"
         mode: 0400
         owner: root
@@ -390,15 +390,14 @@
     # --------------------------------------------------------------------
 
     - name: Reboot archiso and ignore errors
-      reboot:
-        reboot_timeout: 60
+      command: reboot
       ignore_errors: true
 
 # Post-Installation
 # --------------------------------------------------------------------
 
 - name: Post-Installation
-  hosts: archinstalled
+  hosts: "{{ hostname }}"
   gather_facts: no
 
   tasks:
@@ -408,6 +407,7 @@
 
     - name: Wait for SSH to respond on host
       wait_for_connection:
+        timeout: 999999
 
     - name: Gather facts
       setup:

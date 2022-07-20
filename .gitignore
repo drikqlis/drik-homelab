@@ -6,3 +6,4 @@ files/*-keys
 *.remmina
 vault_pass
 inventory
+files/users/*
