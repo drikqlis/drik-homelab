@@ -1,19 +1,15 @@
 ---
 
-- block:
+- name: Ensure packages are updated
+  pacman:
+    update_cache: true
+    upgrade: true
 
-  - name: Ensure packages are updated
-    pacman:
-      update_cache: yes
-      upgrade: yes
-
-  - name: Ensure konsole is installed
-    pacman:
-      name:
-        - konsole
-      state: present
-
-  become: yes
+- name: Ensure konsole is installed
+  pacman:
+    name:
+      - konsole
+    state: present
 
 - name: Set konsolerc (konsole settings)
   copy:
@@ -30,7 +26,7 @@
     mode: 0755
     owner: "{{ user_name }}"
     group: "{{ user_name }}"
-    recurse: yes
+    recurse: true
 
 - name: Set custom.profile (scrolling settings)
   copy:

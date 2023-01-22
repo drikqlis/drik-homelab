@@ -1,34 +1,30 @@
 ---
 
-- block:
+- name: Ensure packages are updated
+  pacman:
+    update_cache: true
+    upgrade: true
 
-  - name: Ensure packages are updated
-    pacman:
-      update_cache: yes
-      upgrade: yes
+- name: Ensure bluez is installed
+  pacman:
+    name:
+      - kdeconnect
+    state: present
 
-  - name: Ensure bluez is installed
-    pacman:
-      name:
-        - kdeconnect
-      state: present
+- name: Allow kdeconnect in ufw - tcp
+  ufw:
+    rule: allow
+    port: 1714:1764
+    proto: tcp
+    src: 192.168.0.0/16
+  notify:
+    - Restart ufw
 
-  - name: Allow kdeconnect in ufw - tcp
-    ufw:
-      rule: allow
-      port: 1714:1764
-      proto: tcp
-      src: 192.168.0.0/16
-    notify:
-      - restart-ufw
-
-  - name: Allow kdeconnect in ufw - udp
-    ufw:
-      rule: allow
-      port: 1714:1764
-      proto: udp
-      src: 192.168.0.0/16
-    notify:
-      - restart-ufw
-
-  become: yes
+- name: Allow kdeconnect in ufw - udp
+  ufw:
+    rule: allow
+    port: 1714:1764
+    proto: udp
+    src: 192.168.0.0/16
+  notify:
+    - Restart ufw

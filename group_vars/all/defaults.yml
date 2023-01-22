@@ -4,10 +4,13 @@ boot_partition_suffix: p1
 boot_partition_label: boot
 root_partition_suffix: p2
 root_partition_label: arch
-hostname: 
+hostname:
 localdomain:
 # nvidia, intel, virt
 gpu_manufacturer: virt
 # en_PL, pl_PL
 system_lang: en_PL
 secureboot_keys: ""
+# kdewallet
+kdewallet_salt: "files/users/{{ user_name }}/kdewallet.salt"
+kdewallet_kwl: "files/users/{{ user_name }}/kdewallet.kwl"

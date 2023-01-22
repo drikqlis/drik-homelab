@@ -1,4 +1,0 @@
----
-
-salt: "files/users/{{ user_name }}/kdewallet.salt"
-kwl: "files/users/{{ user_name }}/kdewallet.kwl"

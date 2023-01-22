@@ -1,6 +1,6 @@
 ---
 
-- name: add-block-device
+- name: Add block device
   blockinfile:
     path: /home/{{ user_name }}/.local/share/user-places.xbel
     insertbefore: </xbel>

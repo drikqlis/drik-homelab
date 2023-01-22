@@ -1,22 +1,54 @@
 ---
 
-- block:
+- name: Limit log size to 200mb
+  lineinfile:
+    dest: /etc/systemd/journald.conf
+    regexp: ^#?SystemMaxUse=
+    line: SystemMaxUse=200M
 
-  - name: Limit log size to 200mb
-    lineinfile:
-      dest: /etc/systemd/journald.conf
-      regexp: ^#?SystemMaxUse=
-      line: SystemMaxUse=200M
+- name: Set vim as default editor
+  lineinfile:
+    path: /etc/environment
+    line: EDITOR=vim
 
-  - name: Set nano as default editor
-    lineinfile:
-      path: /etc/environment
-      line: EDITOR=nano
+- name: Enable fstrim.timer service for SSD
+  systemd:
+    name: fstrim.timer
+    state: started
+    enabled: true
 
-  - name: Enable fstrim.timer service for SSD
-    systemd:
-      name: fstrim.timer
-      state: started
-      enabled: yes
+- name: Ensure packages are updated
+  pacman:
+    update_cache: true
+    upgrade: true
 
-  become: yes
+- name: Ensure basic software is installed
+  pacman:
+    name:
+      - bind
+      - inetutils
+      - base
+      - base-devel
+      - linux
+      - linux-headers
+      - linux-firmware
+      - vim
+      - vi
+      - nano
+      - sudo
+      - top
+      - htop
+      - networkmanager
+      - e2fsprogs
+      - dosfstools
+      - ntfs-3g
+      - intel-ucode
+      - git
+      - openssh
+      - python
+      - python-pexpect
+      - python-lxml
+      - sudo
+      - sbctl
+      - tpm2-tools
+    state: present

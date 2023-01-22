@@ -1,24 +1,20 @@
 ---
 
-- block:
+- name: Ensure packages are updated
+  pacman:
+    update_cache: true
+    upgrade: true
 
-  - name: Ensure packages are updated
-    pacman:
-      update_cache: yes
-      upgrade: yes
-
-  - name: Ensure latte and applets are installed
-    pacman:
-      name:
-        - latte-dock-git
-        - plasma5-applets-window-title-git
-        - plasma5-applets-tiledmenu
-        - plasma5-applets-window-buttons-git
-        - appmenu-gtk-module
-        - plasma5-applets-window-appmenu-git
-      state: present
-
-  become: yes
+- name: Ensure latte and applets are installed
+  pacman:
+    name:
+      - latte-dock-git
+      - plasma5-applets-window-title-git
+      - plasma5-applets-tiledmenu
+      - plasma5-applets-window-buttons-git
+      - appmenu-gtk-module
+      - plasma5-applets-window-appmenu-git
+    state: present
 
 - name: Set lattedockrc (global latte settings)
   copy:
@@ -60,6 +56,8 @@
     owner: "{{ user_name }}"
     group: "{{ user_name }}"
 
-- name: Remove default plasma panel
+- name: Remove default plasma panel # noqa no-changed-when
   command:
-    cmd: qdbus org.kde.plasmashell /PlasmaShell org.kde.PlasmaShell.evaluateScript "for(i=0;i<panelIds.length;i++)panel=panelById(panelIds[i]),panel&&panel.remove();"
+    cmd: >
+      qdbus org.kde.plasmashell /PlasmaShell org.kde.PlasmaShell.evaluateScript
+      "for(i=0;i<panelIds.length;i++)panel=panelById(panelIds[i]),panel&&panel.remove();"

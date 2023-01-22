@@ -2,156 +2,160 @@
 
 - name: Post installation configration
   hosts: managed
+  become: true
 
   tasks:
 
     - name: Basic configuration
       block:
-      - name: Basic configuration
-        import_role:
-          name: basic
-        tags: [vm, personal, work, basic]
+        - name: Basic configuration
+          import_role:
+            name: basic
+          tags: [vm, personal, work, basic]
 
-      - name: NTP configuration
-        import_role:
-          name: ntp
-        tags: [vm, personal, work, ntp]
+        - name: NTP configuration
+          import_role:
+            name: ntp
+          tags: [vm, personal, work, ntp]
 
-      - name: Pacman configuration
-        import_role:
-          name: pacman
-        tags: [vm, personal, work, pacman]
+        - name: Pacman configuration
+          import_role:
+            name: pacman
+          tags: [vm, personal, work, pacman]
 
-      - name: Firewall configuration
-        import_role:
-          name: ufw
-        tags: [vm, personal, work, ufw]
+        - name: Firewall configuration
+          import_role:
+            name: ufw
+          tags: [vm, personal, work, ufw]
 
     - name: GUI configuration
       when: host_type != "vm"
       block:
-      - name: Fonts configuration
-        import_role:
-          name: fonts
-        tags: [personal, work, fonts]
+        - name: Fonts configuration
+          import_role:
+            name: fonts
+          tags: [personal, work, fonts]
 
-      - name: Plasma configuration
-        import_role:
-          name: plasma
-        tags: [personal, work, plasma]
+        - name: Plasma configuration
+          import_role:
+            name: plasma
+          tags: [personal, work, plasma]
 
-      - name: SDDM configuration
-        import_role:
-          name: sddm
-        tags: [personal, work, sddm]
+        - name: SDDM configuration
+          import_role:
+            name: sddm
+          tags: [personal, work, sddm]
 
-      - name: Latte configuration
-        import_role:
-          name: latte
-        tags: [personal, work, latte]
+        - name: Latte configuration
+          import_role:
+            name: latte
+          tags: [personal, work, latte]
 
-      - name: KDEconnect configuration
-        import_role:
-          name: kdeconnect
-        tags: [personal, work, kdeconnect]
+        - name: KDEconnect configuration
+          import_role:
+            name: kdeconnect
+          tags: [personal, work, kdeconnect]
 
-      - name: Bluetooth configuration
-        import_role:
-          name: bluetooth
-        tags: [personal, work, bluetooth]
+        - name: Bluetooth configuration
+          import_role:
+            name: bluetooth
+          tags: [personal, work, bluetooth]
 
-      - name: Print configuration
-        import_role:
-          name: print
-        tags: [personal, work, print]
+        - name: Print configuration
+          import_role:
+            name: print
+          tags: [personal, work, print]
 
-      - name: Basic apps configuration
-        import_role:
-          name: basic_apps
-        tags: [personal, work, basic_apps]
+        - name: Basic apps configuration
+          import_role:
+            name: basic_apps
+          tags: [personal, work, basic_apps]
 
-      - name: Personal apps configuration
-        when: host_type == "personal"
-        import_role:
-          name: personal_apps
-        tags: [personal, personal_apps]
+        - name: Personal apps configuration
+          when: host_type == "personal"
+          import_role:
+            name: personal_apps
+          tags: [personal, personal_apps]
 
-    - name: GUI personalization 
+    - name: GUI personalization
       when: host_type != "vm"
       block:
-      - name: System settings configuration
-        import_role:
-          name: system_settings
-        tags: [personal, work, system_settings]
+        - name: System settings configuration
+          import_role:
+            name: system_settings
+          tags: [personal, work, system_settings]
 
-      - name: Dolphin configuration
-        import_role:
-          name: dolphin
-        tags: [personal, work, dolphin]
+        - name: Dolphin configuration
+          import_role:
+            name: dolphin
+          tags: [personal, work, dolphin]
 
-      - name: Kate configuration
-        import_role:
-          name: kate
-        tags: [personal, work, kate]
+        - name: Kate configuration
+          import_role:
+            name: kate
+          tags: [personal, work, kate]
 
-      - name: Konsole configuration
-        import_role:
-          name: konsole
-        tags: [personal, work, konsole]
+        - name: Konsole configuration
+          import_role:
+            name: konsole
+          tags: [personal, work, konsole]
 
-      - name: Okular configuration
-        import_role:
-          name: okular
-        tags: [personal, work, okular]
+        - name: Okular configuration
+          import_role:
+            name: okular
+          tags: [personal, work, okular]
 
-      - name: Gwenview configuration
-        import_role:
-          name: gwenview
-        tags: [personal, work, gwenview]
+        - name: Gwenview configuration
+          import_role:
+            name: gwenview
+          tags: [personal, work, gwenview]
 
-      - name: Spectacle configuration
-        import_role:
-          name: spectacle
-        tags: [personal, work, spectacle]
+        - name: Spectacle configuration
+          import_role:
+            name: spectacle
+          tags: [personal, work, spectacle]
 
-      - name: KDEwallet configuration
-        import_role:
-          name: kdewallet
-        tags: [personal, work, kdewallet]
+        - name: KDEwallet configuration
+          import_role:
+            name: kdewallet
+          when:
+            - kwl is file
+            - salt is file
+          tags: [personal, work, kdewallet]
 
-      - name: Librewolf configuration
-        import_role:
-          name: librewolf
-        tags: [personal, work, librewolf]
+        - name: Librewolf configuration
+          import_role:
+            name: librewolf
+          tags: [personal, work, librewolf]
 
-      - name: VPN GUI configuration
-        import_role:
-          name: vpn_gui
-        tags: [personal, work, vpn_gui]
+        - name: VPN GUI configuration
+          import_role:
+            name: vpn_gui
+          tags: [personal, work, vpn_gui]
 
-      - name: Remmina configuration
-        when: host_type == "personal"
-        import_role:
-          name: remmina
-        tags: [personal, remmina]
+        - name: Remmina configuration
+          when: host_type == "personal"
+          import_role:
+            name: remmina
+          tags: [personal, remmina]
 
-      - name: Signal configuration
-        import_role:
-          name: signal
-        tags: [personal, work, signal]
-        
-      - name: Steam configuration
-        when: host_type == "personal"
-        import_role:
-          name: steam
-        tags: [personal, steam]  
+        - name: Signal configuration
+          import_role:
+            name: signal
+          tags: [personal, work, signal]
 
-      - name: Hardcode_tray configuration
-        import_role:
-          name: hardcode_tray
-        tags: [personal, work, hardcode_tray]
+        - name: Steam configuration
+          when: host_type == "personal"
+          import_role:
+            name: steam
+          tags: [personal, steam]
 
-      - name: Clear plasma cache
-        import_role:
-          name: clear_cache
-        tags: [personal, work, clear_cache]
+        - name: Hardcode_tray configuration
+          import_role:
+            name: hardcode_tray
+          tags: [personal, work, hardcode_tray]
+
+        - name: Clear plasma cache
+          import_role:
+            name: clear_cache
+          tags: [personal, work, clear_cache]

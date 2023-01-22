@@ -1,5 +1,5 @@
 [install_medium]
-archiso 
+archiso
 
 [install_medium:vars]
 ansible_user=root

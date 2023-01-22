@@ -1,27 +1,23 @@
 ---
 
-- block:
+- name: Ensure packages are updated
+  pacman:
+    update_cache: true
+    upgrade: true
 
-  - name: Ensure packages are updated
-    pacman:
-      update_cache: yes
-      upgrade: yes
-
-  - name: Ensure dolphin is installed
-    pacman:
-      name:
-        - dolphin
-      state: present
-
-  become: yes
+- name: Ensure dolphin is installed
+  pacman:
+    name:
+      - dolphin
+    state: present
 
 - name: Set dolphinrc (dolphin settings)
   copy:
     src: dolphinrc
     dest: /home/{{ user_name }}/.config/dolphinrc
-    mode: 0600
     owner: "{{ user_name }}"
     group: "{{ user_name }}"
+    mode: 0600
 
 - name: Ensure view_properties directory exists
   file:
@@ -30,20 +26,23 @@
     owner: "{{ user_name }}"
     group: "{{ user_name }}"
     mode: 0755
-    recurse: yes
+    recurse: true
 
 - name: Set dolphistaterc (dolphin state)
   copy:
     src: dolphinstaterc
     dest: /home/{{ user_name }}/.local/share/dolphin/dolphinstaterc
-    mode: 0600
     owner: "{{ user_name }}"
     group: "{{ user_name }}"
+    mode: 0600
 
 - name: Set view mode to details in dolphin
   copy:
     src: directory
     dest: /home/{{ user_name }}/.local/share/dolphin/view_properties/global/.directory
+    owner: "{{ user_name }}"
+    group: "{{ user_name }}"
+    mode: 0600
 
 - name: Hide unused items in places (dolphin)
   xml:
@@ -73,11 +72,10 @@
     xpath: /xbel/separator/info/metadata[UDI='/org/freedesktop/UDisks2/block_devices/dm_2d0']/IsHidden
     value: "true"
   register: result
-  ignore_errors: yes
   changed_when:
     - 'result.msg is defined or result.changed == true'
   failed_when: false
-  notify: add-block-device
+  notify: Add block device
 
 - name: Set trash to no limit
   template:
@@ -86,5 +84,3 @@
     mode: 0600
     owner: "{{ user_name }}"
     group: "{{ user_name }}"
-
-

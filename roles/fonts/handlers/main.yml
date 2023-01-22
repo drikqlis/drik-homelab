@@ -1,7 +1,4 @@
 ---
 
-- name: merge-xrdb
-  command: xrdb -merge ~/.Xresources
-
-- name: fc-cache
+- name: Fc cache
   command: fc-cache -fv

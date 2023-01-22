@@ -1,22 +1,18 @@
 ---
 
-- block:
+- name: Ensure packages are updated
+  pacman:
+    update_cache: true
+    upgrade: true
 
-  - name: Ensure packages are updated
-    pacman:
-      update_cache: yes
-      upgrade: yes
+- name: Ensure bluez is installed
+  pacman:
+    name:
+      - bluez
+      - bluez-utils
+    state: present
 
-  - name: Ensure bluez is installed
-    pacman:
-      name:
-        - bluez
-        - bluez-utils
-      state: present
-
-  - name: Enable bluetooth service
-    systemd:
-      name: bluetooth
-      enabled: yes
-
-  become: yes
+- name: Enable bluetooth service
+  systemd:
+    name: bluetooth
+    enabled: true

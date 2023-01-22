@@ -6,7 +6,8 @@
   hosts: install_medium
 
   vars_files:
-    - ["vars/{{ gpu_manufacturer }}_vars.yml", "vars/virt_vars.yml"]
+    - vars/{{ gpu_manufacturer }}_vars.yml
+    - vars/virt_vars.yml
 
   tasks:
 
@@ -18,7 +19,7 @@
         msg: "This host is not booted from the Arch install media!"
       when: ansible_nodename != 'archiso'
 
-    - name: Set polish keyboard
+    - name: Set polish keyboard # noqa no-changed-when
       command: loadkeys pl
 
     - name: Ensure NTP is running
@@ -30,7 +31,7 @@
     # Creating and encrypting partitons
     # --------------------------------------------------------------------
 
-    - name: Wipe install drive and all its partitions
+    - name: Wipe install drive and all its partitions # noqa no-changed-when
       command: find /dev -wholename "{{ install_drive }}*" -exec wipefs --force --all {} \;
 
     - name: Create boot partition
@@ -54,7 +55,7 @@
 
     - name: Create and open LUKS container with a passphrase
       luks_device:
-        device: "{{ install_drive }}{{root_partition_suffix}}"
+        device: "{{ install_drive }}{{ root_partition_suffix }}"
         passphrase: "{{ crypt_passphrase }}"
         name: cryptroot
         state: opened
@@ -64,13 +65,13 @@
         dev: "{{ install_drive }}{{ boot_partition_suffix }}"
         fstype: vfat
         opts: -F32
-        force: yes
+        force: true
 
     - name: Create ext4 filesystem in root partion
       filesystem:
         dev: /dev/mapper/cryptroot
         fstype: ext4
-        force: yes
+        force: true
 
     # Registering variables
     # --------------------------------------------------------------------
@@ -106,7 +107,7 @@
         fstype: ext4
         state: mounted
 
-    - name: Create mountpoint for boot volume
+    - name: Create mountpoint for boot volume # noqa risky-file-permissions
       file:
         path: /mnt/boot
         state: directory
@@ -121,13 +122,16 @@
     # Installing basic packages
     # --------------------------------------------------------------------
 
-    - name: Run pacstrap
-      command: pacstrap /mnt base base-devel linux-zen linux-zen-headers linux-firmware vim nano sudo htop networkmanager e2fsprogs dosfstools ntfs-3g intel-ucode git openssh python python-pexpect python-lxml sudo sbctl tpm2-tools {{ add_packages }}
+    - name: Run pacstrap # noqa no-changed-when
+      command: >
+        pacstrap /mnt base bind inetutils base-devel linux linux-headers linux-firmware
+        vim nano sudo htop networkmanager e2fsprogs dosfstools ntfs-3g intel-ucode git openssh
+        python python-pexpect python-lxml sudo sbctl tpm2-tools {{ add_packages }}
 
     # Generating fstab
     # --------------------------------------------------------------------
 
-    - name: Generate blank fstab
+    - name: Generate blank fstab # noqa no-changed-when
       command: genfstab -U /mnt >> /mnt/etc/fstab
 
     - name: Add root volume to fstab
@@ -153,10 +157,10 @@
     # Configuring time and locale
     # --------------------------------------------------------------------
 
-    - name: Set local timezone
+    - name: Set local timezone # noqa no-changed-when
       command: arch-chroot /mnt ln -sf /usr/share/zoneinfo/Europe/Warsaw /etc/localtime
 
-    - name: Set hardware clock from system clock
+    - name: Set hardware clock from system clock # noqa no-changed-when
       command: arch-chroot /mnt hwclock --systohc
 
     - name: Configure locale.gen
@@ -173,20 +177,29 @@
       copy:
         src: install/locale_en_PL.conf
         dest: /mnt/etc/locale.conf
+        owner: root
+        group: root
+        mode: 0644
       when: system_lang == "en_PL"
 
     - name: Create locale.conf (pl_PL)
       copy:
         src: install/locale_pl_PL.conf
         dest: /mnt/etc/locale.conf
+        owner: root
+        group: root
+        mode: 0644
       when: system_lang == "pl_PL"
 
     - name: Set keymap
       copy:
         content: "KEYMAP=pl"
         dest: /mnt/etc/vconsole.conf
+        owner: root
+        group: root
+        mode: 0644
 
-    - name: Generate locales
+    - name: Generate locales # noqa no-changed-when
       command: arch-chroot /mnt locale-gen
 
     # Setting hostname
@@ -196,6 +209,9 @@
       copy:
         content: "{{ hostname }}"
         dest: /mnt/etc/hostname
+        owner: root
+        group: root
+        mode: 0644
 
     - name: Set hosts
       copy:
@@ -204,14 +220,17 @@
           ::1         localhost
           127.0.1.1   {{ hostname }}.{{ localdomain }}  {{ hostname }}
         dest: /mnt/etc/hosts
+        owner: root
+        group: root
+        mode: 0644
 
     # Setting disk labels
     # --------------------------------------------------------------------
 
-    - name: Set label for boot partition
+    - name: Set label for boot partition # noqa no-changed-when
       command: arch-chroot /mnt fatlabel {{ install_drive }}{{ boot_partition_suffix }} "{{ boot_partition_label }}"
 
-    - name: Set label for root partition
+    - name: Set label for root partition # noqa no-changed-when
       command: arch-chroot /mnt cryptsetup config --label="{{ root_partition_label }}" {{ install_drive }}{{ root_partition_suffix }}
 
     # Platform specific modifications
@@ -221,14 +240,11 @@
       file:
         path: /mnt/etc/pacman.d/hooks
         state: directory
+        owner: root
+        group: root
+        mode: 0755
 
-    - name: Create pacman hook for updating initramfs after NVIDIA driver update
-      copy:
-        src: install/nvidia.hook
-        dest: /mnt/etc/pacman.d/hooks/30-nvidia.hook
-      when: gpu_manufacturer == "nvidia"
-
-    - name: Enable qemu-guest-agent service
+    - name: Enable qemu-guest-agent service # noqa no-changed-when
       command: arch-chroot /mnt systemctl enable qemu-guest-agent.service
       when: gpu_manufacturer == "virt"
 
@@ -236,31 +252,46 @@
       copy:
         content: "{{ gpu_manufacturer }}"
         dest: /mnt/usr/local/etc/gpu_manufacturer
+        owner: root
+        group: root
+        mode: 0644
 
 
     # systemd-boot configuration
     # --------------------------------------------------------------------
 
-    - name: Install systemd-boot
+    - name: Install systemd-boot # noqa no-changed-when
       command: arch-chroot /mnt bootctl install
 
     - name: Create unified kernel image preset
       copy:
-        src: install/linux-zen.preset
-        dest: /mnt/etc/mkinitcpio.d/linux-zen.preset
+        src: install/linux.preset
+        dest: /mnt/etc/mkinitcpio.d/linux.preset
+        owner: root
+        group: root
+        mode: 0644
 
     - name: Configure kernel parametres
       copy:
-        content: rd.luks.name={{ root_uuid.stdout }}=cryptroot rd.luks.options={{ root_uuid.stdout }}=tpm2-device=auto root=/dev/mapper/cryptroot rw nowatchdog nosgx {{ kernel_cmd }}
+        content: >
+          rd.luks.name={{ root_uuid.stdout }}=cryptroot
+          rd.luks.options={{ root_uuid.stdout }}=tpm2-device=auto
+          root=/dev/mapper/cryptroot rw nowatchdog nosgx {{ kernel_cmd }}
         dest: /mnt/etc/kernel/cmdline
+        owner: root
+        group: root
+        mode: 0644
 
-    - name: Enable update systemd-boot service (as backup)
+    - name: Enable update systemd-boot service (as backup) # noqa no-changed-when
       command: arch-chroot /mnt systemctl enable systemd-boot-update.service
 
     - name: Create pacman hook for updating systemd-boot after systemd update
       copy:
         src: install/50-systemd-boot.hook
         dest: /mnt/etc/pacman.d/hooks/50-systemd-boot.hook
+        owner: root
+        group: root
+        mode: 0644
 
     # mkinitcpio configuration
     # --------------------------------------------------------------------
@@ -277,7 +308,7 @@
         regexp: ^MODULES=
         line: MODULES=({{ mkinicpio_modules }} {{ tpm_driver.stdout }})
 
-    - name: Create new initramfs
+    - name: Create new initramfs # noqa no-changed-when
       command: arch-chroot /mnt mkinitcpio -P
 
     # SecureBoot configuration
@@ -322,83 +353,79 @@
       when:
         - secureboot_keys is not directory
 
-    - name: Sign efi files and boot loader
-      command: arch-chroot /mnt {{ item }}
+    - name: Sign efi files and boot loader # noqa no-changed-when
+      command: arch-chroot /mnt sbctl sign --save {{ item }}
       loop:
-        - sbctl sign --save /boot/EFI/Linux/archlinux-linux-zen.efi
-        - sbctl sign --save /boot/EFI/Linux/archlinux-linux-zen-fallback.efi
-        - sbctl sign --save /boot/EFI/BOOT/BOOTX64.EFI
-        - sbctl sign --save /boot/EFI/systemd/systemd-bootx64.efi
-        - sbctl sign --save /boot/vmlinuz-linux-zen
+        - /boot/EFI/Linux/archlinux-linux.efi
+        - /boot/EFI/Linux/archlinux-linux-fallback.efi
+        - /boot/EFI/BOOT/BOOTX64.EFI
+        - /boot/EFI/systemd/systemd-bootx64.efi
+        - /boot/vmlinuz-linux
 
     # Enable services
     # --------------------------------------------------------------------
 
-    - name: Enable dns service
+    - name: Enable dns service # noqa no-changed-when
       command: arch-chroot /mnt systemctl enable systemd-resolved
 
-    - name: Enable network service
+    - name: Enable network service # noqa no-changed-when
       command: arch-chroot /mnt systemctl enable NetworkManager
 
-    - name: Enable network service
+    - name: Enable network service # noqa no-changed-when
       command: arch-chroot /mnt systemctl enable sshd
 
     # Create user
     # --------------------------------------------------------------------
 
-    - name: Create user account
+    - name: Create user account # noqa no-changed-when
       command: arch-chroot /mnt useradd --create-home --user-group --groups wheel {{ user_name }} --password {{ user_password }}
 
     - name: Create user's ssh directory
       file:
         path: /mnt/home/{{ user_name }}/.ssh
         state: directory
-
-    - name: Set mode, owner, and group on user's ssh directory
-      command: arch-chroot /mnt {{ item }}
-      loop:
-        - chmod 0700 /home/{{ user_name }}/.ssh
-        - chown {{ user_name }}:{{ user_name }} /home/{{ user_name }}/.ssh
+        mode: 0700
+        owner: "{{ user_name }}"
+        group: "{{ user_name }}"
 
     - name: Copy over ssh pub keys as an authorized keys
       copy:
         src: "{{ ssh_pub_keys }}"
         dest: /mnt/home/{{ user_name }}/.ssh/authorized_keys
-
-    - name: Set mode, owner, and group on user's authorized_key file
-      command: arch-chroot /mnt {{ item }}
-      loop:
-        - chmod 0600 /home/{{ user_name }}/.ssh/authorized_keys
-        - chown {{ user_name }}:{{ user_name }} /home/{{ user_name }}/.ssh/authorized_keys
+        mode: 0600
+        owner: "{{ user_name }}"
+        group: "{{ user_name }}"
 
     - name: Give sudo access to wheel group
       copy:
         content: "%wheel      ALL=(ALL) ALL"
         dest: /mnt/etc/sudoers.d/wheel
         validate: /usr/sbin/visudo --check --file=%s
+        mode: 0640
+        owner: root
+        group: root
 
     - name: Force public key authentication
       blockinfile:
         path: /mnt/etc/ssh/sshd_config
         insertbefore: BOF
         block: |
-          # Modified by Arch-Ansible-Install
           PasswordAuthentication no
           AuthenticationMethods publickey
 
     # Reboot and wait
     # --------------------------------------------------------------------
 
-    - name: Reboot archiso and ignore errors
+    - name: Reboot archiso and ignore errors # noqa no-changed-when
       command: reboot
-      ignore_errors: true
+      failed_when: false
 
 # Post-Installation
 # --------------------------------------------------------------------
 
 - name: Post-Installation
-  hosts: "{{ hostname }}"
-  gather_facts: no
+  hosts: "{{ hostname | default('hostname') }}"
+  gather_facts: false
 
   tasks:
 
@@ -422,12 +449,12 @@
           (?i)passphrase: "{{ crypt_passphrase }}"
       no_log: true
       become: true
-      ignore_errors: true
+      failed_when: false
 
     # Clean-up
     # --------------------------------------------------------------------
 
-    - name: Disable root
+    - name: Disable root # noqa no-changed-when
       command: passwd -l root
       become: true
 

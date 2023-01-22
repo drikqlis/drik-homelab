@@ -1,5 +1,4 @@
 ---
 
-- name: update_tray
+- name: Update tray
   command: 'hardcode-tray --conversion-tool RSVGConvert --change-color "#dfdfdf #fcfcfc" --size 22 --theme Papirus-Dark --apply'
-  become: yes
