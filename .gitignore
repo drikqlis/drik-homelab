@@ -8,3 +8,4 @@ vault_pass
 inventory
 files/users/*
 .vscode
+venv
