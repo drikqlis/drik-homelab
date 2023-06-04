@@ -7,3 +7,4 @@ files/*-keys
 vault_pass
 inventory
 files/users/*
+.vscode
