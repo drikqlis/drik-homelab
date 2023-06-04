@@ -25,5 +25,8 @@ pip install --upgrade pip
 # Install pip requirements from the parent directory
 pip install -r "$PARENT_DIR/requirements.txt"
 
+# Install ansible requeriements
+ansible-galaxy install -r "$PARENT_DIR/requirements.yml"
+
 # Print success message
 echo "Python virtual environment '$VENV_NAME' has been created and activated."
