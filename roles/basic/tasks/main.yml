@@ -1,29 +1,29 @@
 ---
 
 - name: Limit log size to 200mb
-  lineinfile:
+  ansible.builtin.lineinfile:
     dest: /etc/systemd/journald.conf
     regexp: ^#?SystemMaxUse=
     line: SystemMaxUse=200M
 
 - name: Set vim as default editor
-  lineinfile:
+  ansible.builtin.lineinfile:
     path: /etc/environment
     line: EDITOR=vim
 
 - name: Enable fstrim.timer service for SSD
-  systemd:
+  ansible.builtin.systemd:
     name: fstrim.timer
     state: started
     enabled: true
 
 - name: Ensure packages are updated
-  pacman:
+  community.general.pacman:
     update_cache: true
     upgrade: true
 
 - name: Ensure basic software is installed
-  pacman:
+  community.general.pacman:
     name:
       - bind
       - inetutils
