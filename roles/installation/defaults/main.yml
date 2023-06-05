@@ -1,0 +1,15 @@
+---
+
+btrfs_subvolumes:
+  - name: "@"
+    default: true
+    mount_point: ""
+  - name: "@home"
+    default: false
+    mount_point: "/home"
+  - name: "@snapshots"
+    default: false
+    mount_point: "/.snapshots"
+  - name: "@var_log"
+    default: false
+    mount_point: "/var/log"
