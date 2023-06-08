@@ -1,0 +1,35 @@
+---
+
+- name: Run pacstrap to install base system
+  ansible.builtin.command: >
+    pacstrap /mnt base bind inetutils base-devel linux linux-headers linux-firmware
+    vim nano sudo htop networkmanager e2fsprogs dosfstools ntfs-3g intel-ucode git openssh
+    python python-pexpect python-lxml sudo sbctl tpm2-tools {{ installation_additional_packages }}
+  changed_when: true
+
+- name: Make sure pacman hook dir exisits
+  ansible.builtin.file:
+    path: /mnt/etc/pacman.d/hooks
+    state: directory
+    owner: root
+    group: root
+    mode: "0755"
+
+- name: Set hostname
+  ansible.builtin.copy:
+    content: "{{ hostname }}"
+    dest: /mnt/etc/hostname
+    owner: root
+    group: root
+    mode: "0644"
+
+- name: Set hosts
+  ansible.builtin.copy:
+    content: |
+      127.0.0.1   localhost
+      ::1         localhost
+      127.0.1.1   {{ hostname }}.{{ localdomain }}  {{ hostname }}
+    dest: /mnt/etc/hosts
+    owner: root
+    group: root
+    mode: "0644"

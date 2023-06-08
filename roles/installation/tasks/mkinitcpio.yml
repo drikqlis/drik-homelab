@@ -1,0 +1,17 @@
+---
+
+- name: Add mkinitcpio.conf hooks
+  ansible.builtin.lineinfile:
+    dest: /mnt/etc/mkinitcpio.conf
+    regexp: ^HOOKS=
+    line: HOOKS=(base systemd sd-encrypt autodetect keyboard sd-vconsole modconf block filesystems fsck)
+
+- name: Add mkinitcpio.conf modules
+  ansible.builtin.lineinfile:
+    dest: /mnt/etc/mkinitcpio.conf
+    regexp: ^MODULES=
+    line: MODULES=({{ installation_mkinicpio_modules }} {{ installation_tpm_driver.stdout | default('') }})
+
+- name: Create new initramfs
+  ansible.builtin.command: arch-chroot /mnt mkinitcpio -P
+  changed_when: true

@@ -1,15 +1,16 @@
 ---
-install_drive:
-boot_partition_suffix:
-boot_partition_label:
-root_partition_suffix:
-root_partition_label:
+installation_drive:
+  name:
+  efi_partition_suffix:
+  efi_partition_label:
+  root_partition_suffix:
+  root_partition_label:
 hostname:
 localdomain:
 # nvidia, intel, virt
 gpu_manufacturer:
 # en_PL, pl_PL
-system_lang:
+system_language:
 secureboot_keys:
 
 crypt_passphrase:

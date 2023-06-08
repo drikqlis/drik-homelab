@@ -1,4 +1,0 @@
----
-add_packages: mesa vulkan-intel intel-media-driver intel-gpu-tools
-mkinicpio_modules: i915
-kernel_cmd: quiet splash loglevel=3 rd.systemd.show_status=auto rd.udev.log_level=3 vt.global_cursor_default=0

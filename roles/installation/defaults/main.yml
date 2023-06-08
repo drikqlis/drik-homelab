@@ -1,15 +1,48 @@
 ---
 
-btrfs_subvolumes:
+installation_btrfs_subvolumes:
   - name: "@"
     default: true
     mount_point: ""
   - name: "@home"
-    default: false
     mount_point: "/home"
   - name: "@snapshots"
-    default: false
     mount_point: "/.snapshots"
   - name: "@var_log"
-    default: false
     mount_point: "/var/log"
+  - name: "@var_cache_pacman_pkg"
+    mount_point: "/var/cache/pacman/pkg"
+
+installation_drive:
+  name: /dev/nvme0n1
+  efi_partition_suffix: p1
+  efi_partition_label: efi
+  root_partition_suffix: p2
+  root_partition_label: arch
+
+installation_intel_packages: mesa vulkan-intel intel-media-driver intel-gpu-tools
+installation_nvidia_packages: nvidia nvidia-settings
+installation_virt_packages: qemu-guest-agent
+installation_additional_packages: >
+  {{ installation_intel_packages if gpu_manufacturer == 'intel'
+  else installation_nvidia_packages if gpu_manufacturer == 'nvidia'
+  else installation_virt_packages if gpu_manufacturer == 'virt'
+  else '' }}
+
+installation_intel_kernel_cmdline: nowatchdog
+installation_nvidia_kernel_cmdline: nvidia-drm.modeset=1 nowatchdog
+installation_virt_kernel_cmdline:
+installation_kernel_cmdline: >
+  {{ installation_intel_kernel_cmdline if gpu_manufacturer == 'intel'
+  else installation_nvidia_kernel_cmdline if gpu_manufacturer == 'nvidia'
+  else installation_virt_kernel_cmdline if gpu_manufacturer == 'virt'
+  else '' }}
+
+installation_intel_mkinicpio_modules: i915
+installation_nvidia_mkinicpio_modules: nvidia nvidia_modeset nvidia_uvm nvidia_drm
+installation_virt_mkinicpio_modules: virtio virtio_blk virtio_pci virtio_net virtio_ring
+installation_mkinicpio_modules: >
+  {{ installation_mkinicpio_modules if gpu_manufacturer == 'intel'
+  else installation_mkinicpio_modules if gpu_manufacturer == 'nvidia'
+  else installation_mkinicpio_modules if gpu_manufacturer == 'virt'
+  else '' }}

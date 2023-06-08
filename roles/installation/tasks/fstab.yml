@@ -1,0 +1,38 @@
+---
+
+- name: Generate blank fstab
+  ansible.builtin.command: genfstab -U /mnt >> /mnt/etc/fstab
+  changed_when: true
+
+- name: Add subvolume to fstab
+  ansible.posix.mount:
+    fstab: /mnt/etc/fstab
+    path: "{{ item.mount_point }}"
+    src: UUID={{ installation_root_uuid.stdout }}
+    fstype: btrfs
+    opts: subvol={{ item.name }},compress=zstd:1
+    passno: "{{ '0' if item.default | default(false) else '2' }}"
+    state: present
+  loop: "{{ installation_btrfs_subvolumes }}"
+
+- name: Add EFI volume to fstab
+  ansible.posix.mount:
+    fstab: /mnt/etc/fstab
+    path: /efi
+    src: UUID={{ installation_efi_uuid.stdout }}
+    fstype: vfat
+    opts: defaults
+    passno: "2"
+    state: present
+
+- name: Set label for boot partition
+  ansible.builtin.command: >
+    arch-chroot /mnt fatlabel
+    {{ installation_drive.name }}{{ installation_drive.efi_partition_suffix }} "{{ installation_drive.efi_partition_label }}"
+  changed_when: true
+
+- name: Set label for root partition
+  ansible.builtin.command: >
+    arch-chroot /mnt cryptsetup config
+    --label="{{ installation_drive.root_partition_label }}" {{ installation_drive.name }}{{ installation_drive.root_partition_suffix }}
+  changed_when: true

@@ -1,0 +1,35 @@
+---
+
+- name: Install systemd-boot # noqa no-changed-when
+  ansible.builtin.command: arch-chroot /mnt bootctl install
+
+- name: Create unified kernel image preset
+  ansible.builtin.template:
+    src: linux.preset.j2
+    dest: /mnt/etc/mkinitcpio.d/linux.preset
+    owner: root
+    group: root
+    mode: "0644"
+
+- name: Configure kernel parametres
+  ansible.builtin.copy:
+    content: >
+      rd.luks.name={{ installation_root_uuid.stdout }}=cryptroot
+      rd.luks.options={{ installation_root_uuid.stdout }}=tpm2-device=auto,discard
+      root=/dev/mapper/cryptroot rw nosgx {{ installation_kernel_cmdline }}
+    dest: /mnt/etc/kernel/cmdline
+    owner: root
+    group: root
+    mode: "0644"
+
+- name: Enable systemd-boot update service
+  ansible.builtin.command: arch-chroot /mnt systemctl enable systemd-boot-update.service
+  changed_when: true
+
+- name: Create pacman hook for updating systemd-boot after systemd update
+  ansible.builtin.template:
+    src: 95-systemd-boot.hook.j2
+    dest: /mnt/etc/pacman.d/hooks/95-systemd-boot.hook
+    owner: root
+    group: root
+    mode: "0644"

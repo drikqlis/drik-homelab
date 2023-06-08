@@ -1,29 +1,46 @@
 ---
 
 - name: Wipe install drive and all its partitions
-  ansible.builtin.command: find /dev -wholename "{{ install_drive }}*" -exec wipefs --force --all {} \;
+  ansible.builtin.command: find /dev -wholename "{{ installation_drive.name }}*" -exec wipefs --force --all {} \;
   changed_when: true
 
-- name: Create boot partition
+- name: Create mountpoints
+  ansible.builtin.file:
+    path: /mnt{{ item.mount_point }}
+    state: directory
+    mode: "{{ item.mode | default('0755') }}"
+  loop:
+    - name: efi
+      mount_point: /efi
+    - "{{ installation_btrfs_subvolumes }}"
+
+- name: Create EFI partition
   community.general.parted:
-    device: "{{ install_drive }}"
+    device: "{{ installation_drive.name }}"
     label: gpt
     number: 1
     part_end: 512MiB
-    name: boot
-    flags: [boot, esp]
+    name: efi
+    flags: [esp]
     state: present
 
-- name: Create FAT32 filesystem in boot partition
+- name: Create FAT32 filesystem in EFI partition
   community.general.filesystem:
-    dev: "{{ install_drive }}{{ boot_partition_suffix }}"
+    dev: "{{ installation_drive.name }}{{ installation_drive.efi_partition_suffix }}"
     fstype: vfat
     opts: -F32
     force: true
 
+- name: Mount EFI filesystem
+  ansible.posix.mount:
+    path: /mnt/efi
+    src: "{{ installation_drive.name }}{{ installation_drive.efi_partition_suffix }}"
+    fstype: vfat
+    state: mounted
+
 - name: Create root partition
   community.general.parted:
-    device: "{{ install_drive }}"
+    device: "{{ installation_drive.name }}"
     label: gpt
     number: 2
     part_start: 512MiB
@@ -32,7 +49,7 @@
 
 - name: Create and open LUKS container with a passphrase
   community.crypto.luks_device:
-    device: "{{ install_drive }}{{ root_partition_suffix }}"
+    device: "{{ installation_drive.name }}{{ installation_drive.root_partition_suffix }}"
     passphrase: "{{ crypt_passphrase }}"
     name: cryptroot
     state: opened
@@ -46,15 +63,15 @@
 - name: Create subvolumes
   community.general.btrfs_subvolume:
     filesystem_device: /dev/mapper/cryptroot
-    name: /{{ item.name }}
-    default: "{{ item.default }}"
-  loop: "{{ btrfs_subvolumes }}"
+    name: "{{ item.name }}"
+    default: "{{ item.default | default(false) }}"
+  loop: "{{ installation_btrfs_subvolumes }}"
 
 - name: Mount subvolumes
   ansible.posix.mount:
     path: /mnt{{ item.mount_point }}
     src: /dev/mapper/cryptroot
     fstype: btrfs
-    opts: subvol={{ item.name }}
+    opts: subvol={{ item.name }},compress=zstd:1
     state: mounted
-  loop: "{{ btrfs_subvolumes }}"
+  loop: "{{ installation_btrfs_subvolumes }}"
