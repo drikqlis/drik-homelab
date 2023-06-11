@@ -10,8 +10,35 @@
   ansible.builtin.lineinfile:
     dest: /mnt/etc/mkinitcpio.conf
     regexp: ^MODULES=
-    line: MODULES=({{ installation_mkinicpio_modules }} {{ installation_tpm_driver.stdout | default('') }})
+    line: MODULES=({{ installation_mkinicpio_modules | trim + ' ' + installation_tpm_driver.stdout | default('') }})
+
+- name: Create unified kernel image preset
+  ansible.builtin.template:
+    src: linux.preset.j2
+    dest: /mnt/etc/mkinitcpio.d/linux.preset
+    owner: root
+    group: root
+    mode: "0644"
+
+- name: Configure kernel parametres
+  ansible.builtin.copy:
+    content: >
+      rd.luks.name={{ installation_root_uuid.stdout }}=cryptroot
+      rd.luks.options={{ installation_root_uuid.stdout }}=tpm2-device=auto,discard
+      root=/dev/mapper/cryptroot rw nosgx {{ installation_kernel_cmdline }}
+    dest: /mnt/etc/kernel/cmdline
+    owner: root
+    group: root
+    mode: "0644"
+
+- name: Make sure EFI dir exists
+  ansible.builtin.file:
+    path: /mnt/efi/EFI/Linux
+    state: directory
+    mode: "0755"
 
 - name: Create new initramfs
   ansible.builtin.command: arch-chroot /mnt mkinitcpio -P
+  register: installation_initramfs_result
+  failed_when: installation_initramfs_result.rc != 0 and installation_initramfs_result.rc != 1
   changed_when: true

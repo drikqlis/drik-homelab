@@ -4,16 +4,6 @@
   ansible.builtin.command: find /dev -wholename "{{ installation_drive.name }}*" -exec wipefs --force --all {} \;
   changed_when: true
 
-- name: Create mountpoints
-  ansible.builtin.file:
-    path: /mnt{{ item.mount_point }}
-    state: directory
-    mode: "{{ item.mode | default('0755') }}"
-  loop:
-    - name: efi
-      mount_point: /efi
-    - "{{ installation_btrfs_subvolumes }}"
-
 - name: Create EFI partition
   community.general.parted:
     device: "{{ installation_drive.name }}"
@@ -30,13 +20,6 @@
     fstype: vfat
     opts: -F32
     force: true
-
-- name: Mount EFI filesystem
-  ansible.posix.mount:
-    path: /mnt/efi
-    src: "{{ installation_drive.name }}{{ installation_drive.efi_partition_suffix }}"
-    fstype: vfat
-    state: mounted
 
 - name: Create root partition
   community.general.parted:
@@ -58,13 +41,81 @@
   community.general.filesystem:
     dev: /dev/mapper/cryptroot
     fstype: btrfs
+    opts: -L {{ installation_drive.root_partition_label }}
     force: true
 
-- name: Create subvolumes
-  community.general.btrfs_subvolume:
-    filesystem_device: /dev/mapper/cryptroot
-    name: "{{ item.name }}"
-    default: "{{ item.default | default(false) }}"
+- name: Mount root
+  ansible.posix.mount:
+    path: /mnt
+    src: /dev/mapper/cryptroot
+    fstype: btrfs
+    opts: compress=zstd:1
+    state: mounted
+
+- name: Create default subvolume
+  ansible.builtin.command: btrfs subvolume create /mnt/{{ item.name }}
+  changed_when: true
+  when: item.default | default(false)
+  loop: "{{ installation_btrfs_subvolumes }}"
+
+- name: Get default subvolume id
+  ansible.builtin.shell: set -o pipefail && btrfs subvolume list -p /mnt | grep -oP '(?<=ID\s)\d+'
+  changed_when: false
+  register: installation_btrfs_default_subvolume_id
+
+- name: Set root subvolume as default
+  ansible.builtin.command: btrfs subvolume set-default {{ installation_btrfs_default_subvolume_id.stdout }} /mnt/{{ item.name }}
+  changed_when: true
+  when: item.default | default(false)
+  loop: "{{ installation_btrfs_subvolumes }}"
+
+- name: Create other subvolumes
+  ansible.builtin.command: btrfs subvolume create /mnt/{{ item.name }}
+  changed_when: true
+  when: not item.default | default(false)
+  loop: "{{ installation_btrfs_subvolumes }}"
+
+- name: Unmount root
+  ansible.posix.mount:
+    path: /mnt
+    src: /dev/mapper/cryptroot
+    fstype: btrfs
+    opts: compress=zstd:1
+    state: unmounted
+
+- name: Mount new root subvolume
+  ansible.posix.mount:
+    path: /mnt{{ item.mount_point }}
+    src: /dev/mapper/cryptroot
+    fstype: btrfs
+    opts: subvol={{ item.name }},compress=zstd:1
+    state: mounted
+  when: item.default | default(false)
+  loop: "{{ installation_btrfs_subvolumes }}"
+
+- name: Create mountpoints for efi
+  ansible.builtin.file:
+    path: /mnt{{ item.mount_point }}
+    state: directory
+    mode: "{{ item.mode | default('0755') }}"
+  loop:
+    - name: efi
+      mount_point: /efi
+
+- name: Mount EFI filesystem
+  ansible.posix.mount:
+    path: /mnt/efi
+    src: "{{ installation_drive.name }}{{ installation_drive.efi_partition_suffix }}"
+    fstype: vfat
+    passno: 2
+    state: mounted
+
+- name: Create mountpoints for btrfs subvolumes
+  ansible.builtin.file:
+    path: /mnt{{ item.mount_point }}
+    state: directory
+    mode: "{{ item.mode | default('0755') }}"
+  when: not item.default | default(false)
   loop: "{{ installation_btrfs_subvolumes }}"
 
 - name: Mount subvolumes
@@ -74,4 +125,5 @@
     fstype: btrfs
     opts: subvol={{ item.name }},compress=zstd:1
     state: mounted
+  when: not item.default | default(false)
   loop: "{{ installation_btrfs_subvolumes }}"

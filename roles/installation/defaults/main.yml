@@ -3,7 +3,7 @@
 installation_btrfs_subvolumes:
   - name: "@"
     default: true
-    mount_point: ""
+    mount_point: "/"
   - name: "@home"
     mount_point: "/home"
   - name: "@snapshots"
@@ -42,7 +42,9 @@ installation_intel_mkinicpio_modules: i915
 installation_nvidia_mkinicpio_modules: nvidia nvidia_modeset nvidia_uvm nvidia_drm
 installation_virt_mkinicpio_modules: virtio virtio_blk virtio_pci virtio_net virtio_ring
 installation_mkinicpio_modules: >
-  {{ installation_mkinicpio_modules if gpu_manufacturer == 'intel'
-  else installation_mkinicpio_modules if gpu_manufacturer == 'nvidia'
-  else installation_mkinicpio_modules if gpu_manufacturer == 'virt'
+  {{ installation_intel_mkinicpio_modules if gpu_manufacturer == 'intel'
+  else installation_nvidia_mkinicpio_modules if gpu_manufacturer == 'nvidia'
+  else installation_virt_mkinicpio_modules if gpu_manufacturer == 'virt'
   else '' }}
+
+installation_existing_secureboot_keys: false

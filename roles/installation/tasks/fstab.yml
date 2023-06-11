@@ -1,17 +1,22 @@
 ---
 
-- name: Generate blank fstab
-  ansible.builtin.command: genfstab -U /mnt >> /mnt/etc/fstab
+- name: Copy blank fstab
+  ansible.builtin.template:
+    src: fstab.j2
+    dest: /mnt/etc/fstab
+    owner: root
+    group: root
+    mode: "0644"
   changed_when: true
 
-- name: Add subvolume to fstab
+- name: Add subvolumes to fstab
   ansible.posix.mount:
     fstab: /mnt/etc/fstab
     path: "{{ item.mount_point }}"
-    src: UUID={{ installation_root_uuid.stdout }}
+    src: UUID={{ installation_cryptroot_uuid.stdout }}
     fstype: btrfs
     opts: subvol={{ item.name }},compress=zstd:1
-    passno: "{{ '0' if item.default | default(false) else '2' }}"
+    passno: "0"
     state: present
   loop: "{{ installation_btrfs_subvolumes }}"
 
@@ -34,5 +39,5 @@
 - name: Set label for root partition
   ansible.builtin.command: >
     arch-chroot /mnt cryptsetup config
-    --label="{{ installation_drive.root_partition_label }}" {{ installation_drive.name }}{{ installation_drive.root_partition_suffix }}
+    --label="{{ installation_drive.root_partition_label }}_crypt" {{ installation_drive.name }}{{ installation_drive.root_partition_suffix }}
   changed_when: true

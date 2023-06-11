@@ -1,0 +1,49 @@
+---
+
+- name: Make sure dirs exist if using existing SecureBoot keys
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    mode: "0755"
+    owner: root
+    group: root
+  loop:
+    - /mnt/usr/share/secureboot/keys
+    - /mnt/usr/share/secureboot/keys/PK
+    - /mnt/usr/share/secureboot/keys/KEK
+    - /mnt/usr/share/secureboot/keys/db
+  when:
+    - installation_existing_secureboot_keys is directory
+
+- name: Copy SecureBoot keys if they exist
+  ansible.builtin.copy:
+    src: "{{ installation_existing_secureboot_keys }}/{{ item }}/"
+    dest: "/mnt/usr/share/secureboot/keys/{{ item }}/"
+    mode: "0400"
+    owner: root
+    group: root
+  loop:
+    - PK
+    - KEK
+    - db
+  when:
+    - installation_existing_secureboot_keys is directory
+
+- name: Create SecureBoot keys
+  ansible.builtin.command: arch-chroot /mnt sbctl create-keys
+  changed_when: true
+  when:
+    - not installation_existing_secureboot_keys
+
+- name: Enroll SecureBoot keys
+  ansible.builtin.command: arch-chroot /mnt sbctl enroll-keys --microsoft
+  changed_when: true
+  when:
+    - not installation_existing_secureboot_keys
+
+- name: Sign efi files and boot loader # noqa no-changed-when
+  ansible.builtin.command: arch-chroot /mnt sbctl sign --save {{ item }}
+  changed_when: true
+  loop:
+    - /efi/EFI/Linux/arch-linux.efi
+    - /efi/EFI/Linux/arch-linux-fallback.efi

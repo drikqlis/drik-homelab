@@ -1,0 +1,50 @@
+---
+
+- name: Preflight - first tests and activities
+  ansible.builtin.import_tasks: preflight.yml
+  tags: [preflight]
+
+- name: Creating and encrypting partitons
+  ansible.builtin.import_tasks: disks.yml
+  tags: [disks]
+
+- name: Gather partition data
+  ansible.builtin.import_tasks: gather_partition_data.yml
+  tags: [gather_partition_data]
+
+- name: Install the system
+  ansible.builtin.import_tasks: install.yml
+  tags: [install]
+
+- name: Configure time and locale
+  ansible.builtin.import_tasks: locale.yml
+  tags: [locale]
+
+- name: Configure fstab and labels
+  ansible.builtin.import_tasks: fstab.yml
+  tags: [fstab]
+
+- name: Configure intramfs
+  ansible.builtin.import_tasks: mkinitcpio.yml
+  tags: [mkinitcpio]
+
+- name: Configure systemd-boot
+  ansible.builtin.import_tasks: systemd_boot.yml
+  tags: [systemd_boot]
+
+- name: Configure SecureBoot
+  ansible.builtin.import_tasks: secure_boot.yml
+  tags: [secure_boot]
+
+- name: Enable services
+  ansible.builtin.import_tasks: services.yml
+  tags: [services]
+
+- name: User creation
+  ansible.builtin.import_tasks: user.yml
+  tags: [user]
+
+- name: Reboot archiso and ignore errors
+  ansible.builtin.command: reboot
+  changed_when: true
+  failed_when: false
