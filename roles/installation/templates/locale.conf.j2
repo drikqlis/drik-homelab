@@ -1,10 +1,10 @@
-LANG={{ system_language }}.UTF-8
+LANG={{ system_language if system_language == 'pl_PL' else 'en_GB' }}.UTF-8
 LC_CTYPE="pl_PL.UTF-8"
 LC_NUMERIC="pl_PL.UTF-8"
-LC_TIME="{{ system_language }}.UTF-8"
+LC_TIME="{{ system_language if system_language == 'pl_PL' else 'en_GB' }}.UTF-8"
 LC_COLLATE="pl_PL.UTF-8"
 LC_MONETARY="pl_PL.UTF-8"
-LC_MESSAGES="{{ system_language }}.UTF-8"
+LC_MESSAGES="{{ system_language if system_language == 'pl_PL' else 'en_GB' }}.UTF-8"
 LC_PAPER="pl_PL.UTF-8"
 LC_NAME="pl_PL.UTF-8"
 LC_ADDRESS="pl_PL.UTF-8"
