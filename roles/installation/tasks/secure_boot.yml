@@ -47,3 +47,5 @@
   loop:
     - /efi/EFI/Linux/arch-linux.efi
     - /efi/EFI/Linux/arch-linux-fallback.efi
+    - /efi/EFI/BOOT/BOOTX64.EFI
+    - /efi/EFI/systemd/systemd-bootx64.efi
