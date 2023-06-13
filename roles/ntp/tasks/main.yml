@@ -1,9 +1,9 @@
 ---
 
 - name: Enable timesyncd service
-  systemd:
+  ansible.builtin.systemd:
     name: systemd-timesyncd
     state: started
     enabled: true
   notify:
-      - Run timedatectl
+    - Run timedatectl
