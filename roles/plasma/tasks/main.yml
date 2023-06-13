@@ -1,113 +1,109 @@
 ---
 
-- block:
+- name: Ensure packages are updated
+  community.general.pacman:
+    update_cache: true
+    upgrade: true
 
-  - name: Ensure packages are updated
-    pacman:
-      update_cache: yes
-      upgrade: yes
+- name: Ensure plasma is installed
+  community.general.pacman:
+    name:
+      - plasma
+      - plasma-wayland-session
+      - kdenetwork-filesharing
+      - kio-fuse
+      - kdeconnect
+      - sshfs
+      - avahi
+      - ark
+      - unrar
+      - p7zip
+      - kate
+      - okular
+      - kcalc
+      - konsole
+      - kwalletmanager
+      - print-manager
+      - krita
+      - firefox
+      - dolphin
+      - gwenview
+      - hunspell
+      - hunspell-pl
+      - hunspell-en_us
+      - noto-fonts
+      - noto-fonts-emoji
+      - noto-fonts-cjk
+      - ttf-dejavu
+      - ttf-liberation
+      - ttf-opensans
+      - partitionmanager
+      - power-profiles-daemon
+      - filelight
+      - pipewire
+      - pipewire-alsa
+      - pipewire-jack
+      - pipewire-pulse
+      - xdg-desktop-portal
+      - xdg-desktop-portal-kde
+      - xdg-desktop-portal-gtk
+      - gnome-settings-daemon
+      - gsettings-desktop-schemas
+      - gsettings-qt
+      - plasma-browser-integration
+      - spectacle
+      - skanpage
+      - kdegraphics-thumbnailers
+      - kimageformats
+      - qt5-imageformats
+      - kdesdk-thumbnailers
+      - ffmpegthumbs
+    state: present
 
-  - name: Ensure plasma is installed
-    pacman:
-      name:
-        - plasma
-        - plasma-wayland-session
-        - kdenetwork-filesharing
-        - kio-fuse
-        - kdeconnect
-        - sshfs
-        - avahi
-        - ark
-        - unrar
-        - p7zip
-        - kate
-        - okular
-        - kcalc
-        - konsole
-        - kwalletmanager
-        - print-manager
-        - krita
-        - firefox
-        - dolphin
-        - gwenview
-        - hunspell
-        - hunspell-pl
-        - hunspell-en_us
-        - noto-fonts
-        - noto-fonts-emoji
-        - noto-fonts-cjk
-        - ttf-dejavu
-        - ttf-liberation
-        - ttf-opensans
-        - partitionmanager
-        - power-profiles-daemon
-        - filelight
-        - pipewire
-        - pipewire-alsa
-        - pipewire-jack
-        - pipewire-pulse
-        - xdg-desktop-portal
-        - xdg-desktop-portal-kde
-        - xdg-desktop-portal-gtk
-        - gnome-settings-daemon
-        - gsettings-desktop-schemas
-        - gsettings-qt
-        - plasma-browser-integration
-        - spectacle
-        - skanpage
-        - kdegraphics-thumbnailers
-        - kimageformats
-        - qt5-imageformats
-        - kdesdk-thumbnailers
-        - ffmpegthumbs
-      state: present
+- name: Use GTK portal
+  ansible.builtin.lineinfile:
+    path: /etc/environment
+    line: GTK_USE_PORTAL=1
 
-  - name: Use GTK portal
-    lineinfile:
-      path: /etc/environment
-      line: GTK_USE_PORTAL=1
+- name: Enable avahi service (network discovery)
+  ansible.builtin.systemd:
+    name: avahi-daemon
+    state: started
+    enabled: true
 
-  - name: Enable avahi service (network discovery)
-    systemd:
-      name: avahi-daemon
-      state: started
-      enabled: yes
+- name: Make sure gtk-2.0 dir exisits
+  ansible.builtin.file:
+    path: /etc/gtk-2.0
+    state: directory
+    mode: "0755"
+    owner: root
+    group: root
 
-  - name: Make sure gtk-2.0 dir exisits
-    file:
-      path: /etc/gtk-2.0
-      state: directory
-      mode: 0755
-      owner: root
-      group: root
+- name: Make sure gtk-3.0 dir exisits
+  ansible.builtin.file:
+    path: /etc/gtk-3.0
+    state: directory
+    mode: "0755"
+    owner: root
+    group: root
 
-  - name: Make sure gtk-3.0 dir exisits
-    file:
-      path: /etc/gtk-3.0
-      state: directory
-      mode: 0755
-      owner: root
-      group: root
+- name: Symlink gtkrc (dark mode for sudo apps)
+  ansible.builtin.file:
+    src: /home/{{ user_name }}/.gtkrc-2.0
+    dest: /etc/gtk-2.0/gtkrc
+    state: link
+    force: true
 
-  - name: Symlink gtkrc (dark mode for sudo apps)
-    file:
-      src: /home/{{ user_name }}/.gtkrc-2.0
-      dest: /etc/gtk-2.0/gtkrc
-      state: link
-      force: yes
+- name: Symlink settings.ini (dark mode for sudo apps part two)
+  ansible.builtin.file:
+    src: /home/{{ user_name }}/.config/gtk-3.0/settings.ini
+    dest: /etc/gtk-3.0/settings.ini
+    state: link
+    force: true
 
-  - name: Symlink settings.ini (dark mode for sudo apps part two)
-    file:
-      src: /home/{{ user_name }}/.config/gtk-3.0/settings.ini
-      dest: /etc/gtk-3.0/settings.ini
-      state: link
-      force: yes
-
-  - name: Symlink Trolltech.conf (dark mode for sudo apps part three)
-    file:
-      src: /home/{{ user_name }}/.config/Trolltech.conf
-      dest: /etc/xdg/Trolltech.conf
-      state: link
-      force: yes
-
-  become: yes
+- name: Symlink Trolltech.conf (dark mode for sudo apps part three)
+  ansible.builtin.file:
+    src: /home/{{ user_name }}/.config/Trolltech.conf
+    dest: /etc/xdg/Trolltech.conf
+    state: link
+    force: true

@@ -1,48 +1,47 @@
 ---
 
-- block:
+- name: Ensure packages and cache are updated
+  community.general.pacman:
+    update_cache: true
+    upgrade: true
 
-  - name: Ensure packages and cache are updated
-    pacman:
-      update_cache: yes
-      upgrade: yes
+- name: Ensure ufw is installed
+  community.general.pacman:
+    name:
+      - ufw
+    state: present
 
-  - name: Ensure ufw is installed
-    pacman:
-      name:
-        - ufw
-      state: present
+- name: Configure ufw defaults
+  community.general.ufw:
+    direction: "{{ item.direction }}"
+    policy: "{{ item.policy }}"
+  with_items:
+    - { direction: 'incoming', policy: 'deny' }
+    - { direction: 'outgoing', policy: 'allow' }
+  notify:
+    - Restart ufw
 
-  - name: Configure ufw defaults
-    ufw: direction={{ item.direction }} policy={{ item.policy }}
-    with_items:
-      - { direction: 'incoming', policy: 'deny' }
-      - { direction: 'outgoing', policy: 'allow' }
-    notify:
-      - restart-ufw
+- name: Configure ufw rules
+  community.general.ufw:
+    rule: limit
+    port: 22
+    proto: tcp
+    src: 192.168.0.0/16
+  notify:
+    - Restart ufw
 
-  - name: Configure ufw rules
-    ufw:
-      rule: limit
-      port: 22
-      proto: tcp
-      src: 192.168.0.0/16
-    notify:
-      - restart-ufw
+- name: Enable ufw logging
+  community.general.ufw:
+    logging: true
+  notify:
+    - Restart ufw
 
-  - name: Enable ufw logging
-    ufw: logging=on
-    notify:
-      - restart-ufw
+- name: Enable ufw
+  community.general.ufw:
+    state: enabled
 
-  - name: Enable ufw
-    ufw:
-      state: enabled
-
-  - name: Enable ufw service
-    systemd:
-      name: ufw
-      state: started
-      enabled: yes
-
-  become: yes
+- name: Enable ufw service
+  ansible.builtin.systemd:
+    name: ufw
+    state: started
+    enabled: true

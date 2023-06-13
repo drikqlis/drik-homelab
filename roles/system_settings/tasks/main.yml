@@ -1,31 +1,31 @@
 ---
 
 - name: Set kdeglobals (global theme, single click, file dialog)
-  copy:
+  ansible.builtin.copy:
     src: kdeglobals
     dest: /home/{{ user_name }}/.config/kdeglobals
-    mode: 0600
+    mode: "0600"
     owner: "{{ user_name }}"
     group: "{{ user_name }}"
 
 - name: Set kwinrc (disable border buttons, borderless maximized, meta shortcut to krunner, night color)
-  copy:
+  ansible.builtin.copy:
     src: kwinrc
     dest: /home/{{ user_name }}/.config/kwinrc
-    mode: 0600
+    mode: "0600"
     owner: "{{ user_name }}"
     group: "{{ user_name }}"
 
 - name: Set khotkeysrc (type-clip, system monitor)
-  copy:
+  ansible.builtin.copy:
     src: khotkeysrc
     dest: /home/{{ user_name }}/.config/khotkeysrc
-    mode: 0600
+    mode: "0600"
     owner: "{{ user_name }}"
     group: "{{ user_name }}"
 
 - name: Delete junk home folders
-  file:
+  ansible.builtin.file:
     path: /home/{{ user_name }}/{{ item }}
     state: absent
   loop:
@@ -41,109 +41,109 @@
     - Publiczne
 
 - name: Disable browser integration reminder service
-  replace:
+  ansible.builtin.replace:
     path: /home/{{ user_name }}/.config/kded5rc
     regexp: '^\[Module-browserintegrationreminder\]\nautoload=.*'
     replace: '[Module-browserintegrationreminder]\nautoload=false'
-  register: result
-  ignore_errors: yes
+  register: system_settings_replace_result
+  ignore_errors: true
   changed_when:
-    - 'result.msg is defined or result.changed == true'
+    - 'system_settings_replace_result.msg is defined or system_settings_replace_result.changed == true'
   failed_when: false
-  notify: set-kded5rc
+  notify: Set kded5rc
 
 - name: Set ksmserverrc (confirm logout off, start with empty session)
-  copy:
+  ansible.builtin.copy:
     src: ksmserverrc
     dest: /home/{{ user_name }}/.config/ksmserverrc
-    mode: 0600
+    mode: "0600"
     owner: "{{ user_name }}"
     group: "{{ user_name }}"
 
 - name: Set krunnerrc (disable browser history, tabs and bookmarks search)
-  copy:
+  ansible.builtin.copy:
     src: krunnerrc
     dest: /home/{{ user_name }}/.config/krunnerrc
-    mode: 0600
+    mode: "0600"
     owner: "{{ user_name }}"
     group: "{{ user_name }}"
 
 - name: Make sure KDE dir exists
-  file:
+  ansible.builtin.file:
     path: /home/{{ user_name }}/.config/KDE
     state: directory
-    mode: 0755
+    mode: "0755"
     owner: "{{ user_name }}"
     group: "{{ user_name }}"
 
 - name: Set Sonnet.conf (spell check settings)
-  copy:
+  ansible.builtin.copy:
     src: Sonnet.conf
     dest: /home/{{ user_name }}/.config/KDE/Sonnet.conf
-    mode: 0644
+    mode: "0644"
     owner: "{{ user_name }}"
     group: "{{ user_name }}"
 
 - name: Set kcminputrc (numlock on startup, mouse acceleration)
-  copy:
+  ansible.builtin.copy:
     src: kcminputrc
     dest: /home/{{ user_name }}/.config/kcminputrc
-    mode: 0600
+    mode: "0600"
     owner: "{{ user_name }}"
     group: "{{ user_name }}"
 
 - name: Set kxkbrc (keyboard layouts)
-  copy:
+  ansible.builtin.copy:
     src: kxkbrc
     dest: /home/{{ user_name }}/.config/kxkbrc
-    mode: 0600
+    mode: "0600"
     owner: "{{ user_name }}"
     group: "{{ user_name }}"
 
 - name: Set klipperrc (clipboard settings)
-  copy:
+  ansible.builtin.copy:
     src: klipperrc
     dest: /home/{{ user_name }}/.config/klipperrc
-    mode: 0600
+    mode: "0600"
     owner: "{{ user_name }}"
     group: "{{ user_name }}"
 
 - name: Set powermanagementprofilesrc (power settings)
-  copy:
+  ansible.builtin.copy:
     src: powermanagementprofilesrc
     dest: /home/{{ user_name }}/.config/powermanagementprofilesrc
-    mode: 0600
+    mode: "0600"
     owner: "{{ user_name }}"
     group: "{{ user_name }}"
 
 - name: Set xdg-desktop-portal-kderc (file dialog for Firefox etc)
-  copy:
+  ansible.builtin.copy:
     src: xdg-desktop-portal-kderc
     dest: /home/{{ user_name }}/.config/xdg-desktop-portal-kderc
-    mode: 0600
+    mode: "0600"
     owner: "{{ user_name }}"
     group: "{{ user_name }}"
 
 - name: Set xdg-desktop-portal-kderc (file dialog for Firefox etc)
-  copy:
+  ansible.builtin.copy:
     src: plasmashellrc
     dest: /home/{{ user_name }}/.config/plasmashellrc
-    mode: 0600
+    mode: "0600"
     owner: "{{ user_name }}"
     group: "{{ user_name }}"
 
 - name: Set xdg-desktop-portal-kderc (file dialog for Firefox etc)
-  copy:
+  ansible.builtin.copy:
     src: systemsettingsrc
     dest: /home/{{ user_name }}/.config/systemsettingsrc
-    mode: 0600
+    mode: "0600"
     owner: "{{ user_name }}"
     group: "{{ user_name }}"
 
 - name: Set kritarc (file dialog for Krita)
-  copy:
+  ansible.builtin.copy:
     src: kritarc
     dest: /home/{{ user_name }}/.config/kritarc
-    mode: 0600
+    mode: "0600"
     owner: "{{ user_name }}"
     group: "{{ user_name }}"

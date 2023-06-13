@@ -1,23 +1,23 @@
 ---
 
 - name: Make sure systemd user dir exists
-  file:
+  ansible.builtin.file:
     path: /home/{{ user_name }}/.config/systemd/user
     state: directory
-    mode: 0755
+    mode: "0755"
     owner: "{{ user_name }}"
     group: "{{ user_name }}"
 
 - name: Set ssh-agent service
-  copy:
+  ansible.builtin.copy:
     src: ssh-agent.service
     dest: /home/{{ user_name }}/.config/systemd/user/ssh-agent.service
-    mode: 0644
+    mode: "0644"
     owner: "{{ user_name }}"
     group: "{{ user_name }}"
 
 - name: Add required ENV variables
-  blockinfile:
+  ansible.builtin.blockinfile:
     path: /home/{{ user_name }}/.bash_profile
     insertbefore: EOF
     block: |
@@ -26,26 +26,20 @@
       export SSH_ASKPASS='/usr/bin/ksshaskpass'
 
 - name: Enable ssh-agent service
-  systemd:
+  ansible.builtin.systemd:
     name: ssh-agent
     state: started
-    enabled: yes
+    enabled: true
     scope: user
 
-#- name: Add ssh-add to autostart (ed25519)
-#  copy:
-#    content: |
-#      [Desktop Entry]
-#      Exec=ssh-add -q ~/.ssh/id_ed25519
-#      Name=ssh-add
-#      Type=Application
-#    dest: nano ~/.config/autostart/ssh-add-ed25519.desktop
-
-- name: Add ssh-add to autostart (rsa)
-  copy:
+- name: Add ssh-add to autostart
+  ansible.builtin.copy:
     content: |
       [Desktop Entry]
-      Exec=ssh-add -q ~/.ssh/id_rsa
+      Exec=ssh-add -q ~/.ssh/{{ ssh_key_name }}
       Name=ssh-add
       Type=Application
-    dest: /home/{{ user_name }}/.config/autostart/ssh-add-rsa.desktop
+    dest: nano /home/{{ user_name }}/.config/autostart/ssh-add.desktop
+    mode: "0644"
+    owner: "{{ user_name }}"
+    group: "{{ user_name }}"

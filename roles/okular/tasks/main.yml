@@ -1,33 +1,28 @@
 ---
 
-- block:
+- name: Ensure packages are updated
+  community.general.pacman:
+    update_cache: true
+    upgrade: true
 
-  - name: Ensure packages are updated
-    pacman:
-      update_cache: yes
-      upgrade: yes
-
-  - name: Ensure okular is installed
-    pacman:
-      name:
-        - okular
-      state: present
-
-  become: yes
+- name: Ensure okular is installed
+  community.general.pacman:
+    name:
+      - okular
+    state: present
 
 - name: Set okularrc (okular settings)
-  copy:
+  ansible.builtin.copy:
     src: okularrc
     dest: /home/{{ user_name }}/.config/okularrc
-    mode: 0600
+    mode: "0600"
     owner: "{{ user_name }}"
     group: "{{ user_name }}"
 
 - name: Set okularpartrc (okular settings)
-  copy:
+  ansible.builtin.copy:
     src: okularpartrc
     dest: /home/{{ user_name }}/.config/okularpartrc
-    mode: 0600
+    mode: "0600"
     owner: "{{ user_name }}"
     group: "{{ user_name }}"
-

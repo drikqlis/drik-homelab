@@ -1,38 +1,34 @@
 ---
 
-- block:
+- name: Ensure packages are updated
+  community.general.pacman:
+    update_cache: true
+    upgrade: true
 
-  - name: Ensure packages are updated
-    pacman:
-      update_cache: yes
-      upgrade: yes
+- name: Ensure signal is installed
+  community.general.pacman:
+    name:
+      - signal-desktop
+    state: present
 
-  - name: Ensure signal is installed
-    pacman:
-      name:
-        - signal-desktop
-      state: present
-
-  - name: Edit signal-desktop shortcut to start to tray
-    replace:
-      path: /usr/share/applications/signal-desktop.desktop
-      regexp: '^Exec=.*'
-      replace: 'Exec=LC_ALL=pl signal-desktop --use-tray-icon --start-in-tray -- %u'
-
-  become: yes
+- name: Edit signal-desktop shortcut to start to tray
+  ansible.builtin.replace:
+    path: /usr/share/applications/signal-desktop.desktop
+    regexp: '^Exec=.*'
+    replace: 'Exec=LC_ALL=pl signal-desktop --use-tray-icon --start-in-tray -- %u'
 
 - name: Make sure autostart dir exists
-  file:
+  ansible.builtin.file:
     path: /home/{{ user_name }}/.config/autostart
     state: directory
-    mode: 0755
+    mode: "0755"
     owner: "{{ user_name }}"
     group: "{{ user_name }}"
 
 - name: Autostart signal
-  copy:
+  ansible.builtin.copy:
     src: signal-desktop.desktop
     dest: /home/{{ user_name }}/.config/autostart/signal-desktop.desktop
-    mode: 0644
+    mode: "0644"
     owner: "{{ user_name }}"
     group: "{{ user_name }}"

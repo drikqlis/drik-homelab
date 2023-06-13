@@ -1,66 +1,62 @@
 ---
 
-- block:
+- name: Ensure multilib repo is added
+  ansible.builtin.replace:
+    path: /etc/pacman.conf
+    regexp: '^#?\[multilib\]\n#?Include.*'
+    replace: '[multilib]\nInclude = /etc/pacman.d/mirrorlist'
 
-  - name: Ensure multilib repo is added
-    replace:
-      path: /etc/pacman.conf
-      regexp: '^#?\[multilib\]\n#?Include.*'
-      replace: '[multilib]\nInclude = /etc/pacman.d/mirrorlist'
+- name: Ensure packages are updated
+  community.general.pacman:
+    update_cache: true
+    upgrade: true
 
-  - name: Ensure packages are updated
-    pacman:
-      update_cache: yes
-      upgrade: yes
+- name: Ensure steam and other packages are installed
+  community.general.pacman:
+    name:
+      - lib32-mesa
+      - steam
+      - libstrangle-git
+      - lib32-gamemode
+      - gamemode
+      - proton-ge-custom-bin
+      - lib32-gnutls
+      - lib32-libldap
+      - lib32-libgpg-error
+      - lib32-sqlite
+      - lib32-libpulse
+      - lib32-alsa-plugins
+    state: present
 
-  - name: Ensure steam and other packages are installed
-    pacman:
-      name:
-        - lib32-mesa
-        - steam
-        - libstrangle-git
-        - lib32-gamemode
-        - gamemode
-        - proton-ge-custom-bin
-        - lib32-gnutls
-        - lib32-libldap
-        - lib32-libgpg-error
-        - lib32-sqlite
-        - lib32-libpulse
-        - lib32-alsa-plugins
-      state: present
+- name: Additional packages for nvidia
+  community.general.pacman:
+    name:
+      - lib32-nvidia-utils
+    state: present
+  when:
+    - gpu_manufacturer == "nvidia"
 
-  - name: Additional packages for nvidia
-    pacman:
-      name:
-        - lib32-nvidia-utils
-      state: present
-    when:
-      - gpu_manufacturer == "nvidia"
+- name: Ensure gamemode group exists
+  ansible.builtin.group:
+    name: gamemode
+    state: present
 
-  - name: Ensure gamemode group exists
-    group:
-      name: gamemode
-      state: present
+- name: Add user to gamemode group
+  ansible.builtin.user:
+    name: "{{ user_name }}"
+    groups: gamemode
+    append: true
 
-  - name: Add user to gamemode group
-    user:
-      name: "{{ user_name }}"
-      groups: gamemode
-      append: yes
-
-  - name: Add user to games group
-    user:
-      name: "{{ user_name }}"
-      groups: games
-      append: yes
-
-  become: yes
+- name: Add user to games group
+  ansible.builtin.user:
+    name: "{{ user_name }}"
+    groups: games
+    append: true
 
 - name: Make sure gamemode config is correct
-  copy:
+  ansible.builtin.copy:
     src: gamemode.ini
     dest: /home/{{ user_name }}/.config/gamemode.ini
-    mode: 0644
+    mode: "0644"
     owner: "{{ user_name }}"
     group: "{{ user_name }}"

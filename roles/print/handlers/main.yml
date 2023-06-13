@@ -1,5 +1,6 @@
 ---
 
-- name: set-papersize
-  command: paperconfig -p a4
-  become: yes
+- name: Set papersize
+  ansible.builtin.command: paperconfig -p a4
+  changed_when: true
+  become: true

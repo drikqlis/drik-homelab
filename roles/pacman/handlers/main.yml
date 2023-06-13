@@ -1,11 +1,11 @@
 ---
 
-- name: run-reflector
-  systemd:
+- name: Run reflector
+  ansible.builtin.systemd:
     name: reflector
     state: started
-  become: yes
+  become: true
 
-- name: daemon-reload
-  systemd:
+- name: Daemon reload
+  ansible.builtin.systemd:
     daemon_reload: true

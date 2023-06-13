@@ -1,61 +1,58 @@
 ---
 
-- block:
+- name: Ensure packages are updated
+  community.general.pacman:
+    update_cache: true
+    upgrade: true
 
-  - name: Ensure packages are updated
-    pacman:
-      update_cache: yes
-      upgrade: yes
+- name: Ensure sddm and xdotool are installed
+  community.general.pacman:
+    name:
+      - sddm
+      - xdotool
+    state: present
 
-  - name: Ensure sddm and xdotool are installed
-    pacman:
-      name:
-        - sddm
-        - xdotool
-      state: present
+- name: Make sure sddm.conf.d dir exisits
+  ansible.builtin.file:
+    path: /etc/sddm.conf.d
+    state: directory
+    mode: "0755"
+    owner: root
+    group: root
 
-  - name: Make sure sddm.conf.d dir exisits
-    file:
-      path: /etc/sddm.conf.d
-      state: directory
-      mode: 0755
-      owner: root
-      group: root
+- name: Apply temp settings for sddm to autologin once
+  ansible.builtin.template:
+    src: kde_settings.conf.j2
+    dest: /etc/sddm.conf.d/kde_settings.conf
+    mode: "0644"
+    owner: root
+    group: root
 
-  - name: Apply temp settings for sddm to autologin once
-    template:
-      src: kde_settings.conf.j2
-      dest: /etc/sddm.conf.d/kde_settings.conf
-      mode: 0644
-      owner: root
-      group: root
+- name: Enable sddm service
+  ansible.builtin.systemd:
+    name: sddm
+    state: started
+    enabled: true
 
-  - name: Enable sddm service
-    systemd:
-      name: sddm
-      state: started
-      enabled: yes
+- name: Reboot and autologin to generate config files
+  ansible.builtin.reboot:
 
-  - name: Reboot and autologin to generate config files
-    reboot:
+- name: Ensure correct sddm kde settings are applied
+  ansible.builtin.copy:
+    src: kde_settings.conf
+    dest: /etc/sddm.conf.d/kde_settings.conf
+    mode: "0644"
+    owner: root
+    group: root
 
-  - name: Ensure correct sddm kde settings are applied
-    copy:
-      src: kde_settings.conf
-      dest: /etc/sddm.conf.d/kde_settings.conf
-      mode: 0644
-      owner: root
-      group: root
+- name: Ensure correct sddm kde settings are applied
+  ansible.builtin.template:
+    src: sddm_sync.sh.j2
+    dest: /tmp/sddm_sync.sh
+    mode: "0755"
+    owner: root
+    group: root
 
-  - name: Ensure correct sddm kde settings are applied
-    template:
-      src: sddm_sync.sh.j2
-      dest: /tmp/sddm_sync.sh
-      mode: 0755
-      owner: root
-      group: root
-
-  - name: Run sddm sync script
-    shell: /tmp/sddm_sync.sh
-
-  become: yes
+- name: Run sddm sync script # noqa command-instead-of-shell
+  ansible.builtin.shell: /tmp/sddm_sync.sh
+  changed_when: true

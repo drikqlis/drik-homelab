@@ -1,58 +1,58 @@
 ---
 
-- block:
+- name: Ensure packages are updated
+  community.general.pacman:
+    update_cache: true
+    upgrade: true
 
-  - name: Ensure packages are updated
-    pacman:
-      update_cache: yes
-      upgrade: yes
-
-  - name: Ensure remmina and optional dependencies are installed
-    pacman:
-      name:
-        - remmina
-        - freerdp
-        - libvncserver
-      state: present
-
-  become: yes
+- name: Ensure remmina and optional dependencies are installed
+  community.general.pacman:
+    name:
+      - remmina
+      - freerdp
+      - libvncserver
+    state: present
 
 - name: Make sure remmina dir exisits
-  file:
+  ansible.builtin.file:
     path: /home/{{ user_name }}/.config/remmina
     state: directory
-    mode: 0755
+    mode: "0755"
     owner: "{{ user_name }}"
     group: "{{ user_name }}"
 
 - name: Ensure remmina preferences are set
-  template:
+  ansible.builtin.template:
     src: remmina.perf.j2
     dest: /home/{{ user_name }}/.config/remmina/remmina.pref
-    mode: 0644
+    mode: "0644"
     owner: "{{ user_name }}"
     group: "{{ user_name }}"
 
 - name: Make sure user connections are copied if they exist
-  copy:
+  ansible.builtin.copy:
     src: "users/{{ user_name }}/remmina/"
     dest: /home/{{ user_name }}/.local/share/remmina/
+    owner: "{{ user_name }}"
+    group: "{{ user_name }}"
+    mode: "0644"
   when:
     - remmina_dir is directory
 
 - name: Make sure autostart dir exists
-  file:
+  ansible.builtin.file:
     path: /home/{{ user_name }}/.config/autostart
     state: directory
-    mode: 0755
+    mode: "0755"
     owner: "{{ user_name }}"
     group: "{{ user_name }}"
+  when: remmina_autostart
 
 - name: Autostart remmina
-  copy:
+  ansible.builtin.copy:
     src: remmina-applet.desktop
     dest: /home/{{ user_name }}/.config/autostart/remmina-applet.desktop
-    mode: 0644
+    mode: "0644"
     owner: "{{ user_name }}"
     group: "{{ user_name }}"
-
+  when: remmina_autostart

@@ -1,36 +1,30 @@
 ---
 
-- block:
+- name: Ensure packages are updated
+  community.general.pacman:
+    update_cache: true
+    upgrade: true
 
-  - name: Ensure packages are updated
-    pacman:
-      update_cache: yes
-      upgrade: yes
-
-  - name: Ensure spectacle is installed
-    pacman:
-      name:
-        - spectacle
-      state: present
-
-  become: yes
+- name: Ensure spectacle is installed
+  community.general.pacman:
+    name:
+      - spectacle
+    state: present
 
 - name: Set spectaclerc (spectacle settings)
-  template:
+  ansible.builtin.template:
     src: spectaclerc.j2
     dest: /home/{{ user_name }}/.config/spectaclerc
-    mode: 0600
+    mode: "0600"
     owner: "{{ user_name }}"
     group: "{{ user_name }}"
 
-
 - name: Change spectacle shortcuts
-  lineinfile:
+  ansible.builtin.lineinfile:
     dest: /home/{{ user_name }}/.config/kglobalshortcutsrc
     regexp: "{{ item.regex }}"
     line: "{{ item.line }}"
-    backrefs: yes
+    backrefs: true
   loop:
     - {regex: "RectangularRegionScreenShot=", line: "RectangularRegionScreenShot=Meta+Shift+S,Meta+Shift+Print,Capture Rectangular Region"}
     - {regex: "WindowUnderCursorScreenShot=", line: "WindowUnderCursorScreenShot=Meta+Ctrl+S,Meta+Ctrl+Print,Capture Window Under Cursor"}
-

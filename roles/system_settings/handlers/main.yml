@@ -1,11 +1,10 @@
 ---
 
-- name: set-kded5rc
-  copy:
+- name: Set kded5rc
+  ansible.builtin.copy:
     src: kded5rc
     dest: /home/{{ user_name }}/.config/kded5rc
-    mode: 0600
+    mode: "0600"
     owner: "{{ user_name }}"
     group: "{{ user_name }}"
-  when: 'result.msg is defined'
-
+  when: 'system_settings_replace_result.msg is defined'

@@ -1,5 +1,5 @@
 ---
 
-- name: run-timedatectl
-  command: timedatectl set-ntp true
-  become: yes
+- name: Run timedatectl
+  ansible.builtin.command: timedatectl set-ntp true
+  changed_when: true
