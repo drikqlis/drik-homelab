@@ -1,27 +1,27 @@
 ---
 
 - name: Delete user cache
-  file:
+  ansible.builtin.file:
     path: /home/{{ user_name }}/.cache
     state: absent
 
 - name: Recrate user cache folder
-  file:
+  ansible.builtin.file:
     path: /home/{{ user_name }}/.cache
     state: directory
-    mode: 0755
+    mode: "0755"
     owner: "{{ user_name }}"
     group: "{{ user_name }}"
 
 - name: Delete SDDM cache
-  file:
+  ansible.builtin.file:
     path: /var/lib/sddm/.cache
     state: absent
 
 - name: Recrate SDDM cache folder
-  file:
+  ansible.builtin.file:
     path: /var/lib/sddm/.cache
     state: directory
-    mode: 0755
+    mode: "0755"
     owner: sddm
     group: sddm
