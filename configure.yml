@@ -32,11 +32,6 @@
     - name: GUI configuration
       when: host_type != "vm"
       block:
-        - name: Fonts configuration
-          ansible.builtin.import_role:
-            name: fonts
-          tags: [fonts]
-
         - name: Plasma configuration
           ansible.builtin.import_role:
             name: plasma
@@ -46,11 +41,6 @@
           ansible.builtin.import_role:
             name: sddm
           tags: [sddm]
-
-        - name: Latte configuration
-          ansible.builtin.import_role:
-            name: latte
-          tags: [latte]
 
         - name: KDEconnect configuration
           ansible.builtin.import_role:
