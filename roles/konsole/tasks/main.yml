@@ -1,37 +1,37 @@
 ---
 
 - name: Ensure packages are updated
-  pacman:
+  community.general.pacman:
     update_cache: true
     upgrade: true
 
 - name: Ensure konsole is installed
-  pacman:
+  community.general.pacman:
     name:
       - konsole
     state: present
 
 - name: Set konsolerc (konsole settings)
-  copy:
+  ansible.builtin.copy:
     src: konsolerc
     dest: /home/{{ user_name }}/.config/konsolerc
-    mode: 0600
+    mode: "0600"
     owner: "{{ user_name }}"
     group: "{{ user_name }}"
 
 - name: Make sure konsole directory exists
-  file:
+  ansible.builtin.file:
     path: /home/{{ user_name }}/.local/share/konsole
     state: directory
-    mode: 0755
+    mode: "0755"
     owner: "{{ user_name }}"
     group: "{{ user_name }}"
     recurse: true
 
 - name: Set custom.profile (scrolling settings)
-  copy:
+  ansible.builtin.copy:
     src: custom.profile
     dest: /home/{{ user_name }}/.local/share/konsole/custom.profile
-    mode: 0600
+    mode: "0600"
     owner: "{{ user_name }}"
     group: "{{ user_name }}"
