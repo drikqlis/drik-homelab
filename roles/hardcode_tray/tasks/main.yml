@@ -1,12 +1,12 @@
 ---
 
 - name: Ensure packages are updated
-  pacman:
+  community.general.pacman:
     update_cache: true
     upgrade: true
 
 - name: Ensure hardcode-tray and icons are installed
-  pacman:
+  community.general.pacman:
     name:
       - hardcode-tray-git
       - papirus-icon-theme
@@ -14,10 +14,10 @@
     state: present
 
 - name: Make sure drik-dark icon theme is present
-  copy:
+  ansible.builtin.copy:
     src: drik-dark
     dest: /usr/share/icons
-    mode: 0755
+    mode: "0755"
     owner: root
     group: root
   notify: Update tray

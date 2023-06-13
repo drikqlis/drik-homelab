@@ -1,4 +1,5 @@
 ---
 
 - name: Update tray
-  command: 'hardcode-tray --conversion-tool RSVGConvert --change-color "#dfdfdf #fcfcfc" --size 22 --theme Papirus-Dark --apply'
+  ansible.builtin.command: 'hardcode-tray --conversion-tool RSVGConvert --change-color "#dfdfdf #fcfcfc" --size 22 --theme Papirus-Dark --apply'
+  changed_when: true
