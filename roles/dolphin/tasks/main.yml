@@ -1,51 +1,51 @@
 ---
 
 - name: Ensure packages are updated
-  pacman:
+  community.general.pacman:
     update_cache: true
     upgrade: true
 
 - name: Ensure dolphin is installed
-  pacman:
+  community.general.pacman:
     name:
       - dolphin
     state: present
 
 - name: Set dolphinrc (dolphin settings)
-  copy:
+  ansible.builtin.copy:
     src: dolphinrc
     dest: /home/{{ user_name }}/.config/dolphinrc
     owner: "{{ user_name }}"
     group: "{{ user_name }}"
-    mode: 0600
+    mode: "0600"
 
 - name: Ensure view_properties directory exists
-  file:
+  ansible.builtin.file:
     path: /home/{{ user_name }}/.local/share/dolphin/view_properties/global/
     state: directory
     owner: "{{ user_name }}"
     group: "{{ user_name }}"
-    mode: 0755
+    mode: "0755"
     recurse: true
 
 - name: Set dolphistaterc (dolphin state)
-  copy:
+  ansible.builtin.copy:
     src: dolphinstaterc
     dest: /home/{{ user_name }}/.local/share/dolphin/dolphinstaterc
     owner: "{{ user_name }}"
     group: "{{ user_name }}"
-    mode: 0600
+    mode: "0600"
 
 - name: Set view mode to details in dolphin
-  copy:
+  ansible.builtin.copy:
     src: directory
     dest: /home/{{ user_name }}/.local/share/dolphin/view_properties/global/.directory
     owner: "{{ user_name }}"
     group: "{{ user_name }}"
-    mode: 0600
+    mode: "0600"
 
 - name: Hide unused items in places (dolphin)
-  xml:
+  community.general.xml:
     path: /home/{{ user_name }}/.local/share/user-places.xbel
     xpath: "{{ item }}"
     value: "true"
@@ -54,7 +54,7 @@
     - /xbel/info/metadata/GroupState-SearchFor-IsHidden
 
 - name: Delete junk folders from places
-  xml:
+  community.general.xml:
     path: /home/{{ user_name }}/.local/share/user-places.xbel
     xpath: "{{ item }}"
     state: absent
@@ -67,20 +67,20 @@
     - /xbel/bookmark[title='Wideo']
 
 - name: Hide duplicate disk in places
-  xml:
+  community.general.xml:
     path: /home/{{ user_name }}/.local/share/user-places.xbel
     xpath: /xbel/separator/info/metadata[UDI='/org/freedesktop/UDisks2/block_devices/dm_2d0']/IsHidden
     value: "true"
-  register: result
+  register: dolphin_xml_result
   changed_when:
-    - 'result.msg is defined or result.changed == true'
+    - 'dolphin_xml_result.msg is defined or dolphin_xml_result.changed == true'
   failed_when: false
   notify: Add block device
 
 - name: Set trash to no limit
-  template:
+  ansible.builtin.template:
     src: ktrashrc.j2
     dest: /home/{{ user_name }}/.config/ktrashrc
-    mode: 0600
+    mode: "0600"
     owner: "{{ user_name }}"
     group: "{{ user_name }}"

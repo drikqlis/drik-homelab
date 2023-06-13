@@ -1,7 +1,7 @@
 ---
 
 - name: Add block device
-  blockinfile:
+  ansible.builtin.blockinfile:
     path: /home/{{ user_name }}/.local/share/user-places.xbel
     insertbefore: </xbel>
     block: |
