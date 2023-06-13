@@ -1,33 +1,33 @@
 ---
 
 - name: Set kwalletmanager5rc (kdewallet manager settings)
-  copy:
+  ansible.builtin.copy:
     src: kwalletmanager5rc
     dest: /home/{{ user_name }}/.config/kwalletmanager5rc
-    mode: 0600
+    mode: "0600"
     owner: "{{ user_name }}"
     group: "{{ user_name }}"
 
 - name: Make sure kwalletd dir exists
-  file:
+  ansible.builtin.file:
     path: /home/{{ user_name }}/.local/share/kwalletd
     state: directory
-    mode: 0755
+    mode: "0755"
     owner: "{{ user_name }}"
     group: "{{ user_name }}"
 
 - name: Copy kdewallet.salt
-  copy:
+  ansible.builtin.copy:
     src: "users/{{ user_name }}/kdewallet.salt"
     dest: /home/{{ user_name }}/.local/share/kwalletd/kdewallet.salt
-    mode: 0644
+    mode: "0644"
     owner: "{{ user_name }}"
     group: "{{ user_name }}"
 
 - name: Copy kdewallet.kwl
-  copy:
+  ansible.builtin.copy:
     src: "users/{{ user_name }}/kdewallet.kwl"
     dest: /home/{{ user_name }}/.local/share/kwalletd/kdewallet.kwl
-    mode: 0600
+    mode: "0600"
     owner: "{{ user_name }}"
     group: "{{ user_name }}"
