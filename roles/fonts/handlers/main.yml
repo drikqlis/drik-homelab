@@ -1,4 +1,5 @@
 ---
 
 - name: Fc cache
-  command: fc-cache -fv
+  ansible.builtin.command: fc-cache -fv
+  changed_when: true
