@@ -12,7 +12,7 @@ Ansible playbooks for personalized Arch Linux install.
  8. Add host to inventory.
  9. Copy kdewallet.salt and kdewallet.kwl from `/home/{{ user_name }}/.local/share/kwalletd` to `files/users/{{ user_name }}` if importing from previous installation.
 10. Copy remmina connections from `/home/{{ user_name }}/.local/share/remmina/` to `files/users/{{ user_name }}/remmina` if importing from previous installation.
-11. Run installation playbook using `ansible-playbook install.yml -k --extra-vars "@host_vars/{{ hostname }}.yml"` command.
+11. Run installation playbook using `ansible-playbook install.yml -vD -k --extra-vars "@host_vars/{{ hostname }}.yml"` command.
 12. Enter passphrase to unlock system and wait for it to boot. It may be needed to clear DNS cache on Ansible machine using `resolvectl flush-caches`.
 13. Run post installation playbook using `ansible-playbook post_install.yml -l {{ hostname }}` command.
 14. You can run select roles by running coresponding tags, for example: `ansible-playbook post_install.yml -t sddm -l hostname`.
