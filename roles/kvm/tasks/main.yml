@@ -33,6 +33,12 @@
   ansible.builtin.reboot:
   when: kvm_libvirt_installed.changed
 
+- name: Allow host resolution
+  ansible.builtin.lineinfile:
+    dest: /etc/nsswitch.conf
+    regexp: "^hosts:"
+    line: "hosts: mymachines resolve [!UNAVAIL=return] files libvirt libvirt_guest myhostname dns"
+
 - name: Add main user to libvirt group
   ansible.builtin.user:
     name: "{{ user_name }}"
