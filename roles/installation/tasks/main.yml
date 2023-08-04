@@ -47,4 +47,4 @@
 - name: Reboot archiso and ignore errors
   ansible.builtin.command: reboot
   changed_when: true
-  failed_when: false
+  ignore_unreachable: true

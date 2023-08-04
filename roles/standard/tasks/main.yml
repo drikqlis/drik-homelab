@@ -36,7 +36,6 @@
       - vi
       - nano
       - sudo
-      - top
       - htop
       - networkmanager
       - e2fsprogs

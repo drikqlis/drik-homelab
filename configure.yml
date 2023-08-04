@@ -3,7 +3,6 @@
 - name: Post installation configration
   hosts: managed
   become: true
-
   tasks:
 
     - name: Basic configuration
