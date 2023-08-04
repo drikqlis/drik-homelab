@@ -29,7 +29,7 @@
           tags: [ufw]
 
     - name: GUI configuration
-      when: host_type != "vm"
+      when: host_type != "server"
       block:
         - name: Plasma configuration
           ansible.builtin.import_role:
@@ -68,7 +68,7 @@
           tags: [personal_apps]
 
     - name: GUI personalization
-      when: host_type != "vm"
+      when: host_type != "server"
       block:
         - name: System settings configuration
           ansible.builtin.import_role:

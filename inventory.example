@@ -15,16 +15,8 @@ ansible_become_password="{{ user_password_clear }}"
 
 [personal]
 
-[personal:vars]
-host_type=personal
-
 [work]
-
-[work:vars]
-host_type=work
 
 [vm]
 
-[vm:vars]
-host_type=vm
-gpu_manufacturer=virt
+[baremetal]
