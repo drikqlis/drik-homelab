@@ -2,3 +2,8 @@
 # kdewallet
 kdewallet_salt: "files/users/{{ user_name }}/kdewallet.salt"
 kdewallet_kwl: "files/users/{{ user_name }}/kdewallet.kwl"
+
+gui_enabled: false
+kvm_enabled: false
+
+lan_interface: eno1

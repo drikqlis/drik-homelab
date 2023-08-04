@@ -28,8 +28,14 @@
             name: ufw
           tags: [ufw]
 
+        - name: KVM configuration
+          ansible.builtin.import_role:
+            name: kvm
+          when: kvm_enabled
+          tags: [kvm]
+
     - name: GUI configuration
-      when: host_type != "server"
+      when: gui_enabled
       block:
         - name: Plasma configuration
           ansible.builtin.import_role:
@@ -68,7 +74,7 @@
           tags: [personal_apps]
 
     - name: GUI personalization
-      when: host_type != "server"
+      when: gui_enabled
       block:
         - name: System settings configuration
           ansible.builtin.import_role:

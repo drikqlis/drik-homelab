@@ -1,0 +1,5 @@
+---
+
+- name: Start bridge slave
+  ansible.builtin.command: nmcli connection up bridge-slave-{{ lan_interface }}
+  changed_when: true

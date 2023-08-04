@@ -1,3 +1,5 @@
 ---
 
 host_type: personal
+gui_enabled: true
+kvm_enabled: true
