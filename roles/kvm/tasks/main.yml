@@ -51,39 +51,42 @@
     state: started
     enabled: true
 
-- name: Remove default network
-  community.libvirt.virt_net:
-    state: absent
-    name: default
+- name: Kvm network
+  tags: kvm_bridge
+  block:
+    - name: Remove default network
+      community.libvirt.virt_net:
+        state: absent
+        name: default
 
-- name: Define bridge network
-  community.libvirt.virt_net:
-    command: define
-    name: host-bridge
-    xml: '{{ lookup("template", "host-bridge.xml.j2") }}'
+    - name: Define bridge network
+      community.libvirt.virt_net:
+        command: define
+        name: host-bridge
+        xml: '{{ lookup("template", "host-bridge.xml.j2") }}'
 
-- name: Activate bridge network
-  community.libvirt.virt_net:
-    state: active
-    name: host-bridge
+    - name: Activate bridge network
+      community.libvirt.virt_net:
+        state: active
+        name: host-bridge
 
-- name: Ensure that network autostarts
-  community.libvirt.virt_net:
-    autostart: true
-    name: host-bridge
+    - name: Ensure that network autostarts
+      community.libvirt.virt_net:
+        autostart: true
+        name: host-bridge
 
-- name: Create master bridge
-  community.general.nmcli:
-    type: bridge
-    conn_name: "{{ kvm_bridge_interface }}"
-    stp: false
-    state: present
+    - name: Create master bridge
+      community.general.nmcli:
+        type: bridge
+        conn_name: "{{ kvm_bridge_interface }}"
+        stp: false
+        state: present
 
-- name: Create slave bridge
-  community.general.nmcli:
-    type: bridge-slave
-    conn_name: bridge-slave-{{ lan_interface }}
-    ifname: "{{ lan_interface }}"
-    master: "{{ kvm_bridge_interface }}"
-    state: present
-  notify: Start bridge slave
+    - name: Create slave bridge
+      community.general.nmcli:
+        type: bridge-slave
+        conn_name: bridge-slave-{{ lan_interface }}
+        ifname: "{{ lan_interface }}"
+        master: "{{ kvm_bridge_interface }}"
+        state: present
+      notify: Start bridge slave
