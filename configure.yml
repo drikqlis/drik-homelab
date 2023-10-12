@@ -155,3 +155,11 @@
           ansible.builtin.import_role:
             name: clear_cache
           tags: [clear_cache]
+
+    - name: Kubernetes installation
+      when: kubernetes_enabled
+      block:
+        - name: Install kubeadm
+          ansible.builtin.import_role:
+            name: kubeadm
+          tags: [kubeadm]

@@ -1,7 +1,10 @@
 ---
 
 - name: Create user account
-  ansible.builtin.command: arch-chroot /mnt useradd --create-home --user-group --groups wheel {{ user_name }} --password {{ user_password }}
+  ansible.builtin.command: >
+    arch-chroot /mnt useradd --create-home --user-group
+    --groups wheel {{ user_name }}
+    --password {{ user_password | password_hash(hashtype='sha512') }}
   changed_when: true
   no_log: true
 

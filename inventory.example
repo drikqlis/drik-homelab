@@ -8,15 +8,19 @@ ansible_user=root
 personal
 work
 vm
+baremetal
 
 [managed:vars]
 ansible_user="{{ user_name }}"
-ansible_become_password="{{ user_password_clear }}"
+ansible_become_password="{{ user_password }}"
 
 [personal]
 
 [work]
 
-[vm]
+[vm:children]
+kube_nodes
+
+[kube_nodes]
 
 [baremetal]

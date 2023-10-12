@@ -6,7 +6,6 @@ installation_drive:
   root_partition_suffix:
   root_partition_label:
 hostname:
-localdomain:
 # nvidia, intel, virt
 gpu_manufacturer:
 # en_PL, pl_PL
@@ -16,5 +15,3 @@ secureboot_keys:
 crypt_passphrase:
 user_name:
 user_password:
-user_password_clear:
-ssh_pub_keys:
