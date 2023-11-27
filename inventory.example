@@ -21,6 +21,12 @@ ansible_become_password="{{ user_password }}"
 [vm:children]
 kube_nodes
 
-[kube_nodes]
+[kube_nodes:children]
+kube_control
+kube_workers
+
+[kube_control]
+
+[kube_workers]
 
 [baremetal]

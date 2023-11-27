@@ -18,7 +18,13 @@
     name:
       - kubectl
     state: present
-  when: kubernetes_control_plane_node
+  when: kubernetes_control_plane_node | bool
+
+- name: Make sure modules are loaded
+  community.general.modprobe:
+    name: "{{ item }}"
+    state: present
+  loop: "{{ kubernetes_modprobe_modules }}"
 
 - name: Add required modules
   ansible.builtin.template:
@@ -27,12 +33,6 @@
     mode: "0644"
     owner: root
     group: root
-
-- name: Make sure modules are loaded
-  community.general.modprobe:
-    name: "{{ item }}"
-    state: present
-  loop: "{{ kubernetes_modprobe_modules }}"
 
 - name: Add and load required params
   ansible.posix.sysctl:
@@ -47,3 +47,19 @@
     name: containerd
     state: started
     enabled: true
+
+- name: Enable and start kubelet service
+  ansible.builtin.systemd:
+    name: kubelet
+    state: started
+    enabled: true
+
+- name: Init kube cluster
+  ansible.builtin.command: >
+    kubeadm init
+    --cri-socket=unix:/run/containerd/containerd.sock
+    --pod-network-cidr='{{ kubernetes_pod_network }}'
+  changed_when: true
+  when:
+    - kubernetes_control_plane_node | bool
+    - kubernetes_init_cluster | bool
