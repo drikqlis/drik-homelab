@@ -50,4 +50,5 @@
       - sudo
       - sbctl
       - tpm2-tools
+      - bash-completion
     state: present
