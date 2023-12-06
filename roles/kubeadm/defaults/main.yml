@@ -11,6 +11,6 @@ kubernetes_sysctl_params:
     value: 1
   - name: net.ipv4.ip_forward
     value: 1
-kubernetes_pod_network: 10.85.0.0/16
+kubernetes_pod_network: 10.13.0.0/16
 kubernetes_load_balancer_domain: balancer.example.com
 kubernetes_init_cluster: false
