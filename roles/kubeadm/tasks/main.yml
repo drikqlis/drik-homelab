@@ -11,7 +11,9 @@
       - kubeadm
       - kubelet
       - containerd
+      - cilium-cli
     state: present
+    extra_args: --ask 4
 
 - name: Ensure control-plane kubernetes software is installed
   community.general.pacman:
@@ -54,12 +56,9 @@
     state: started
     enabled: true
 
-- name: Init kube cluster
-  ansible.builtin.command: >
-    kubeadm init
-    --cri-socket=unix:/run/containerd/containerd.sock
-    --pod-network-cidr='{{ kubernetes_pod_network }}'
-  changed_when: true
+- name: Initialize cluster
+  ansible.builtin.import_tasks: init.yml
+  tags: [kube-init]
   when:
     - kubernetes_control_plane_node | bool
     - kubernetes_init_cluster | bool
