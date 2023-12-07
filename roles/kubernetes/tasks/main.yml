@@ -44,6 +44,31 @@
     reload: true
   loop: "{{ kubernetes_sysctl_params }}"
 
+- name: Make sure containerd dir exists
+  ansible.builtin.file:
+    dest: /etc/containerd
+    state: directory
+    mode: "0755"
+    owner: root
+    group: root
+
+- name: Check if containerd config exists
+  ansible.builtin.stat:
+    path: /etc/containerd/config.toml
+  register: kubernetes_containerd_config_result
+
+- name: Generate containerd config
+  ansible.builtin.shell:
+    cmd: containerd config default > /etc/containerd/config.toml
+  changed_when: true
+  when: not kubernetes_containerd_config_result.stat.exists | bool
+
+- name: Set cgroup driver
+  ansible.builtin.lineinfile:
+    regexp: SystemdCgroup =
+    line: "             SystemdCgroup = true"
+    path: /etc/containerd/config.toml
+
 - name: Enable and start containerd service
   ansible.builtin.systemd:
     name: containerd
@@ -62,3 +87,14 @@
   when:
     - kubernetes_control_plane_node | bool
     - kubernetes_init_cluster | bool
+
+- name: Join node
+  ansible.builtin.import_tasks: join.yml
+  tags: [kube-join]
+  when:
+    - kubernetes_join_cluster | bool
+
+- name: Configure kubectl
+  ansible.builtin.import_tasks: kubectl.yml
+  when:
+    - kubernetes_control_plane_node | bool

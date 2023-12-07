@@ -159,7 +159,7 @@
     - name: Kubernetes installation
       when: kubernetes_enabled
       block:
-        - name: Install kubeadm
+        - name: Install and configure kubernetes
           ansible.builtin.import_role:
-            name: kubeadm
-          tags: [kubeadm]
+            name: kubernetes
+          tags: [kubernetes]
