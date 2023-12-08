@@ -77,11 +77,26 @@
         stp: false
         state: present
 
+    - name: Set static IP for master bridge
+      community.general.nmcli:
+        type: bridge
+        conn_name: "{{ kvm_bridge_interface }}"
+        stp: false
+        ip4: "{{ network_config.ipv4 }}"
+        gw4: "{{ network_config.gw4 }}"
+        dns4: "{{ network_config.dns4 }}"
+        dns4_search: "{{ network_config.dns4_search }}"
+        state: present
+      when: network_config is defined
+      register: kvm_master_bridge_result
+      notify: Reboot after kvm network change
+
     - name: Create slave bridge
       community.general.nmcli:
         type: bridge-slave
-        conn_name: bridge-slave-{{ lan_interface }}
-        ifname: "{{ lan_interface }}"
+        conn_name: bridge-slave-{{ network_interface }}
+        ifname: "{{ network_interface }}"
         master: "{{ kvm_bridge_interface }}"
         state: present
-      notify: Start bridge slave
+      register: kvm_slave_bridge_result
+      notify: Reboot after kvm network change

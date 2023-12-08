@@ -1,0 +1,6 @@
+---
+
+- name: Reboot after upgrade # noqa no-handler
+  ansible.builtin.reboot:
+    reboot_timeout: 3600
+  when: upgrade_result.changed

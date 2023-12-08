@@ -8,4 +8,4 @@ kvm_enabled: false
 kubernetes_enabled: false
 ufw_enabled: true
 
-lan_interface: eno1
+network_interface: eno1

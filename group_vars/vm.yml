@@ -4,4 +4,4 @@ host_type: server
 gpu_manufacturer: virt
 kvm_enabled: false
 
-lan_interface: enp1s0
+network_interface: enp1s0

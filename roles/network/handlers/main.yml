@@ -1,0 +1,6 @@
+---
+
+- name: Reboot after network change # noqa no-handler
+  ansible.builtin.reboot:
+    reboot_timeout: 3600
+  when: network_config_result.changed

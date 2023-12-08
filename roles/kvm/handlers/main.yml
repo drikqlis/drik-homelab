@@ -1,5 +1,6 @@
 ---
 
-- name: Start bridge slave
-  ansible.builtin.command: nmcli connection up bridge-slave-{{ lan_interface }}
-  changed_when: true
+- name: Reboot after kvm network change # noqa no-handler
+  ansible.builtin.reboot:
+    reboot_timeout: 3600
+  when: kvm_slave_bridge_result.changed or kvm_master_bridge_result.changed

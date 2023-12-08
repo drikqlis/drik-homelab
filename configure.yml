@@ -8,6 +8,12 @@
     - name: Basic configuration
       tags: [basic]
       block:
+        - name: Network configuration
+          ansible.builtin.import_role:
+            name: network
+          tags: [network]
+          when: network_config is defined
+
         - name: Package upgrade
           ansible.builtin.import_role:
             name: upgrade
