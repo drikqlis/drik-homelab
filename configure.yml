@@ -31,6 +31,7 @@
         - name: Firewall configuration
           ansible.builtin.import_role:
             name: ufw
+          when: ufw_enabled
           tags: [ufw]
 
         - name: KVM configuration
