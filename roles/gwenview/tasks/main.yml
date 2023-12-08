@@ -1,10 +1,5 @@
 ---
 
-- name: Ensure packages are updated
-  community.general.pacman:
-    update_cache: true
-    upgrade: true
-
 - name: Ensure gwenview is installed
   community.general.pacman:
     name:

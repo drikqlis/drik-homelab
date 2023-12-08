@@ -17,11 +17,6 @@
     state: started
     enabled: true
 
-- name: Ensure packages are updated
-  community.general.pacman:
-    update_cache: true
-    upgrade: true
-
 - name: Ensure basic software is installed
   community.general.pacman:
     name:

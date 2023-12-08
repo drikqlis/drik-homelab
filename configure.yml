@@ -8,6 +8,11 @@
     - name: Basic configuration
       tags: [basic]
       block:
+        - name: Package upgrade
+          ansible.builtin.import_role:
+            name: upgrade
+          tags: [upgrade]
+
         - name: Standard configuration
           ansible.builtin.import_role:
             name: standard
