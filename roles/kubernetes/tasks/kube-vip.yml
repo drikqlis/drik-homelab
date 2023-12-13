@@ -1,0 +1,24 @@
+---
+
+- name: Get kube-vip version
+  ansible.builtin.shell: set -o pipefail && curl -sL https://api.github.com/repos/kube-vip/kube-vip/releases | jq -r ".[0].name"
+  register: kubernetes_kube_vip_version_result
+  changed_when: false
+
+- name: Generate manifest
+  ansible.builtin.shell: >
+    set -o pipefail &&
+    ctr image pull ghcr.io/kube-vip/kube-vip:{{ kubernetes_kube_vip_version_result.stdout }};
+    ctr run --rm --net-host ghcr.io/kube-vip/kube-vip:{{ kubernetes_kube_vip_version_result.stdout }}
+    vip /kube-vip manifest pod
+    --interface lo
+    --address {{ kubernetes_kube_vip_control_plane_address }}
+    --controlplane
+    --services
+    --bgp
+    --localAS {{ kubernetes_kube_vip_local_as }}
+    --bgpRouterID {{ kubernetes_kube_vip_router_id }}
+    --bgppeers {{ kubernetes_kube_vip_peer_address }}:{{ kubernetes_kube_vip_peer_as }}::false
+    | tee /etc/kubernetes/manifests/kube-vip.yaml
+  register: kubernetes_kube_vip_version_result
+  changed_when: true

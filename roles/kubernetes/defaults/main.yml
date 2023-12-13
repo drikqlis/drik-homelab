@@ -14,3 +14,9 @@ kubernetes_sysctl_params:
 kubernetes_pod_network: 10.13.0.0/16
 kubernetes_load_balancer_domain: balancer.example.com
 kubernetes_init_cluster: false
+kubernetes_join_cluster: false
+kubernetes_kube_vip_control_plane_address: 192.168.61.10
+kubernetes_kube_vip_local_as: 64501
+kubernetes_kube_vip_router_id: 192.168.61.2
+kubernetes_kube_vip_peer_address: 192.168.60.1
+kubernetes_kube_vip_peer_as: 64500

@@ -5,8 +5,8 @@
     kubeadm init
     --cri-socket=unix:/run/containerd/containerd.sock
     --pod-network-cidr='{{ kubernetes_pod_network }}'
+    --control-plane-endpoint='{{ kubernetes_kube_vip_control_plane_address }}'
   changed_when: true
-  when: false
 
 - name: Configure kubectl
   ansible.builtin.import_tasks: kubectl.yml

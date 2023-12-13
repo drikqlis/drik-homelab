@@ -7,6 +7,7 @@
       - kubelet
       - containerd
       - cilium-cli
+      - jq
     state: present
     extra_args: --ask 4
 
@@ -76,18 +77,23 @@
     state: started
     enabled: true
 
+- name: Join node
+  ansible.builtin.import_tasks: join.yml
+  tags: [kube-join]
+  when:
+    - kubernetes_join_cluster | bool
+
+- name: Configure kube-vip
+  ansible.builtin.import_tasks: kube-vip.yml
+  when:
+    - kubernetes_control_plane_node | bool
+
 - name: Initialize cluster
   ansible.builtin.import_tasks: init.yml
   tags: [kube-init]
   when:
     - kubernetes_control_plane_node | bool
     - kubernetes_init_cluster | bool
-
-- name: Join node
-  ansible.builtin.import_tasks: join.yml
-  tags: [kube-join]
-  when:
-    - kubernetes_join_cluster | bool
 
 - name: Configure kubectl
   ansible.builtin.import_tasks: kubectl.yml
