@@ -16,8 +16,7 @@
   ansible.builtin.command:
     cmd: >
       {{ (kubernetes_join_token_result.stdout +
-      (('--control-plane --apiserver-advertise-address ' +
-      kubernetes_kube_vip_control_plane_address +
+      (('--control-plane' +
       ' --certificate-key ' +
       kubernetes_certificate_key_result.stdout_lines | last)
       if 'kube_control' in group_names else '')) | string }}
