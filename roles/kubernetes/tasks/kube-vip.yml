@@ -22,3 +22,31 @@
     | tee /etc/kubernetes/manifests/kube-vip.yaml
   register: kubernetes_kube_vip_version_result
   changed_when: true
+
+- name: Download kube-vip Cloud Provider manifest
+  ansible.builtin.get_url:
+    url: https://raw.githubusercontent.com/kube-vip/kube-vip-cloud-provider/main/manifest/kube-vip-cloud-controller.yaml
+    dest: ~/kube-vip-cloud-provider.yaml
+    mode: "0664"
+    owner: root
+    group: root
+
+- name: Apply kube-vip Cloud Provider manifest
+  kubernetes.core.k8s:
+    state: present
+    src: ~/kube-vip-cloud-provider.yaml
+
+- name: Create configmap for kube-vip Cloud Provider
+  kubernetes.core.k8s:
+    namespace: kube-system
+    definition:
+      apiVersion: v1
+      kind: ConfigMap
+      metadata:
+        name: kubevip
+        namespace: kube-system
+      data:
+        rangle-global: "{{ kubernetes_kube_vip_global_range }}"
+    apply: true
+    server_side_apply:
+      field_manager: ansible

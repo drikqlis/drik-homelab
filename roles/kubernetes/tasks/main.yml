@@ -8,6 +8,7 @@
       - containerd
       - cilium-cli
       - jq
+      - python-kubernetes
     state: present
     extra_args: --ask 4
 
