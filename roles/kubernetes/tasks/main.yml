@@ -9,6 +9,7 @@
       - cilium-cli
       - jq
       - python-kubernetes
+      - helm
     state: present
     extra_args: --ask 4
 
