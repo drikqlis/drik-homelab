@@ -46,7 +46,7 @@
         name: kubevip
         namespace: kube-system
       data:
-        rangle-global: "{{ kubernetes_kube_vip_global_range }}"
+        range-global: "{{ kubernetes_kube_vip_global_range }}"
     apply: true
     server_side_apply:
       field_manager: ansible
