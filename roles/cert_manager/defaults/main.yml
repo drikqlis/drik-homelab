@@ -1,0 +1,7 @@
+---
+
+cert_manager_replicas: 1
+cert_manager_resources:
+  requests:
+    cpu: 10m
+    memory: 32Mi
