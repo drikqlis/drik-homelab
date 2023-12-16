@@ -1,0 +1,3 @@
+controller:
+  replicaCount: {{ nginx_ingress_replicas }}
+  resources: {{ nginx_ingress_resources }}

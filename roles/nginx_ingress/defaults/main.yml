@@ -1,0 +1,7 @@
+---
+
+nginx_ingress_replicas: 1
+nginx_ingress_resources:
+  requests:
+    cpu: 100m
+    memory: 90Mi
