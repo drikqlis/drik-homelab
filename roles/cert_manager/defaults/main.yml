@@ -5,3 +5,6 @@ cert_manager_resources:
   requests:
     cpu: 10m
     memory: 32Mi
+cert_manager_cloudflare_api_token: "define_in_group_vars_kube_nodes_personal"
+cert_manager_email: "define_in_group_vars_kube_nodes_personal"
+cert_manager_dns_zone: "define_in_group_vars_kube_nodes_personal"

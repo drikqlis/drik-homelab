@@ -1,5 +1,5 @@
 host_vars/*.yml
-group_vars/all/personal.yml
+group_vars/*/personal.yml
 roles/remmina/files/*-connections
 files/*-keys
 *.salt

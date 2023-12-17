@@ -175,7 +175,13 @@
           ansible.builtin.import_role:
             name: kubernetes
           tags: [kubernetes]
+
         - name: Install and configure nginx-ingress
           ansible.builtin.import_role:
             name: nginx_ingress
           tags: [nginx_ingress]
+
+        - name: Install and configure cert-manager
+          ansible.builtin.import_role:
+            name: cert_manager
+          tags: [cert_manager]

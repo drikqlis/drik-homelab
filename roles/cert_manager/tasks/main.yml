@@ -13,3 +13,46 @@
     create_namespace: true
     update_repo_cache: true
     values: "{{ lookup('template', 'cert-manager-values.yaml') | from_yaml }}"
+
+- name: Create secret with cloudflare api token
+  kubernetes.core.k8s:
+    namespace: cert-manager
+    definition:
+      apiVersion: v1
+      kind: Secret
+      metadata:
+        name: cloudflare-api-token-secret
+      type: Opaque
+      stringData:
+        api-token: "{{ cert_manager_cloudflare_api_token }}"
+    apply: true
+    server_side_apply:
+      field_manager: ansible
+  no_log: true
+
+- name: Create issuer manifest
+  kubernetes.core.k8s:
+    namespace: cert-manager
+    definition:
+      apiVersion: cert-manager.io/v1
+      kind: ClusterIssuer
+      metadata:
+        name: letsencrypt-prod
+      spec:
+        acme:
+          email: "{{ cert_manager_email }}"
+          server: https://acme-v02.api.letsencrypt.org/directory
+          privateKeySecretRef:
+            name: letsencrypt-issuer-account-key
+          solvers:
+            - dns01:
+                cloudflare:
+                  apiTokenSecretRef:
+                    name: cloudflare-api-token-secret
+                    key: api-token
+              selector:
+                dnsZones:
+                  - "{{ cert_manager_dns_zone }}"
+    apply: true
+    server_side_apply:
+      field_manager: ansible
