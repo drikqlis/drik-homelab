@@ -37,17 +37,23 @@
         - name: Firewall configuration
           ansible.builtin.import_role:
             name: ufw
-          when: ufw_enabled
+          when: ufw_enabled | bool
           tags: [ufw]
 
         - name: KVM configuration
           ansible.builtin.import_role:
             name: kvm
-          when: kvm_enabled
+          when: kvm_enabled | bool
           tags: [kvm]
 
+        - name: ZFS configuration
+          ansible.builtin.import_role:
+            name: zfs
+          when: zfs_enabled | bool and zfs_configure | default(false) | bool
+          tags: [zfs]
+
     - name: GUI configuration
-      when: gui_enabled
+      when: gui_enabled | bool
       block:
         - name: Plasma configuration
           ansible.builtin.import_role:
@@ -86,7 +92,7 @@
           tags: [personal_apps]
 
     - name: GUI personalization
-      when: gui_enabled
+      when: gui_enabled | bool
       block:
         - name: System settings configuration
           ansible.builtin.import_role:
@@ -169,7 +175,7 @@
           tags: [clear_cache]
 
     - name: Kubernetes installation
-      when: kubernetes_enabled
+      when: kubernetes_enabled | bool
       block:
         - name: Install and configure kubernetes
           ansible.builtin.import_role:

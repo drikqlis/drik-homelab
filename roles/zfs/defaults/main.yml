@@ -1,0 +1,20 @@
+---
+
+zfs_pool_mount: /zfs
+zfs_pool_name: zfs
+zfs_devices:
+  - /dev/vdb
+  - /dev/vdc
+  - /dev/vdd
+
+zfs_main_dataset:
+  name: ds1
+  properties: >
+    -o encryption=on
+    -o keyformat=passphrase
+    -o compression=on
+  passphrase: example-passphrase
+
+zfs_datasets:
+  - name: "{{ zfs_main_dataset.name }}/data"
+  - name: "{{ zfs_main_dataset.name }}/backup"

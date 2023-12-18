@@ -1,0 +1,87 @@
+---
+
+- name: Ensure zfs is installed
+  community.general.pacman:
+    name:
+      - zfs-dkms
+      - zfs-utils
+    state: present
+
+- name: Make sure mkinitcpio.conf hooks are correct
+  ansible.builtin.lineinfile:
+    dest: /etc/mkinitcpio.conf
+    regexp: ^HOOKS=
+    line: HOOKS=({{ mkinitcpio_hooks }})
+  register: zfs_hooks_result
+
+- name: Recreate initramfs if hooks changed # noqa no-handler
+  ansible.builtin.command: mkinitcpio -P && sbctl sign-all
+  changed_when: true
+  when: zfs_hooks_result.changed
+
+- name: Enable required services and targets
+  ansible.builtin.systemd:
+    name: "{{ item }}"
+    enabled: true
+  loop:
+    - zfs-mount.service
+    - zfs-import-cache.service
+    - zfs.target
+    - zfs-import.target
+
+- name: Create zpool
+  ansible.builtin.command: >
+    zpool create -f -o ashift=12
+    -m {{ zfs_pool_mount }} {{ zfs_pool_name }}
+    raidz {{ zfs_devices | join(' ') }}
+    creates={{ zfs_pool_mount }}
+
+- name: Check if main dateset exists
+  ansible.builtin.stat:
+    path: "{{ zfs_pool_mount }}/{{ zfs_main_dataset.name }}"
+  register: zfs_main_dataset_dir_result
+
+- name: Create encrypted main dataset
+  ansible.builtin.expect:
+    command: >
+      zfs create
+      {{ zfs_main_dataset.properties | trim }}
+      {{ zfs_pool_name }}/{{ zfs_main_dataset.name }}
+    responses:
+      (?i)passphrase: "{{ zfs_main_dataset.passphrase }}"
+  no_log: true
+  when: not zfs_main_dataset_dir_result.stat.exists | bool
+  changed_when: true
+
+- name: Create service to unlock main dataset at boot
+  ansible.builtin.copy:
+    src: zfs-load-key@.service
+    dest: /etc/systemd/system/zfs-load-key@.service
+    mode: "0644"
+    owner: root
+    group: root
+
+- name: Reload systemd daemon
+  ansible.builtin.systemd:
+    daemon_reload: true
+
+- name: Enable service to unlock main dataset at boot
+  ansible.builtin.systemd:
+    name: zfs-load-key@{{ zfs_pool_name }}-{{ zfs_main_dataset.name }}.service
+    enabled: true
+
+- name: Enable weekly scrub timer
+  ansible.builtin.systemd:
+    name: zfs-scrub-weekly@{{ zfs_pool_name }}.timer
+    enabled: true
+
+- name: Reboot to mount zfs
+  ansible.builtin.reboot:
+  when: not zfs_main_dataset_dir_result.stat.exists | bool
+
+- name: Create datasets
+  ansible.builtin.command: >
+    zfs create {{ item.properties | default('') | trim }}
+    {{ zfs_pool_name }}/{{ item.name }}
+    creates={{ zfs_pool_mount }}/{{ item.name }}
+  loop: "{{ zfs_datasets }}"

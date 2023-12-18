@@ -4,7 +4,7 @@
   ansible.builtin.lineinfile:
     dest: /mnt/etc/mkinitcpio.conf
     regexp: ^HOOKS=
-    line: HOOKS=(base systemd sd-encrypt autodetect keyboard sd-vconsole modconf block filesystems fsck)
+    line: HOOKS=({{ mkinitcpio_hooks_base }})
 
 - name: Add mkinitcpio.conf modules
   ansible.builtin.lineinfile:
