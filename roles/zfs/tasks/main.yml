@@ -7,18 +7,6 @@
       - zfs-utils
     state: present
 
-- name: Make sure mkinitcpio.conf hooks are correct
-  ansible.builtin.lineinfile:
-    dest: /etc/mkinitcpio.conf
-    regexp: ^HOOKS=
-    line: HOOKS=({{ mkinitcpio_hooks }})
-  register: zfs_hooks_result
-
-- name: Recreate initramfs if hooks changed # noqa no-handler
-  ansible.builtin.command: mkinitcpio -P && sbctl sign-all
-  changed_when: true
-  when: zfs_hooks_result.changed
-
 - name: Enable required services and targets
   ansible.builtin.systemd:
     name: "{{ item }}"

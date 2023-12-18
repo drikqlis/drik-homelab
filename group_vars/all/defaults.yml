@@ -11,5 +11,4 @@ zfs_enabled: false
 
 network_interface: eno1
 
-mkinitcpio_hooks: "{{ mkinitcpio_hooks_base + ' zfs' if zfs_enabled else '' }}"
 mkinitcpio_hooks_base: "base systemd sd-encrypt autodetect keyboard sd-vconsole modconf block filesystems fsck"
