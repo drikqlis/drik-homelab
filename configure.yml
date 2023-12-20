@@ -46,6 +46,12 @@
           when: kvm_enabled | bool
           tags: [kvm]
 
+        - name: Additional BTRFS drives configration
+          ansible.builtin.import_role:
+            name: btrfs
+          when: btrfs_additional_drives_enabled | bool and btrfs_configure | default(false) | bool
+          tags: [btrfs]
+
         - name: ZFS configuration
           ansible.builtin.import_role:
             name: zfs

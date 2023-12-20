@@ -1,0 +1,152 @@
+---
+
+- name: Check if mountpoint exists
+  ansible.builtin.stat:
+    path: "{{ btrfs.mountpoint }}"
+  register: btrfs_mountpoint_result
+
+- name: Wipe drives
+  when: btrfs_wipe_drives | default(false) | bool or not btrfs_mountpoint_result.stat.exists
+  block:
+    - name: Wipe drive and all its partitions
+      ansible.builtin.command: find /dev -wholename "{{ btrfs.name }}*" -exec wipefs --force --all {} \;
+      changed_when: true
+
+    - name: Create partition
+      community.general.parted:
+        device: "{{ btrfs.name }}"
+        label: gpt
+        number: 1
+        name: root
+        state: present
+
+    - name: Create and open LUKS container with a passphrase
+      community.crypto.luks_device:
+        device: "{{ btrfs.name }}{{ btrfs.partition_suffix }}"
+        passphrase: "{{ crypt_passphrase }}"
+        name: "{{ btrfs.cryptname }}"
+        state: opened
+
+    - name: Create btrfs filesystem
+      community.general.filesystem:
+        dev: "/dev/mapper/{{ btrfs.cryptname }}"
+        fstype: btrfs
+        opts: -L {{ btrfs.partition_label }}
+        force: true
+
+    - name: Mount partiton
+      ansible.posix.mount:
+        path: "{{ btrfs.mountpoint }}"
+        src: "/dev/mapper/{{ btrfs.cryptname }}"
+        fstype: btrfs
+        opts: compress=zstd:1
+        state: mounted
+
+    - name: Create default subvolume
+      ansible.builtin.command: btrfs subvolume create {{ btrfs.mountpoint }}/{{ item.name }}
+      changed_when: true
+      when: item.default | default(false)
+      loop: "{{ btrfs.subvolumes }}"
+
+    - name: Get default subvolume id
+      ansible.builtin.shell: set -o pipefail && btrfs subvolume list -p {{ btrfs.mountpoint }} | grep -oP '(?<=ID\s)\d+'
+      changed_when: false
+      register: btrfs_default_subvolume_id_result
+
+    - name: Set main subvolume as default
+      ansible.builtin.command: btrfs subvolume set-default {{ btrfs_default_subvolume_id_result.stdout }} {{ btrfs.mountpoint }}/{{ item.name }}
+      changed_when: true
+      when: item.default | default(false)
+      loop: "{{ btrfs.subvolumes }}"
+
+    - name: Create other subvolumes
+      ansible.builtin.command: btrfs subvolume create {{ btrfs.mountpoint }}/{{ item.name }}
+      changed_when: true
+      when: not item.default | default(false)
+      loop: "{{ btrfs.subvolumes }}"
+
+    - name: Unmount partition
+      ansible.posix.mount:
+        path: "{{ btrfs.mountpoint }}"
+        src: "/dev/mapper/{{ btrfs.cryptname }}"
+        fstype: btrfs
+        opts: compress=zstd:1
+        state: unmounted
+
+    - name: Mount new main subvolume
+      ansible.posix.mount:
+        path: "{{ item.mount_point }}"
+        src: "/dev/mapper/{{ btrfs.cryptname }}"
+        fstype: btrfs
+        opts: subvol={{ item.name }},compress=zstd:1
+        state: mounted
+      when: item.default | default(false)
+      loop: "{{ btrfs.subvolumes }}"
+
+    - name: Create mountpoints for btrfs subvolumes
+      ansible.builtin.file:
+        path: "{{ item.mount_point }}"
+        state: directory
+        mode: "{{ item.mode | default('0755') }}"
+      when: not item.default | default(false)
+      loop: "{{ btrfs.subvolumes }}"
+
+    - name: Mount subvolumes
+      ansible.posix.mount:
+        path: "{{ item.mount_point }}"
+        src: "/dev/mapper/{{ btrfs.cryptname }}"
+        fstype: btrfs
+        opts: subvol={{ item.name }},compress=zstd:1
+        state: mounted
+      when: not item.default | default(false)
+      loop: "{{ btrfs.subvolumes }}"
+
+- name: Get UUID for crypt filesystem
+  ansible.builtin.command: "blkid -s UUID -o value /dev/mapper/{{ btrfs.cryptname }}"
+  register: btrfs_crypt_uuid_result
+  changed_when: false
+
+- name: Get UUID for main filesystem
+  ansible.builtin.command: "blkid -s UUID -o value {{ btrfs.name }}{{ btrfs.partition_suffix }}"
+  register: btrfs_main_uuid_result
+  changed_when: false
+
+- name: Add subvolumes to fstab
+  ansible.posix.mount:
+    fstab: /etc/fstab
+    path: "{{ item.mount_point }}"
+    src: UUID={{ btrfs_crypt_uuid_result.stdout }}
+    fstype: btrfs
+    opts: subvol={{ item.name }},compress=zstd:1
+    passno: "0"
+    state: present
+  loop: "{{ btrfs.subvolumes }}"
+
+- name: Add crypt to crypttab
+  community.general.crypttab:
+    name: "{{ btrfs.cryptname }}"
+    backing_device: UUID={{ btrfs_main_uuid_result.stdout }}
+    state: present
+
+- name: Reload systemd daemon
+  ansible.builtin.systemd:
+    daemon_reload: true
+
+- name: Enable service to unlock crypt device at boot
+  ansible.builtin.systemd:
+    name: systemd-cryptsetup@{{ btrfs.cryptname }}.service
+    enabled: true
+
+- name: Set label for crypt partition
+  ansible.builtin.command: >
+    cryptsetup config
+    --label="{{ btrfs.partition_label }}_crypt" {{ btrfs.name }}{{ btrfs.partition_suffix }}
+  changed_when: true
+
+- name: Enroll TPM
+  ansible.builtin.expect:
+    command: systemd-cryptenroll --tpm2-device=auto --tpm2-pcrs=0+1+7+8 {{ btrfs.name }}{{ btrfs.partition_suffix }}
+    responses:
+      (?i)passphrase: "{{ crypt_passphrase }}"
+  no_log: true
+  failed_when: false

@@ -8,6 +8,7 @@ kvm_enabled: false
 kubernetes_enabled: false
 ufw_enabled: true
 zfs_enabled: false
+btrfs_additional_drives_enabled: false
 
 network_interface: eno1
 

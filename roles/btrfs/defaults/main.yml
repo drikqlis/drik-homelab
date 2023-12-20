@@ -1,0 +1,14 @@
+---
+
+btrfs_additional_drives:
+  - name: /dev/vdb
+    partition_suffix: 1
+    cryptname: cryptdata
+    partition_label: data
+    mountpoint: /mnt/data
+    subvolumes:
+      - name: "@"
+        default: true
+        mount_point: "/mnt/data"
+      - name: "@snapshots"
+        mount_point: "/mnt/data/.snapshots"
