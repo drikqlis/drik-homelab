@@ -4,6 +4,17 @@
   ansible.builtin.command: arch-chroot /mnt bootctl install
   changed_when: true
 
+- name: Create loader entry
+  ansible.builtin.template:
+    src: arch.conf.j2
+    dest: /mnt/boot/loader/entries/{{ item }}.conf
+    owner: root
+    group: root
+    mode: "0600"
+  loop:
+    - arch
+    - arch-fallback
+
 - name: Enable systemd-boot update service
   ansible.builtin.command: arch-chroot /mnt systemctl enable systemd-boot-update.service
   changed_when: true

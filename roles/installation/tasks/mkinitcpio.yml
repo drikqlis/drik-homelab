@@ -12,13 +12,13 @@
     regexp: ^MODULES=
     line: MODULES=({{ installation_mkinicpio_modules | trim + ' ' + installation_tpm_driver.stdout | default('') }})
 
-- name: Create unified kernel image preset
+- name: Create linux preset
   ansible.builtin.template:
     src: linux.preset.j2
     dest: /mnt/etc/mkinitcpio.d/linux.preset
     owner: root
     group: root
-    mode: "0644"
+    mode: "0600"
 
 - name: Configure kernel parametres
   ansible.builtin.copy:
@@ -29,13 +29,13 @@
     dest: /mnt/etc/kernel/cmdline
     owner: root
     group: root
-    mode: "0644"
+    mode: "0600"
 
 - name: Make sure EFI dir exists
   ansible.builtin.file:
-    path: /mnt/efi/EFI/Linux
+    path: /mnt{{ installation_efi_partiton_mount_point }}/EFI/Linux
     state: directory
-    mode: "0755"
+    mode: "0700"
 
 - name: Create new initramfs
   ansible.builtin.command: arch-chroot /mnt mkinitcpio -P

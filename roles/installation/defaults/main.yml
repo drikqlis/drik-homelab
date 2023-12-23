@@ -20,6 +20,10 @@ installation_drive:
   root_partition_suffix: p2
   root_partition_label: arch
 
+installation_efi_partiton_mount_point: /efi
+installation_uki_enabled: true
+installation_secure_boot_enabled: true
+
 installation_intel_packages: mesa vulkan-intel intel-media-driver intel-gpu-tools
 installation_nvidia_packages: nvidia nvidia-settings
 installation_virt_packages: qemu-guest-agent

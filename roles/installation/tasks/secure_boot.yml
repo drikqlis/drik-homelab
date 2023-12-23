@@ -4,7 +4,7 @@
   ansible.builtin.file:
     path: "{{ item }}"
     state: directory
-    mode: "0755"
+    mode: "0700"
     owner: root
     group: root
   loop:
@@ -45,7 +45,7 @@
   ansible.builtin.command: arch-chroot /mnt sbctl sign --save {{ item }}
   changed_when: true
   loop:
-    - /efi/EFI/Linux/arch-linux.efi
-    - /efi/EFI/Linux/arch-linux-fallback.efi
-    - /efi/EFI/BOOT/BOOTX64.EFI
-    - /efi/EFI/systemd/systemd-bootx64.efi
+    - "{{ installation_efi_partiton_mount_point }}/EFI/Linux/arch-linux.efi"
+    - "{{ installation_efi_partiton_mount_point }}/EFI/Linux/arch-linux-fallback.efi"
+    - "{{ installation_efi_partiton_mount_point }}/EFI/BOOT/BOOTX64.EFI"
+    - "{{ installation_efi_partiton_mount_point }}/EFI/systemd/systemd-bootx64.efi"

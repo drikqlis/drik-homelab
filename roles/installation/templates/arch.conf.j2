@@ -1,0 +1,13 @@
+{% if item == "arch" %}
+title   Arch Linux
+{% else %}
+title   Arch Linux (fallback initramfs)
+{% endif %}
+linux   /vmlinuz-linux
+initrd  /intel-ucode.img
+{% if item == "arch" %}
+initrd  /initramfs-linux.img
+{% else %}
+initrd  /initramfs-linux-fallback.img
+{% endif %}
+options rd.luks.name={{ installation_root_uuid.stdout }}=cryptroot rd.luks.options={{ installation_root_uuid.stdout }}=tpm2-device=auto,discard root=/dev/mapper/cryptroot rw nosgx {{ installation_kernel_cmdline }}

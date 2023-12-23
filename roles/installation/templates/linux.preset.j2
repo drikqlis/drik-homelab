@@ -6,7 +6,13 @@ ALL_microcode=(/boot/*-ucode.img)
 
 PRESETS=('default' 'fallback')
 
-default_uki="/efi/EFI/Linux/arch-linux.efi"
+{% if installation_uki_enabled %}
+default_uki="{{ installation_efi_partiton_mount_point }}/EFI/Linux/arch-linux.efi"
 
-fallback_uki="/efi/EFI/Linux/arch-linux-fallback.efi"
+fallback_uki="{{ installation_efi_partiton_mount_point }}/EFI/Linux/arch-linux-fallback.efi"
+{% else %}
+default_image="/boot/initramfs-linux.img"
+
+fallback_image="/boot/initramfs-linux-fallback.img"
+{% endif %}
 fallback_options="-S autodetect"

@@ -95,20 +95,26 @@
 
 - name: Create mountpoints for efi
   ansible.builtin.file:
-    path: /mnt{{ item.mount_point }}
+    path: /mnt{{ installation_efi_partiton_mount_point }}
     state: directory
-    mode: "{{ item.mode | default('0755') }}"
-  loop:
-    - name: efi
-      mount_point: /efi
+    mode: "0700"
 
 - name: Mount EFI filesystem
   ansible.posix.mount:
-    path: /mnt/efi
+    path: /mnt{{ installation_efi_partiton_mount_point }}
     src: "{{ installation_drive.name }}{{ installation_drive.efi_partition_suffix }}"
     fstype: vfat
     passno: 2
     state: mounted
+
+- name: Bind mount boot when uki disabled
+  ansible.posix.mount:
+    path: /mnt/boot
+    src: /mnt/{{ installation_efi_partiton_mount_point }}
+    fstype: btrfs
+    opts: bind
+    state: mounted
+  when: not installation_uki_enabled
 
 - name: Create mountpoints for btrfs subvolumes
   ansible.builtin.file:

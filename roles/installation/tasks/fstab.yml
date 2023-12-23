@@ -23,12 +23,22 @@
 - name: Add EFI volume to fstab
   ansible.posix.mount:
     fstab: /mnt/etc/fstab
-    path: /efi
+    path: "{{ installation_efi_partiton_mount_point }}"
     src: UUID={{ installation_efi_uuid.stdout }}
     fstype: vfat
     opts: defaults
     passno: "2"
     state: present
+
+- name: Bind mount boot when uki disabled
+  ansible.posix.mount:
+    fstab: /mnt/etc/fstab
+    path: /boot
+    src: "{{ installation_efi_partiton_mount_point }}"
+    fstype: btrfs
+    opts: bind
+    state: present
+  when: not installation_uki_enabled
 
 - name: Set label for boot partition
   ansible.builtin.command: >
