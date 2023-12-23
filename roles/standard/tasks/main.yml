@@ -30,6 +30,8 @@
       - vim
       - vi
       - less
+      - rsync
+      - wget
       - nano
       - sudo
       - htop
