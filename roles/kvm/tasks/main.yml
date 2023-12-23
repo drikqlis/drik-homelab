@@ -91,6 +91,27 @@
       register: kvm_master_bridge_result
       notify: Reboot after kvm network change
 
+    - name: Configure network bond
+      when: network_bond_enabled | bool
+      block:
+        - name: Create bond attached to bridge
+          community.general.nmcli:
+            type: bond
+            conn_name: bond0
+            slave_type: bridge
+            master: "{{ kvm_bridge_interface }}"
+            mode: balance-rr
+            state: present
+
+        - name: Add bond-slaves
+          community.general.nmcli:
+            type: bond-slave
+            conn_name: "bond-slave-{{ item }}"
+            ifname: "{{ item }}"
+            master: bond0
+            state: present
+          loop: "{{ network_bond_slaves }}"
+
     - name: Create slave bridge
       community.general.nmcli:
         type: bridge-slave

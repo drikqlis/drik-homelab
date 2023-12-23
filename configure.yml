@@ -12,12 +12,13 @@
           ansible.builtin.import_role:
             name: network
           tags: [network]
-          when: network_config is defined
+          when: network_config is defined and network_configure | default(false) | bool
 
         - name: Package upgrade
           ansible.builtin.import_role:
             name: upgrade
           tags: [upgrade]
+          when: package_upgrade | default(false) | bool
 
         - name: Standard configuration
           ansible.builtin.import_role:
