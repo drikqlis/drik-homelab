@@ -1,5 +1,17 @@
 ---
 
+- name: Ensure local mirror is enabled for repos
+  community.general.ini_file:
+    path: /mnt/etc/pacman.conf
+    section: "{{ item.section }}"
+    option: "{{ item.option }}"
+    value: "{{ item.value }}"
+    mode: "0644"
+  loop:
+    - { section: "core", option: "Server", value: "{{ pacman_local_mirror_url }}" }
+    - { section: "extra", option: "Server", value: "{{ pacman_local_mirror_url }}" }
+  when: pacman_local_mirror_enabled | default(false)
+
 - name: Run pacstrap to install base system
   ansible.builtin.command: >
     pacstrap /mnt base bind inetutils base-devel linux linux-headers linux-firmware btrfs-progs

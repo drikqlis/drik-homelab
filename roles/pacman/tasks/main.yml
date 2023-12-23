@@ -38,10 +38,22 @@
     dest: /etc/pacman.conf
     regexp: "{{ item.regexp }}"
     line: "{{ item.line }}"
-  with_items:
+  loop:
     - { regexp: "^#?.?CleanMethod", line: "CleanMethod = KeepCurrent" }
     - { regexp: "^#?.?ParallelDownloads", line: "ParallelDownloads = 5" }
     - { regexp: "^#?.?Color", line: "Color" }
+
+- name: Ensure local mirror is enabled for repos
+  community.general.ini_file:
+    path: /etc/pacman.conf
+    section: "{{ item.section }}"
+    option: "{{ item.option }}"
+    value: "{{ item.value }}"
+    mode: "0644"
+  loop:
+    - { section: "core", option: "Server", value: "{{ pacman_local_mirror_url }}" }
+    - { section: "extra", option: "Server", value: "{{ pacman_local_mirror_url }}" }
+  when: pacman_local_mirror_enabled
 
 - name: Ensure arch.drik.it repo is added
   ansible.builtin.blockinfile:
