@@ -29,6 +29,7 @@
       - linux-firmware
       - vim
       - vi
+      - less
       - nano
       - sudo
       - htop
