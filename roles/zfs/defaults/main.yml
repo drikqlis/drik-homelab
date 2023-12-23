@@ -12,9 +12,11 @@ zfs_main_dataset:
   properties: >
     -o encryption=on
     -o keyformat=passphrase
-    -o compression=on
+    -o compression=zstd
   passphrase: "{{ crypt_passphrase | default('example-passphrase') }}"
 
 zfs_datasets:
   - name: "{{ zfs_main_dataset.name }}/data"
   - name: "{{ zfs_main_dataset.name }}/backup"
+    properties: >
+      -o compression=zstd-9
