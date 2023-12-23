@@ -1,7 +1,7 @@
 ---
 
 zfs_pool_mount: /zfs
-zfs_pool_name: zfs
+zfs_pool_name: zpool1
 zfs_devices:
   - /dev/vdb
   - /dev/vdc
@@ -13,7 +13,7 @@ zfs_main_dataset:
     -o encryption=on
     -o keyformat=passphrase
     -o compression=on
-  passphrase: example-passphrase
+  passphrase: "{{ crypt_passphrase | default('example-passphrase') }}"
 
 zfs_datasets:
   - name: "{{ zfs_main_dataset.name }}/data"
