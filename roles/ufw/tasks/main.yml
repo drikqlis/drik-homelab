@@ -1,10 +1,5 @@
 ---
 
-- name: Ensure packages and cache are updated
-  community.general.pacman:
-    update_cache: true
-    upgrade: true
-
 - name: Ensure ufw is installed
   community.general.pacman:
     name:
