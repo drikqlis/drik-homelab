@@ -35,6 +35,7 @@
 - name: Configure SecureBoot
   ansible.builtin.import_tasks: secure_boot.yml
   tags: [secure_boot]
+  when: secure_boot_enabled | default(true) | bool
 
 - name: Enable services
   ansible.builtin.import_tasks: services.yml
