@@ -49,7 +49,6 @@
       - spectacle
       - skanpage
       - kdegraphics-thumbnailers
-      - kimageformats
       - qt5-imageformats
       - kdesdk-thumbnailers
       - ffmpegthumbs
