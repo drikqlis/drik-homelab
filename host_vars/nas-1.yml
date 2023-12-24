@@ -1,0 +1,59 @@
+---
+
+installation_drive:
+  name: /dev/vda
+  efi_partition_suffix: 1
+  efi_partition_label: efi
+  root_partition_suffix: 2
+  root_partition_label: arch
+
+hostname: nas-1
+gpu_manufacturer: virt
+# en_PL, pl_PL
+system_language: en_PL
+
+network_interface: enp3s0
+network_config:
+  connection_name: "Wired connection 1"
+  ipv4: 192.168.100.61/24
+  gw4: 192.168.100.1
+  dns4: 192.168.100.1
+  dns4_search: "{{ localdomain }}"
+
+zfs_enabled: true
+zfs_datasets:
+  - name: "{{ zfs_main_dataset.name }}/media"
+  - name: "{{ zfs_main_dataset.name }}/cloud"
+  - name: "{{ zfs_main_dataset.name }}/other"
+  - name: "{{ zfs_main_dataset.name }}/backup"
+    properties: >
+      -o compression=zstd-9
+zfs_devices:
+  - "{{ lookup('community.general.bitwarden', 'host_vars_nas-1', field='zfs_devices_1') }}"
+  - "{{ lookup('community.general.bitwarden', 'host_vars_nas-1', field='zfs_devices_2') }}"
+  - "{{ lookup('community.general.bitwarden', 'host_vars_nas-1', field='zfs_devices_3') }}"
+  - "{{ lookup('community.general.bitwarden', 'host_vars_nas-1', field='zfs_devices_4') }}"
+  - "{{ lookup('community.general.bitwarden', 'host_vars_nas-1', field='zfs_devices_5') }}"
+  - "{{ lookup('community.general.bitwarden', 'host_vars_nas-1', field='zfs_devices_6') }}"
+  - "{{ lookup('community.general.bitwarden', 'host_vars_nas-1', field='zfs_devices_7') }}"
+  - "{{ lookup('community.general.bitwarden', 'host_vars_nas-1', field='zfs_devices_8') }}"
+  - "{{ lookup('community.general.bitwarden', 'host_vars_nas-1', field='zfs_devices_9') }}"
+  - "{{ lookup('community.general.bitwarden', 'host_vars_nas-1', field='zfs_devices_10') }}"
+
+btrfs_additional_drives_enabled: true
+btrfs_additional_drives:
+  - name: "{{ lookup('community.general.bitwarden', 'host_vars_nas-1', field='btrfs_additional_drives.name') }}"
+    partition_suffix: -part1
+    cryptname: cryptdata1
+    partition_label: data1
+    mountpoint: /mnt/data1
+    subvolumes:
+      - name: "@"
+        default: true
+        mount_point: "/mnt/data1"
+      - name: "@kube"
+        mount_point: "/mnt/data1/kube"
+      - name: "@other"
+        mount_point: "/mnt/data1/other"
+      - name: "@snapshots"
+        mount_point: "/mnt/data1/.snapshots"

@@ -1,0 +1,19 @@
+---
+installation_drive:
+  name: /dev/sda
+  efi_partition_suffix: 1
+  efi_partition_label: efi
+  root_partition_suffix: 2
+  root_partition_label: arch
+
+hostname: mml-v5590
+# nvidia, intel, virt
+gpu_manufacturer: intel
+# en_PL, pl_PL
+system_lang: pl_PL
+
+kvm_enabled: false
+
+crypt_passphrase: "{{ lookup('community.general.bitwarden', 'mm_secrets', field='crypt_passphrase') }}"
+user_name: "{{ lookup('community.general.bitwarden', 'mm_secrets', field='user_name') }}"
+user_password: "{{ lookup('community.general.bitwarden', 'mm_secrets', field='user_password') }}"

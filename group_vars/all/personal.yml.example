@@ -1,5 +1,0 @@
----
-
-localdomain: example.com
-ssh_pub_keys:
-  - ssh-ed25519 abcd email@example.com

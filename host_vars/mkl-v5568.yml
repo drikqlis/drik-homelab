@@ -1,0 +1,14 @@
+---
+
+installation_drive:
+  name: /dev/nvme0n1
+  efi_partition_suffix: p1
+  efi_partition_label: efi
+  root_partition_suffix: p2
+  root_partition_label: arch
+
+hostname: mkl-v5568
+# nvidia, intel, virt
+gpu_manufacturer: intel
+# en_PL, pl_PL
+system_lang: en_PL

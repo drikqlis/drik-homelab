@@ -1,0 +1,13 @@
+---
+
+kubernetes_pod_network: "{{ lookup('community.general.bitwarden', 'group_vars_kube_nodes', field='kubernetes_pod_network') }}"
+kubernetes_kube_vip_control_plane_address: "{{ lookup('community.general.bitwarden', 'group_vars_kube_nodes', field='kubernetes_kube_vip_control_plane_address') }}" # noqa yaml[line-length]
+kubernetes_kube_vip_global_range: "{{ lookup('community.general.bitwarden', 'group_vars_kube_nodes', field='kubernetes_kube_vip_global_range') }}"
+kubernetes_kube_vip_local_as: "{{ lookup('community.general.bitwarden', 'group_vars_kube_nodes', field='kubernetes_kube_vip_local_as') }}"
+kubernetes_kube_vip_router_id: "{{ lookup('community.general.bitwarden', 'group_vars_kube_nodes', field='kubernetes_kube_vip_router_id') }}"
+kubernetes_kube_vip_peer_address: "{{ lookup('community.general.bitwarden', 'group_vars_kube_nodes', field='kubernetes_kube_vip_peer_address') }}"
+kubernetes_kube_vip_peer_as: "{{ lookup('community.general.bitwarden', 'group_vars_kube_nodes', field='kubernetes_kube_vip_peer_address') }}"
+
+cert_manager_cloudflare_api_token: "{{ lookup('community.general.bitwarden', 'group_vars_kube_nodes', field='cert_manager_cloudflare_api_token') }}"
+cert_manager_email: "{{ lookup('community.general.bitwarden', 'group_vars_kube_nodes', field='cert_manager_email') }}"
+cert_manager_dns_zone: "{{ lookup('community.general.bitwarden', 'group_vars_kube_nodes', field='cert_manager_dns_zone') }}"

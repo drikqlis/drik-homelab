@@ -15,8 +15,16 @@ ansible_user="{{ user_name }}"
 ansible_become_password="{{ user_password }}"
 
 [personal]
+mkl-v5568
+mkl-z370
+mml-v5590
+mml-z97
 
 [work]
+mkl-l5520
+
+[vm]
+nas-1
 
 [vm:children]
 kube_nodes
@@ -26,7 +34,11 @@ kube_control
 kube_workers
 
 [kube_control]
+kube-1
+kube-2
+kube-3
 
 [kube_workers]
 
 [baremetal]
+bm-2

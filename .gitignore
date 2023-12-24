@@ -1,12 +1,9 @@
-host_vars/*.yml
-group_vars/*/personal.yml
 roles/remmina/files/*-connections
 files/*-keys
 *.salt
 *.kwl
 *.remmina
 vault_pass
-inventory
 files/users/*
 .vscode
 venv
