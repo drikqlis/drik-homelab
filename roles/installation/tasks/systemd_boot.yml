@@ -14,6 +14,7 @@
   loop:
     - arch
     - arch-fallback
+  when: not installation_uki_enabled
 
 - name: Enable systemd-boot update service
   ansible.builtin.command: arch-chroot /mnt systemctl enable systemd-boot-update.service
