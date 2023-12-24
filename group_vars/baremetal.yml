@@ -2,3 +2,4 @@
 
 host_type: server
 kvm_enabled: true
+installation_intel_kernel_cmdline: ""
