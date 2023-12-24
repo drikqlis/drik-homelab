@@ -1,4 +1,5 @@
 roles/remmina/files/*-connections
+group_vars/all/users.yml
 files/*-keys
 *.salt
 *.kwl

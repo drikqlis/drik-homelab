@@ -1,10 +1,6 @@
 ---
 
 crypt_passphrase: "{{ lookup('community.general.bitwarden', 'mk_secrets', field='crypt_passphrase') | join }}"
-user_name: "{{ lookup('community.general.bitwarden', 'mk_secrets', field='user_name') | join }}"
-user_password: "{{ lookup('community.general.bitwarden', 'mk_secrets', field='user_password') | join }}"
-
 localdomain: "{{ lookup('community.general.bitwarden', 'group_vars_all', field='localdomain') | join }}"
 ssh_pub_keys: "{{ lookup('community.general.bitwarden', 'group_vars_all', field='ssh_pub_key_1') }}"
-
 pacman_local_mirror_url: "{{ lookup('community.general.bitwarden', 'group_vars_all', field='pacman_local_mirror_url') | join }}"
