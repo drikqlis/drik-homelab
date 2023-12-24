@@ -29,20 +29,20 @@ zfs_datasets:
     properties: >
       -o compression=zstd-9
 zfs_devices:
-  - "{{ lookup('community.general.bitwarden', 'host_vars_nas-1', field='zfs_devices_1') }}"
-  - "{{ lookup('community.general.bitwarden', 'host_vars_nas-1', field='zfs_devices_2') }}"
-  - "{{ lookup('community.general.bitwarden', 'host_vars_nas-1', field='zfs_devices_3') }}"
-  - "{{ lookup('community.general.bitwarden', 'host_vars_nas-1', field='zfs_devices_4') }}"
-  - "{{ lookup('community.general.bitwarden', 'host_vars_nas-1', field='zfs_devices_5') }}"
-  - "{{ lookup('community.general.bitwarden', 'host_vars_nas-1', field='zfs_devices_6') }}"
-  - "{{ lookup('community.general.bitwarden', 'host_vars_nas-1', field='zfs_devices_7') }}"
-  - "{{ lookup('community.general.bitwarden', 'host_vars_nas-1', field='zfs_devices_8') }}"
-  - "{{ lookup('community.general.bitwarden', 'host_vars_nas-1', field='zfs_devices_9') }}"
-  - "{{ lookup('community.general.bitwarden', 'host_vars_nas-1', field='zfs_devices_10') }}"
+  - "{{ lookup('community.general.bitwarden', 'host_vars_nas-1', field='zfs_devices_1') | join }}"
+  - "{{ lookup('community.general.bitwarden', 'host_vars_nas-1', field='zfs_devices_2') | join }}"
+  - "{{ lookup('community.general.bitwarden', 'host_vars_nas-1', field='zfs_devices_3') | join }}"
+  - "{{ lookup('community.general.bitwarden', 'host_vars_nas-1', field='zfs_devices_4') | join }}"
+  - "{{ lookup('community.general.bitwarden', 'host_vars_nas-1', field='zfs_devices_5') | join }}"
+  - "{{ lookup('community.general.bitwarden', 'host_vars_nas-1', field='zfs_devices_6') | join }}"
+  - "{{ lookup('community.general.bitwarden', 'host_vars_nas-1', field='zfs_devices_7') | join }}"
+  - "{{ lookup('community.general.bitwarden', 'host_vars_nas-1', field='zfs_devices_8') | join }}"
+  - "{{ lookup('community.general.bitwarden', 'host_vars_nas-1', field='zfs_devices_9') | join }}"
+  - "{{ lookup('community.general.bitwarden', 'host_vars_nas-1', field='zfs_devices_10') | join }}"
 
 btrfs_additional_drives_enabled: true
 btrfs_additional_drives:
-  - name: "{{ lookup('community.general.bitwarden', 'host_vars_nas-1', field='btrfs_additional_drives.name') }}"
+  - name: "{{ lookup('community.general.bitwarden', 'host_vars_nas-1', field='btrfs_additional_drives.name') | join }}"
     partition_suffix: -part1
     cryptname: cryptdata1
     partition_label: data1

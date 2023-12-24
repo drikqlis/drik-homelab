@@ -1,7 +1,7 @@
 ---
 
 installation_drive:
-  name: "{{ lookup('community.general.bitwarden', 'host_vars_bm-2', field='installation_drive.name') }}"
+  name: "{{ lookup('community.general.bitwarden', 'host_vars_bm-2', field='installation_drive.name') | join }}"
   efi_partition_suffix: -part1
   efi_partition_label: efi
   root_partition_suffix: -part2
