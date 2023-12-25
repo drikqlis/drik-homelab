@@ -97,12 +97,12 @@
     - kubernetes_control_plane_node | bool
     - kubernetes_init_cluster | bool
 
-- name: Configure kube-vip-cloud-provider
-  ansible.builtin.import_tasks: kube-vip-cp.yml
+- name: Configure kubectl
+  ansible.builtin.import_tasks: kubectl.yml
   when:
     - kubernetes_control_plane_node | bool
 
-- name: Configure kubectl
-  ansible.builtin.import_tasks: kubectl.yml
+- name: Configure kube-vip-cloud-provider
+  ansible.builtin.import_tasks: kube-vip-cp.yml
   when:
     - kubernetes_control_plane_node | bool
