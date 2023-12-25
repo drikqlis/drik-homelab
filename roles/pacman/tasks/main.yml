@@ -49,6 +49,7 @@
     section: "{{ item.section }}"
     option: "{{ item.option }}"
     value: "{{ item.value }}"
+    modify_inactive_option: false
     mode: "0644"
   loop:
     - { section: "core", option: "Server", value: "{{ pacman_local_mirror_url }}" }
