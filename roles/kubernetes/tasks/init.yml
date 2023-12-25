@@ -5,7 +5,7 @@
     kubeadm init
     --cri-socket=unix:/run/containerd/containerd.sock
     --pod-network-cidr='{{ kubernetes_pod_network }}'
-    --control-plane-endpoint='{{ kubernetes_kube_vip_control_plane_address }}'
+    --control-plane-endpoint='{{ kubernetes_control_plane_endpoint }}'
   changed_when: true
 
 - name: Configure kubectl
