@@ -1,0 +1,20 @@
+---
+
+installation_drive:
+  name: /dev/vda
+  efi_partition_suffix: 1
+  efi_partition_label: efi
+  root_partition_suffix: 2
+  root_partition_label: arch
+
+hostname: kube-4
+gpu_manufacturer: virt
+# en_PL, pl_PL
+system_language: en_PL
+
+network_config:
+  connection_name: "Wired connection 1"
+  ipv4: 192.168.100.84/24
+  gw4: 192.168.100.1
+  dns4: 192.168.100.1
+  dns4_search: "{{ localdomain }}"

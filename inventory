@@ -39,6 +39,7 @@ kube-2
 kube-3
 
 [kube_workers]
+kube-4
 
 [baremetal]
 bm-2
