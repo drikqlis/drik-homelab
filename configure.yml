@@ -183,11 +183,12 @@
 
     - name: Kubernetes installation
       when: kubernetes_enabled | bool
+      tags: [kubernetes]
       block:
         - name: Install and configure kubernetes
           ansible.builtin.import_role:
             name: kubernetes
-          tags: [kubernetes]
+          tags: [kubernetes_kubeadm]
 
         - name: Install and configure nginx-ingress
           ansible.builtin.import_role:
