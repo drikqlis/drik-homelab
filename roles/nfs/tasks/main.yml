@@ -13,7 +13,7 @@
     mode: "0750"
     state: directory
 
-- name: Masked reduntant services
+- name: Mask reduntant services
   ansible.builtin.systemd:
     name: "{{ item }}"
     enabled: false
