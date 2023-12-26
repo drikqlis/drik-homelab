@@ -112,7 +112,7 @@
     path: /mnt/boot
     src: /mnt/{{ installation_efi_partiton_mount_point }}
     fstype: btrfs
-    opts: bind
+    opts: bind,defaults
     state: mounted
   when: not installation_uki_enabled
 

@@ -1,0 +1,5 @@
+---
+
+- name: Reload nfs
+  ansible.builtin.command: exportfs -arv
+  changed_when: true

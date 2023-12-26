@@ -11,3 +11,10 @@ hostname: mkl-z370
 gpu_manufacturer: nvidia
 # en_PL, pl_PL
 system_lang: en_PL
+
+network_config:
+  connection_name: "Wired connection 1"
+  ipv4: 192.168.60.6/24
+  gw4: 192.168.60.1
+  dns4: 192.168.60.1
+  dns4_search: "{{ localdomain }}"

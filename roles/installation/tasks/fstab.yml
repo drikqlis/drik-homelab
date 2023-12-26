@@ -36,7 +36,7 @@
     path: /boot
     src: "{{ installation_efi_partiton_mount_point }}"
     fstype: btrfs
-    opts: bind
+    opts: bind,defaults
     state: present
   when: not installation_uki_enabled
 

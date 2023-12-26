@@ -1,0 +1,58 @@
+---
+
+- name: Create nas user
+  ansible.builtin.user:
+    name: nas
+    uid: 1099
+
+- name: Create nfs root dir
+  ansible.builtin.file:
+    path: "{{ nfs_server_root }}"
+    owner: nas
+    group: nas
+    mode: "0750"
+    state: directory
+
+- name: Masked reduntant services
+  ansible.builtin.systemd:
+    name: "{{ item }}"
+    enabled: false
+    state: stopped
+    masked: true
+  loop:
+    - nfs-server.service
+    - rpcbind.service
+    - rpcbind.socket
+
+- name: Enable and start nfs-server
+  ansible.builtin.systemd:
+    name: nfsv4-server.service
+    enabled: true
+    state: started
+
+- name: Add bind mounts to fstab
+  ansible.posix.mount:
+    fstab: /etc/fstab
+    path: "{{ item.mount_point }}"
+    src: "{{ item.source }}"
+    fstype: "{{ item.fstype }}"
+    opts: "{{ item.bind_options }}"
+    state: mounted
+  loop: "{{ nfs_server_shares }}"
+
+- name: Set permissions for shares
+  ansible.builtin.file:
+    dest: "{{ nfs_server_root }}"
+    owner: nas
+    group: nas
+    recurse: true
+    mode: u=rw-x+X,g=r-x+X,o=
+
+- name: Set exports file
+  ansible.builtin.template:
+    src: exports.j2
+    dest: /etc/exports
+    owner: root
+    group: root
+    mode: "0644"
+  notify: Reload nfs

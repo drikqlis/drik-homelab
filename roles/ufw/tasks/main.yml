@@ -16,7 +16,7 @@
   notify:
     - Restart ufw
 
-- name: Configure ufw rules
+- name: Configure ufw ssh rules
   community.general.ufw:
     rule: limit
     port: 22
@@ -24,6 +24,16 @@
     src: 192.168.0.0/16
   notify:
     - Restart ufw
+
+- name: Configure ufw nfs rules
+  community.general.ufw:
+    rule: allow
+    port: 2049
+    proto: tcp
+    src: 192.168.0.0/16
+  notify:
+    - Restart ufw
+  when: nfs_enabled | bool
 
 - name: Enable ufw logging
   community.general.ufw:

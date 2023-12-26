@@ -59,6 +59,12 @@
           when: zfs_enabled | bool and zfs_configure | default(false) | bool
           tags: [zfs]
 
+        - name: NFS configuration
+          ansible.builtin.import_role:
+            name: nfs
+          when: nfs_enabled | bool and nfs_configure | default(false) | bool
+          tags: [nfs]
+
     - name: GUI configuration
       when: gui_enabled | bool
       block:
