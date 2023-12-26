@@ -1,9 +1,12 @@
 ---
 
 nfs_server_root: /srv/nfs
+nfs_user_name: nas
+nfs_user_uid: 1099
+nfs_server_root_default_options: rw,sync,crossmnt,fsid=0,all_squash,anonuid={{ nfs_user_uid }},anongid={{ nfs_user_uid }},no_subtree_check
+nfs_server_share_default_options: rw,sync,all_squash,anonuid={{ nfs_user_uid }},anongid={{ nfs_user_uid }},no_subtree_check
 nfs_server_root_access:
   - client: 192.168.1.5
-    options: rw,sync,crossmnt,fsid=0,all_squash,anonuid=1099,anongid=1099,no_subtree_check
 nfs_server_shares:
   - mount_point: /srv/nfs/data-zfs
     source: /zfs/ds1/data
@@ -11,11 +14,9 @@ nfs_server_shares:
     bind_options: bind,defaults,x-systemd.requires=zfs-mount.service
     access:
       - client: 192.168.1.0/24
-        options: rw,sync,all_squash,anonuid=1099,anongid=1099,no_subtree_check
   - mount_point: /srv/nfs/data-btrfs
     source: /mnt/data1
     fstype: btrfs
     bind_options: bind,defaults
     access:
       - client: 192.168.1.0/24
-        options: rw,sync,all_squash,anonuid=1099,anongid=1099,no_subtree_check

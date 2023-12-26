@@ -1,15 +1,15 @@
 ---
 
-- name: Create nas user
+- name: Create nfs user
   ansible.builtin.user:
-    name: nas
-    uid: 1099
+    name: "{{ nfs_user_name }}"
+    uid: "{{ nfs_user_uid }}"
 
 - name: Create nfs root dir
   ansible.builtin.file:
     path: "{{ nfs_server_root }}"
-    owner: nas
-    group: nas
+    owner: "{{ nfs_user_name }}"
+    group: "{{ nfs_user_name }}"
     mode: "0750"
     state: directory
 
@@ -43,8 +43,8 @@
 - name: Set permissions for shares
   ansible.builtin.file:
     dest: "{{ nfs_server_root }}"
-    owner: nas
-    group: nas
+    owner: "{{ nfs_user_name }}"
+    group: "{{ nfs_user_name }}"
     recurse: true
     mode: u=rw-x+X,g=r-x+X,o=
 

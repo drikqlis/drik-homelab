@@ -62,13 +62,9 @@ btrfs_additional_drives:
 nfs_enabled: true
 nfs_server_root_access:
   - client: "{{ lookup('community.general.bitwarden', 'host_vars_nas-1', field='nfs_server_root_access.client1') | first }}"
-    options: rw,sync,crossmnt,fsid=0,all_squash,anonuid=1099,anongid=1099,no_subtree_check
   - client: "{{ lookup('community.general.bitwarden', 'host_vars_nas-1', field='nfs_server_root_access.client2') | first }}"
-    options: rw,sync,crossmnt,fsid=0,all_squash,anonuid=1099,anongid=1099,no_subtree_check
   - client: "{{ lookup('community.general.bitwarden', 'host_vars_nas-1', field='nfs_server_root_access.client3') | first }}"
-    options: rw,sync,crossmnt,fsid=0,all_squash,anonuid=1099,anongid=1099,no_subtree_check
   - client: "{{ lookup('community.general.bitwarden', 'host_vars_nas-1', field='nfs_server_root_access.client4') | first }}"
-    options: rw,sync,crossmnt,fsid=0,all_squash,anonuid=1099,anongid=1099,no_subtree_check
 nfs_server_shares:
   - mount_point: /srv/nfs/kube-btrfs
     source: /mnt/data1/kube
@@ -76,25 +72,21 @@ nfs_server_shares:
     bind_options: bind,defaults
     access:
       - client: 192.168.100.8[1-4]
-        options: rw,sync,all_squash,anonuid=1099,anongid=1099,no_subtree_check
   - mount_point: /srv/nfs/kube-zfs
     source: /zfs/ds1/kube
     fstype: zfs
     bind_options: bind,defaults,x-systemd.requires=zfs-mount.service
     access:
       - client: 192.168.100.8[1-4]
-        options: rw,sync,all_squash,anonuid=1099,anongid=1099,no_subtree_check
   - mount_point: /srv/nfs/media
     source: /zfs/ds1/media
     fstype: zfs
     bind_options: bind,defaults,x-systemd.requires=zfs-mount.service
     access:
       - client: 192.168.100.8[1-4]
-        options: rw,sync,all_squash,anonuid=1099,anongid=1099,no_subtree_check
   - mount_point: /srv/nfs/cloud
     source: /zfs/ds1/cloud
     fstype: zfs
     bind_options: bind,defaults,x-systemd.requires=zfs-mount.service
     access:
       - client: 192.168.100.8[1-4]
-        options: rw,sync,all_squash,anonuid=1099,anongid=1099,no_subtree_check
