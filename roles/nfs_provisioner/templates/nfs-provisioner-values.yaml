@@ -1,0 +1,9 @@
+replicaCount: {{ item.replicas | default(1) }}
+storageClass:
+  name: {{ item.storage_class_name }}
+  defaultClass: {{ item.is_default | default(false) }}
+  provisionerName: {{ item.provisioner_name | default("cluster.local/" + item.storage_class_name + "-provisioner-nfs-subdir-external-provisioner") }}
+nfs:
+  server: {{ item.nfs_server | default(nfs_provisioner_default_nfs_server) }}
+  path: {{ item.nfs_path }}
+  mountOptions: {{ item.mount_options | default(nfs_provisioner_default_nfs_mount_options) }}

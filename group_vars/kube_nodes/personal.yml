@@ -12,3 +12,15 @@ kubernetes_kube_vip_peer_as: "{{ lookup('community.general.bitwarden', 'group_va
 cert_manager_cloudflare_api_token: "{{ lookup('community.general.bitwarden', 'group_vars_kube_nodes', field='cert_manager_cloudflare_api_token') | join }}"
 cert_manager_email: "{{ lookup('community.general.bitwarden', 'group_vars_kube_nodes', field='cert_manager_email') | join }}"
 cert_manager_dns_zone: "{{ lookup('community.general.bitwarden', 'group_vars_kube_nodes', field='cert_manager_dns_zone') | join }}"
+
+nfs_provisioner_default_nfs_server: "{{ lookup('community.general.bitwarden', 'group_vars_kube_nodes', field='nfs_provisioner_default_nfs_server') | join }}"
+nfs_provisioner_shares:
+  - storage_class_name: nfs-nvme
+    is_default: true
+    nfs_path: /kube-btrfs
+  - storage_class_name: nfs-hdd
+    nfs_path: /kube-zfs
+  - storage_class_name: nfs-media
+    nfs_path: /media
+  - storage_class_name: nfs-cloud
+    nfs_path: /cloud

@@ -1,0 +1,21 @@
+---
+
+- name: Add nfs-subdir-external-provisioner chart repo
+  kubernetes.core.helm_repository:
+    repo_name: nfs-subdir-external-provisioner
+    repo_url: https://kubernetes-sigs.github.io/nfs-subdir-external-provisioner
+
+- name: Show values for deployment
+  ansible.builtin.debug:
+    msg: "{{ lookup('template', 'nfs-provisioner-values.yaml') | from_yaml }}"
+  loop: "{{ nfs_provisioner_shares }}"
+
+- name: Deploy nfs-subdir-external-provisioner chart
+  kubernetes.core.helm:
+    name: "{{ item.storage_class_name }}-provisioner"
+    chart_ref: nfs-subdir-external-provisioner/nfs-subdir-external-provisioner
+    release_namespace: nfs-provisioner
+    create_namespace: true
+    update_repo_cache: true
+    values: "{{ lookup('template', 'nfs-provisioner-values.yaml') | from_yaml }}"
+  loop: "{{ nfs_provisioner_shares }}"
