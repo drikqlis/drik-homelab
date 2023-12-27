@@ -1,6 +1,8 @@
 ---
 
-installation_btrfs_subvolumes:
+installation_btrfs_subvolumes: "{{ installation_default_btrfs_subvolumes + installation_additional_btrfs_subvolumes }}"
+installation_additional_btrfs_subvolumes: []
+installation_default_btrfs_subvolumes:
   - name: "@"
     default: true
     mount_point: "/"
