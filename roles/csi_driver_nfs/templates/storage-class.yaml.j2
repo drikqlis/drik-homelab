@@ -1,0 +1,15 @@
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+{% if item.is_default | default(false) %}
+  annotations:
+    storageclass.kubernetes.io/is-default-class: "true"
+{% endif %}
+  name: {{ item.storage_class_name }}
+provisioner: nfs.csi.k8s.io
+parameters:
+  server: {{ item.nfs_server | default(csi_driver_nfs_default_nfs_server) }}
+  share: {{ item.nfs_path }}
+reclaimPolicy: {{ item.reclaim_policy | default('Delete') }}
+volumeBindingMode: Immediate
+mountOptions: {{ item.mount_options | default(csi_driver_nfs_default_nfs_mount_options) }}

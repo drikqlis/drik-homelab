@@ -13,8 +13,8 @@ cert_manager_cloudflare_api_token: "{{ lookup('community.general.bitwarden', 'gr
 cert_manager_email: "{{ lookup('community.general.bitwarden', 'group_vars_kube_nodes', field='cert_manager_email') | join }}"
 cert_manager_dns_zone: "{{ lookup('community.general.bitwarden', 'group_vars_kube_nodes', field='cert_manager_dns_zone') | join }}"
 
-nfs_provisioner_default_nfs_server: "{{ lookup('community.general.bitwarden', 'group_vars_kube_nodes', field='nfs_provisioner_default_nfs_server') | join }}"
-nfs_provisioner_shares:
+csi_driver_nfs_default_nfs_server: "{{ lookup('community.general.bitwarden', 'group_vars_kube_nodes', field='csi_driver_nfs_default_nfs_server') | join }}"
+csi_driver_nfs_storage_classes:
   - storage_class_name: nfs-nvme
     is_default: true
     nfs_path: /kube-btrfs
@@ -22,5 +22,7 @@ nfs_provisioner_shares:
     nfs_path: /kube-zfs
   - storage_class_name: nfs-media
     nfs_path: /media
+    reclaim_policy: Retain
   - storage_class_name: nfs-cloud
     nfs_path: /cloud
+    reclaim_policy: Retain

@@ -1,0 +1,28 @@
+---
+
+- name: Add csi-driver-nfs chart repo
+  kubernetes.core.helm_repository:
+    repo_name: csi-driver-nfs
+    repo_url: https://raw.githubusercontent.com/kubernetes-csi/csi-driver-nfs/master/charts
+
+- name: Show values for deployment
+  ansible.builtin.debug:
+    msg: "{{ lookup('template', 'csi-driver-nfs.yaml') | from_yaml }}"
+
+- name: Deploy csi-driver-nfs chart
+  kubernetes.core.helm:
+    name: csi-driver-nfs
+    chart_ref: csi-driver-nfs/csi-driver-nfs
+    release_namespace: kube-system
+    create_namespace: true
+    update_repo_cache: true
+    values: "{{ lookup('template', 'csi-driver-nfs.yaml') | from_yaml }}"
+
+- name: Create storage classes
+  kubernetes.core.k8s:
+    namespace: default
+    definition: "{{ lookup('template', 'storage-class.yaml.j2') | from_yaml }}"
+    apply: true
+    server_side_apply:
+      field_manager: ansible
+  loop: "{{ csi_driver_nfs_storage_classes }}"

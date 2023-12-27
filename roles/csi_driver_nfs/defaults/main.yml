@@ -1,0 +1,12 @@
+---
+
+csi_driver_nfs_controller_replicas: 1
+csi_driver_nfs_default_nfs_server: nfs-server.example.com
+csi_driver_nfs_default_nfs_mount_options:
+  - vers=4
+csi_driver_nfs_storage_classes:
+  - storage_class_name: nfs-data1
+    is_default: true
+    nfs_path: /data1
+  - storage_class_name: nfs-data2
+    nfs_path: /data2

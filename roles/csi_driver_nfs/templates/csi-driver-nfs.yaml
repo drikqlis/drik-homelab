@@ -1,0 +1,2 @@
+controller:
+  replicas: {{ csi_driver_nfs_controller_replicas }}
