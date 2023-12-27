@@ -6,6 +6,7 @@
     --cri-socket=unix:/run/containerd/containerd.sock
     --pod-network-cidr='{{ kubernetes_pod_network }}'
     --control-plane-endpoint='{{ kubernetes_control_plane_endpoint }}'
+    --service-dns-domain='{{ kubernetes_dns_domain }}'
   changed_when: true
 
 - name: Configure kubectl

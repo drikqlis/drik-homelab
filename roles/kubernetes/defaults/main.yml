@@ -16,6 +16,7 @@ kubernetes_join_cluster: false
 
 kubernetes_pod_network: 10.13.0.0/16
 kubernetes_kube_vip_control_plane_address: 192.168.61.10
+kubernetes_dns_domain: cluster.local
 kubernetes_control_plane_endpoint: kube-control.example.com
 kubernetes_kube_vip_global_range: 192.168.61.11-192.168.61.50
 kubernetes_kube_vip_local_as: 64501
