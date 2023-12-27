@@ -5,6 +5,10 @@
     repo_name: ingress-nginx
     repo_url: https://kubernetes.github.io/ingress-nginx
 
+- name: Show values for deployment
+  ansible.builtin.debug:
+    msg: "{{ lookup('template', 'ingress-nginx-values.yaml') | from_yaml }}"
+
 - name: Deploy nginx-ingress chart
   kubernetes.core.helm:
     name: ingress-nginx
