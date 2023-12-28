@@ -15,6 +15,7 @@ zfs_main_dataset:
     -o encryption=on
     -o keyformat=passphrase
     -o compression=zstd
+    -o recordsize=1M
   passphrase: "{{ crypt_passphrase | default('example-passphrase') }}"
 
 zfs_datasets:
