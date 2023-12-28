@@ -10,6 +10,7 @@ kubernetes_enabled: false
 ufw_enabled: true
 zfs_enabled: false
 btrfs_additional_drives_enabled: false
+btrfs_nocow_enabled: false
 pacman_local_mirror_enabled: true
 
 network_interface: eno1

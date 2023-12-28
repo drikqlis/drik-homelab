@@ -65,6 +65,12 @@
           when: nfs_enabled | bool and nfs_configure | default(false) | bool
           tags: [nfs]
 
+        - name: BTRFS disable copy on write
+          ansible.builtin.import_role:
+            name: btrfs_nocow
+          when: btrfs_nocow_enabled
+          tags: [btrfs_nocow]
+
     - name: GUI configuration
       when: gui_enabled | bool
       block:

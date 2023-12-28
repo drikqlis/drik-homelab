@@ -58,6 +58,9 @@ btrfs_additional_drives:
         mount_point: "/mnt/data1/other"
       - name: "@snapshots"
         mount_point: "/mnt/data1/.snapshots"
+btrfs_nocow_enabled: true
+btrfs_nocow_dirs:
+  - /mnt/data1/kube
 
 nfs_enabled: true
 nfs_server_root_access:
