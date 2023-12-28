@@ -55,6 +55,7 @@
     - { section: "core", option: "Server", value: "{{ pacman_local_mirror_url }}" }
     - { section: "extra", option: "Server", value: "{{ pacman_local_mirror_url }}" }
   when: pacman_local_mirror_enabled
+  notify: Update cache
 
 - name: Ensure arch.drik.it repo is added
   ansible.builtin.blockinfile:
@@ -82,3 +83,6 @@
     enabled: true
     state: started
   notify: Run reflector
+
+- name: Flush handlers
+  ansible.builtin.meta: flush_handlers
