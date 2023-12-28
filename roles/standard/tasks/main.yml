@@ -6,6 +6,14 @@
     regexp: ^#?SystemMaxUse=
     line: SystemMaxUse=200M
 
+- name: Set global bash config
+  ansible.builtin.template:
+    src: bash_history.sh.j2
+    dest: /etc/profile.d/bash_history.sh
+    mode: "0644"
+    owner: root
+    group: root
+
 - name: Set vim as default editor
   ansible.builtin.lineinfile:
     path: /etc/environment
