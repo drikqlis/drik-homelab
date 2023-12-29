@@ -9,17 +9,6 @@
     mode: "0644"
   changed_when: true
 
-- name: Add subvolumes to fstab
-  ansible.posix.mount:
-    fstab: /mnt/etc/fstab
-    path: "{{ item.mount_point }}"
-    src: UUID={{ installation_cryptroot_uuid.stdout }}
-    fstype: btrfs
-    opts: subvol={{ item.name }},compress=zstd:1
-    passno: "0"
-    state: present
-  loop: "{{ installation_btrfs_subvolumes }}"
-
 - name: Add EFI volume to fstab
   ansible.posix.mount:
     fstab: /mnt/etc/fstab
@@ -35,7 +24,7 @@
     fstab: /mnt/etc/fstab
     path: /boot
     src: "{{ installation_efi_partiton_mount_point }}"
-    fstype: btrfs
+    fstype: zfs
     opts: bind,defaults
     state: present
   when: not installation_uki_enabled
@@ -44,10 +33,4 @@
   ansible.builtin.command: >
     arch-chroot /mnt fatlabel
     {{ installation_drive.name }}{{ installation_drive.efi_partition_suffix }} "{{ installation_drive.efi_partition_label }}"
-  changed_when: true
-
-- name: Set label for root partition
-  ansible.builtin.command: >
-    arch-chroot /mnt cryptsetup config
-    --label="{{ installation_drive.root_partition_label }}_crypt" {{ installation_drive.name }}{{ installation_drive.root_partition_suffix }}
   changed_when: true

@@ -18,5 +18,3 @@ network_bond_enabled: false
 network_bond_slaves:
   - eno1
   - eno2
-
-mkinitcpio_hooks_base: "base systemd sd-encrypt autodetect keyboard sd-vconsole modconf block filesystems fsck"

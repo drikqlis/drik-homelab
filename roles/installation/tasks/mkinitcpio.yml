@@ -4,7 +4,7 @@
   ansible.builtin.lineinfile:
     dest: /mnt/etc/mkinitcpio.conf
     regexp: ^HOOKS=
-    line: HOOKS=({{ mkinitcpio_hooks_base }})
+    line: HOOKS=({{ installation_mkinitcpio_hooks }})
 
 - name: Add mkinitcpio.conf modules
   ansible.builtin.lineinfile:
@@ -20,13 +20,19 @@
     group: root
     mode: "0600"
 
+- name: Create cmdline dir
+  ansible.builtin.file:
+    dest: /mnt/etc/cmdline.d
+    owner: root
+    group: root
+    mode: "0700"
+    state: directory
+
 - name: Configure kernel parametres
   ansible.builtin.copy:
     content: >
-      rd.luks.name={{ installation_root_uuid.stdout }}=cryptroot
-      rd.luks.options={{ installation_root_uuid.stdout }}=tpm2-device=auto,discard
-      root=/dev/mapper/cryptroot rw nosgx {{ installation_kernel_cmdline }}
-    dest: /mnt/etc/kernel/cmdline
+      zfs={{ installation_zfs_root_dataset }} rw nosgx {{ installation_kernel_cmdline }}
+    dest: /mnt/etc/cmdline.d/arch.conf
     owner: root
     group: root
     mode: "0600"
@@ -36,6 +42,10 @@
     path: /mnt{{ installation_efi_partiton_mount_point }}/EFI/Linux
     state: directory
     mode: "0700"
+
+- name: Generate hostid
+  ansible.builtin.shell: arch-chroot /mnt zgenhostid -f "$(hostid)"
+  changed_when: true
 
 - name: Create new initramfs
   ansible.builtin.command: arch-chroot /mnt mkinitcpio -P

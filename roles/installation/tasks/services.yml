@@ -16,3 +16,12 @@
   ansible.builtin.command: arch-chroot /mnt systemctl enable qemu-guest-agent.service
   changed_when: true
   when: gpu_manufacturer == "virt"
+
+- name: Enable zfs services
+  ansible.builtin.command: arch-chroot /mnt {{ item }}
+  changed_when: true
+  loop:
+    - systemctl enable zfs.target
+    - systemctl enable zfs-import-cache.service
+    - systemctl enable zfs-mount.service
+    - systemctl enable zfs-import.target

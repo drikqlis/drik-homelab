@@ -4,6 +4,16 @@
   ansible.builtin.command: find /dev -wholename "{{ installation_drive.name }}*" -exec wipefs --force --all {} \;
   changed_when: true
 
+- name: Install zfs on archiso # noqa risky-shell-pipe command-instead-of-module
+  ansible.builtin.shell: curl -s https://raw.githubusercontent.com/eoli3n/archiso-zfs/master/init | bash
+  changed_when: true
+
+- name: Ensure python-pexpect is installed
+  community.general.pacman:
+    name:
+      - python-pexpect
+    state: present
+
 - name: Create EFI partition
   community.general.parted:
     device: "{{ installation_drive.name }}"
@@ -30,68 +40,66 @@
     name: root
     state: present
 
-- name: Create and open LUKS container with a passphrase
-  community.crypto.luks_device:
-    device: "{{ installation_drive.name }}{{ installation_drive.root_partition_suffix }}"
-    passphrase: "{{ crypt_passphrase }}"
-    name: cryptroot
-    state: opened
-
-- name: Create btrfs filesystem in root partion
-  community.general.filesystem:
-    dev: /dev/mapper/cryptroot
-    fstype: btrfs
-    opts: -L {{ installation_drive.root_partition_label }}
-    force: true
-
-- name: Mount root
-  ansible.posix.mount:
-    path: /mnt
-    src: /dev/mapper/cryptroot
-    fstype: btrfs
-    opts: compress=zstd:1
-    state: mounted
-
-- name: Create default subvolume
-  ansible.builtin.command: btrfs subvolume create /mnt/{{ item.name }}
+- name: Create encrypted zpool
+  ansible.builtin.expect:
+    command: >
+      zpool create -f -o ashift=12
+      -O acltype=posixacl
+      -O relatime=on
+      -o autotrim=on
+      -o autoexpand=on
+      -O xattr=sa
+      -O dnodesize=legacy
+      -O normalization=formD
+      -O mountpoint=none
+      -O canmount=off
+      -O devices=off
+      -R /mnt
+      -O compression={{ installation_zfs_zpool_compression }}
+      -O encryption=aes-256-gcm
+      -O keyformat=passphrase
+      -O keylocation=prompt
+      {{ installation_zfs_additional_zpool_properties | default('') | trim }}
+      zroot {{ installation_drive.name }}{{ installation_drive.root_partition_suffix }}
+    responses:
+      (?i)passphrase: "{{ crypt_passphrase }}"
+  no_log: false
   changed_when: true
-  when: item.default | default(false)
-  loop: "{{ installation_btrfs_subvolumes }}"
 
-- name: Get default subvolume id
-  ansible.builtin.shell: set -o pipefail && btrfs subvolume list -p /mnt | grep -oP '(?<=ID\s)\d+'
+- name: Create datasets
+  ansible.builtin.command: zfs create {{ item.properties }} {{ item.name }}
+  changed_when: true
+  loop: "{{ installation_zfs_datasets }}"
+
+- name: Export zroot
+  ansible.builtin.command: zpool export zroot
+  changed_when: true
+
+- name: Get zroot id # noqa risky-shell-pipe
+  ansible.builtin.shell: zpool import | grep -oP '(?<=id:).*'
   changed_when: false
-  register: installation_btrfs_default_subvolume_id
+  register: installation_zfs_zroot_import_id_result
 
-- name: Set root subvolume as default
-  ansible.builtin.command: btrfs subvolume set-default {{ installation_btrfs_default_subvolume_id.stdout }} /mnt/{{ item.name }}
+- name: Import zroot
+  ansible.builtin.command: zpool import {{ installation_zfs_zroot_import_id_result.stdout | trim }} -R /mnt zroot
   changed_when: true
-  when: item.default | default(false)
-  loop: "{{ installation_btrfs_subvolumes }}"
 
-- name: Create other subvolumes
-  ansible.builtin.command: btrfs subvolume create /mnt/{{ item.name }}
+- name: Open zroot
+  ansible.builtin.expect:
+    command: zfs load-key zroot
+    responses:
+      (?i)passphrase: "{{ crypt_passphrase }}"
+
+- name: Mount datasets and configure properties and cache
+  ansible.builtin.command: "{{ item }}"
   changed_when: true
-  when: not item.default | default(false)
-  loop: "{{ installation_btrfs_subvolumes }}"
-
-- name: Unmount root
-  ansible.posix.mount:
-    path: /mnt
-    src: /dev/mapper/cryptroot
-    fstype: btrfs
-    opts: compress=zstd:1
-    state: unmounted
-
-- name: Mount new root subvolume
-  ansible.posix.mount:
-    path: /mnt{{ item.mount_point }}
-    src: /dev/mapper/cryptroot
-    fstype: btrfs
-    opts: subvol={{ item.name }},compress=zstd:1
-    state: mounted
-  when: item.default | default(false)
-  loop: "{{ installation_btrfs_subvolumes }}"
+  loop:
+    - "zfs mount {{ installation_zfs_root_dataset }}"
+    - "zfs mount -a"
+    - "zpool set bootfs={{ installation_zfs_root_dataset }} zroot"
+    - "zpool set cachefile=/etc/zfs/zpool.cache zroot"
+    - "mkdir -p /mnt/etc/zfs"
+    - "cp /etc/zfs/zpool.cache /mnt/etc/zfs/zpool.cache"
 
 - name: Create mountpoints for efi
   ansible.builtin.file:
@@ -115,21 +123,3 @@
     opts: bind,defaults
     state: mounted
   when: not installation_uki_enabled
-
-- name: Create mountpoints for btrfs subvolumes
-  ansible.builtin.file:
-    path: /mnt{{ item.mount_point }}
-    state: directory
-    mode: "{{ item.mode | default('0755') }}"
-  when: not item.default | default(false)
-  loop: "{{ installation_btrfs_subvolumes }}"
-
-- name: Mount subvolumes
-  ansible.posix.mount:
-    path: /mnt{{ item.mount_point }}
-    src: /dev/mapper/cryptroot
-    fstype: btrfs
-    opts: subvol={{ item.name }},compress=zstd:1
-    state: mounted
-  when: not item.default | default(false)
-  loop: "{{ installation_btrfs_subvolumes }}"

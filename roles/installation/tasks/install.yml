@@ -13,10 +13,23 @@
     - { section: "extra", option: "Server", value: "{{ pacman_local_mirror_url }}" }
   when: pacman_local_mirror_enabled | default(false)
 
+- name: Ensure arch.drik.it repo is added
+  ansible.builtin.blockinfile:
+    path: /etc/pacman.conf
+    insertafter: EOF
+    block: |
+      [aur]
+      SigLevel = Optional TrustAll
+      Server = https://arch.drik.it
+
+- name: Update cache
+  community.general.pacman:
+    update_cache: true
+
 - name: Run pacstrap to install base system
   ansible.builtin.command: >
-    pacstrap /mnt base bind inetutils base-devel linux linux-headers linux-firmware btrfs-progs
-    vim nano sudo htop networkmanager e2fsprogs dosfstools ntfs-3g intel-ucode git openssh
+    pacstrap /mnt base bind inetutils base-devel linux linux-headers linux-firmware zfs-dkms zfs-utils
+    vim nano sudo htop networkmanager e2fsprogs dosfstools ntfs-3g intel-ucode git openssh rsync
     python python-pexpect python-lxml sudo sbctl tpm2-tools efibootmgr less {{ installation_additional_packages }}
   changed_when: true
 

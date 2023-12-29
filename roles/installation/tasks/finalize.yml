@@ -1,0 +1,23 @@
+---
+
+- name: Disable root and configure cache
+  ansible.builtin.command: "{{ item }}"
+  changed_when: true
+  loop:
+    - arch-chroot /mnt passwd -l root
+    - arch-chroot /mnt zpool set cachefile=/etc/zfs/zpool.cache zroot"
+
+- name: Unmount partitions
+  ansible.builtin.command: "{{ item }}"
+  changed_when: true
+  loop:
+    - "umount /mnt{{ installation_efi_partiton_mount_point }}"
+    - "zfs umount -a"
+    - "zpool export zroot"
+
+- name: Reboot archiso and ignore errors # noqa command-instead-of-shell
+  ansible.builtin.shell: reboot
+  changed_when: true
+  failed_when: false
+  ignore_unreachable: true
+  when: installation_reboot_after_install | bool

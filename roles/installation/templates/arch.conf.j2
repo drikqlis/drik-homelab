@@ -10,4 +10,4 @@ initrd  /initramfs-linux.img
 {% else %}
 initrd  /initramfs-linux-fallback.img
 {% endif %}
-options rd.luks.name={{ installation_root_uuid.stdout }}=cryptroot rd.luks.options={{ installation_root_uuid.stdout }}=tpm2-device=auto,discard root=/dev/mapper/cryptroot rw nosgx {{ installation_kernel_cmdline }}
+options zfs={{ installation_zfs_root_dataset }} rw nosgx {{ installation_kernel_cmdline }}

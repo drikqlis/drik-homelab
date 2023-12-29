@@ -45,8 +45,6 @@
   ansible.builtin.import_tasks: user.yml
   tags: [user]
 
-- name: Reboot archiso and ignore errors # noqa command-instead-of-shell
-  ansible.builtin.shell: reboot
-  changed_when: true
-  failed_when: false
-  ignore_unreachable: true
+- name: Finalize
+  ansible.builtin.import_tasks: finalize.yml
+  tags: [finalize]

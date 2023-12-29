@@ -1,20 +1,5 @@
 ---
 
-installation_btrfs_subvolumes: "{{ installation_default_btrfs_subvolumes + installation_additional_btrfs_subvolumes }}"
-installation_additional_btrfs_subvolumes: []
-installation_default_btrfs_subvolumes:
-  - name: "@"
-    default: true
-    mount_point: "/"
-  - name: "@home"
-    mount_point: "/home"
-  - name: "@snapshots"
-    mount_point: "/.snapshots"
-  - name: "@var_log"
-    mount_point: "/var/log"
-  - name: "@var_cache_pacman_pkg"
-    mount_point: "/var/cache/pacman/pkg"
-
 installation_drive:
   name: /dev/nvme0n1
   efi_partition_suffix: p1
@@ -25,6 +10,21 @@ installation_drive:
 installation_efi_partiton_mount_point: /efi
 installation_uki_enabled: true
 installation_secure_boot_enabled: true
+
+installation_zfs_virt_zpool_properties: >
+  -O recordsize=64KiB
+installation_zfs_additional_zpool_properties: "{{ installation__zfs_virt_zpool_properties if gpu_manufacturer == 'virt' else '' }}"
+installation_zfs_zpool_compression: lz4
+installation_zfs_datasets:
+  - name: zroot/data
+    properties: -o mountpoint=none
+  - name: zroot/ROOT
+    properties: -o mountpoint=none
+  - name: zroot/ROOT/default
+    properties: -o mountpoint=/ -o canmount=noauto
+  - name: zroot/data/home
+    properties: -o mountpoint=/home
+installation_zfs_root_dataset: zroot/ROOT/default
 
 installation_intel_packages: mesa vulkan-intel intel-media-driver intel-gpu-tools
 installation_nvidia_packages: nvidia nvidia-settings
@@ -44,13 +44,16 @@ installation_kernel_cmdline: >
   else installation_virt_kernel_cmdline if gpu_manufacturer == 'virt'
   else '' }}
 
-installation_intel_mkinicpio_modules: i915
-installation_nvidia_mkinicpio_modules: nvidia nvidia_modeset nvidia_uvm nvidia_drm
-installation_virt_mkinicpio_modules: virtio virtio_blk virtio_pci virtio_net virtio_ring
+installation_intel_mkinicpio_modules: zfs i915
+installation_nvidia_mkinicpio_modules: zfs nvidia nvidia_modeset nvidia_uvm nvidia_drm
+installation_virt_mkinicpio_modules: zfs virtio virtio_blk virtio_pci virtio_net virtio_ring
 installation_mkinicpio_modules: >
   {{ installation_intel_mkinicpio_modules if gpu_manufacturer == 'intel'
   else installation_nvidia_mkinicpio_modules if gpu_manufacturer == 'nvidia'
   else installation_virt_mkinicpio_modules if gpu_manufacturer == 'virt'
   else '' }}
 
+installation_mkinitcpio_hooks: "base udev autodetect modconf block keyboard zfs filesystems fsck"
+
 installation_existing_secureboot_keys: false
+installation_reboot_after_install: true

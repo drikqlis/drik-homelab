@@ -5,16 +5,6 @@
   register: installation_efi_uuid
   changed_when: false
 
-- name: Get UUID for root filesystem
-  ansible.builtin.command: blkid -s UUID -o value "{{ installation_drive.name }}{{ installation_drive.root_partition_suffix }}"
-  register: installation_root_uuid
-  changed_when: false
-
-- name: Get UUID for cryptroot filesystem
-  ansible.builtin.command: blkid -s UUID -o value /dev/mapper/cryptroot
-  register: installation_cryptroot_uuid
-  changed_when: false
-
 - name: Get tpm driver
   ansible.builtin.shell: systemd-cryptenroll --tpm2-device=list |& grep -o "tpm_.*"
   ignore_errors: true
