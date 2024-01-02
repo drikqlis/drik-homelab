@@ -1,6 +1,0 @@
----
-
-- name: Disable COW on selected dirs
-  ansible.builtin.command: "chattr +C {{ item }}"
-  changed_when: true
-  loop: "{{ btrfs_nocow_dirs }}"

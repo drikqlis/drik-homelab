@@ -47,16 +47,10 @@
           when: kvm_enabled | bool
           tags: [kvm]
 
-        - name: Additional BTRFS drives configration
-          ansible.builtin.import_role:
-            name: btrfs
-          when: btrfs_additional_drives_enabled | bool and btrfs_configure | default(false) | bool
-          tags: [btrfs]
-
         - name: ZFS configuration
           ansible.builtin.import_role:
             name: zfs
-          when: zfs_enabled | bool and zfs_configure | default(false) | bool
+          when: zfs_additional_drives_enabled | bool and zfs_configure | default(false) | bool
           tags: [zfs]
 
         - name: NFS configuration
@@ -64,12 +58,6 @@
             name: nfs
           when: nfs_enabled | bool and nfs_configure | default(false) | bool
           tags: [nfs]
-
-        - name: BTRFS disable copy on write
-          ansible.builtin.import_role:
-            name: btrfs_nocow
-          when: btrfs_nocow_enabled
-          tags: [btrfs_nocow]
 
     - name: GUI configuration
       when: gui_enabled | bool

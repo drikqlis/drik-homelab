@@ -8,11 +8,11 @@ nfs_server_share_default_options: rw,sync,nohide,all_squash,anonuid={{ nfs_user_
 nfs_server_root_access:
   - client: 192.168.1.0/24
 nfs_server_shares:
-  - mount_point: /srv/nfs/data-zfs
-    source: /zfs/ds1/data
+  - mount_point: /srv/nfs/data-zfs1
+    source: /zfs/ds1/data1
     fstype: zfs
     bind_options: bind,defaults,x-systemd.requires=zfs-mount.service
-  - mount_point: /srv/nfs/data-btrfs
-    source: /mnt/data1
-    fstype: btrfs
-    bind_options: bind,defaults
+  - mount_point: /srv/nfs/data-zfs2
+    source: /zfs/ds1/data2
+    fstype: zfs
+    bind_options: bind,defaults,x-systemd.requires=zfs-mount.service

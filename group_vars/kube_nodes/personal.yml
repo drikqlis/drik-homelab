@@ -18,9 +18,9 @@ csi_driver_nfs_default_nfs_server: "{{ lookup('community.general.bitwarden', 'gr
 csi_driver_nfs_storage_classes:
   - storage_class_name: nfs-nvme
     is_default: true
-    nfs_path: /kube-btrfs
+    nfs_path: /kube-nvme
   - storage_class_name: nfs-hdd
-    nfs_path: /kube-zfs
+    nfs_path: /kube-hdd
   - storage_class_name: nfs-media
     nfs_path: /media
     reclaim_policy: Retain
