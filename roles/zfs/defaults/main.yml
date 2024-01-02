@@ -1,25 +1,17 @@
 ---
 
-zfs_pool_mount: /zfs
-zfs_pool_name: zpool1
-zfs_devices:
-  - /dev/vdb
-  - /dev/vdc
-  - /dev/vdd
+zfs_zpools:
+  - name: zpool1
+    devices:
+      - /dev/vdb
+      - /dev/vdc
+      - /dev/vdd
+    raid: raidz2
+    datasets:
+      - name: data
+      - name: backup
+        properties: >
+          -o compression=zstd-9
 
-zfs_raid: raidz2
-
-zfs_main_dataset:
-  name: ds1
-  properties: >
-    -o encryption=on
-    -o keyformat=passphrase
-    -o compression=zstd
-    -o recordsize=1M
-  passphrase: "{{ crypt_passphrase | default('example-passphrase') }}"
-
-zfs_datasets:
-  - name: "{{ zfs_main_dataset.name }}/data"
-  - name: "{{ zfs_main_dataset.name }}/backup"
-    properties: >
-      -o compression=zstd-9
+zfs_default_zpool_compression: lz4
+zfs_default_recordsize: 1M

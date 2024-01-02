@@ -16,15 +16,11 @@ installation_zfs_virt_zpool_properties: >
 installation_zfs_additional_zpool_properties: "{{ installation__zfs_virt_zpool_properties if gpu_manufacturer == 'virt' else '' }}"
 installation_zfs_zpool_compression: lz4
 installation_zfs_datasets:
-  - name: zroot/data
-    properties: -o mountpoint=none
-  - name: zroot/ROOT
-    properties: -o mountpoint=none
-  - name: zroot/ROOT/default
+  - name: root
     properties: -o mountpoint=/ -o canmount=noauto
-  - name: zroot/data/home
+  - name: home
     properties: -o mountpoint=/home
-installation_zfs_root_dataset: zroot/ROOT/default
+installation_zfs_root_dataset: zroot/root
 
 installation_intel_packages: mesa vulkan-intel intel-media-driver intel-gpu-tools
 installation_nvidia_packages: nvidia nvidia-settings

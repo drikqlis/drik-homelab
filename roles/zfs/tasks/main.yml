@@ -17,59 +17,25 @@
     - zfs.target
     - zfs-import.target
 
-- name: Create zpool
-  ansible.builtin.command: >
-    zpool create -f -o ashift=12
-    -m {{ zfs_pool_mount }} {{ zfs_pool_name }}
-    {{ zfs_raid }} {{ zfs_devices | join(' ') }}
-    creates={{ zfs_pool_mount }}
-
-- name: Check if main dateset exists
-  ansible.builtin.stat:
-    path: "{{ zfs_pool_mount }}/{{ zfs_main_dataset.name }}"
-  register: zfs_main_dataset_dir_result
-
-- name: Create encrypted main dataset
-  ansible.builtin.expect:
-    command: >
-      zfs create
-      {{ zfs_main_dataset.properties | trim }}
-      {{ zfs_pool_name }}/{{ zfs_main_dataset.name }}
-    responses:
-      (?i)passphrase: "{{ zfs_main_dataset.passphrase }}"
-  no_log: true
-  when: not zfs_main_dataset_dir_result.stat.exists | bool
-  changed_when: true
-
-- name: Create service to unlock main dataset at boot
+- name: Create required services and timers
   ansible.builtin.copy:
-    src: zfs-load-key@.service
-    dest: /etc/systemd/system/zfs-load-key@.service
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
     mode: "0644"
     owner: root
     group: root
+  loop:
+    - src: zfs-trim@.timer
+      dest: /etc/systemd/system/zfs-trim@.timer
+    - src: zfs-trim@.service
+      dest: /etc/systemd/system/zfs-trim@.service
 
 - name: Reload systemd daemon
   ansible.builtin.systemd:
     daemon_reload: true
 
-- name: Enable service to unlock main dataset at boot
-  ansible.builtin.systemd:
-    name: zfs-load-key@{{ zfs_pool_name }}-{{ zfs_main_dataset.name }}.service
-    enabled: true
-
-- name: Enable weekly scrub timer
-  ansible.builtin.systemd:
-    name: zfs-scrub-weekly@{{ zfs_pool_name }}.timer
-    enabled: true
-
-- name: Reboot to mount zfs
-  ansible.builtin.reboot:
-  when: not zfs_main_dataset_dir_result.stat.exists | bool
-
-- name: Create datasets
-  ansible.builtin.command: >
-    zfs create {{ item.properties | default('') | trim }}
-    {{ zfs_pool_name }}/{{ item.name }}
-    creates={{ zfs_pool_mount }}/{{ item.name }}
-  loop: "{{ zfs_datasets }}"
+- name: Create zpools
+  ansible.builtin.include_tasks: zpool.yml
+  loop: "{{ zfs_zpools }}"
+  loop_control:
+    loop_var: zpool

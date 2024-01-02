@@ -1,0 +1,49 @@
+---
+
+- name: Create zpool
+  ansible.builtin.command: >
+    zpool create -o ashift=12
+    -O acltype=posixacl
+    -O relatime=on
+    -o autotrim=on
+    -o autoexpand=on
+    -O xattr=sa
+    -O dnodesize=legacy
+    -O normalization=formD
+    -O mountpoint=none
+    -O canmount=off
+    -O devices=off
+    -R /mnt
+    -O compression={{ zpool.compression | default(zfs_default_zpool_compression) }}
+    -O encryption=aes-256-gcm
+    -O keyformat=passphrase
+    -O keylocation=prompt
+    {{ zpool.additional_properties | default('') | trim }}
+    {{ zpool.name }} {{ zpool.raid | default('') }}
+    {{ zpool.devices | join(' ') }}
+  changed_when: true
+
+- name: Enable weekly scrub timer
+  ansible.builtin.systemd:
+    name: zfs-scrub-weekly@{{ zpool.name }}.timer
+    enabled: true
+  when: zpool.raid is defined
+
+- name: Enable monthly trimming
+  ansible.builtin.systemd:
+    name: zfs-trim@{{ zpool.name }}.timer
+    enabled: true
+
+- name: Create datasets
+  ansible.builtin.command: >
+    zfs create
+    -o mountpoint={{ item.mount_point | default('/mnt/' + item.name) }}
+    -o recordsize={{ item.recordsize | default(zfs_default_recordsize) }}
+    {{ item.properties | default('') | trim }}
+    {{ zpool.name }}/{{ item.name }}
+    creates=/{{ item.mount_point | default('/mnt/' + item.name) }}
+  loop: "{{ zpool.datasets }}"
+
+- name: Mount datasets
+  ansible.builtin.command: zfs mount -a
+  changed_when: true

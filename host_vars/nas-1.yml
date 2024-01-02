@@ -21,25 +21,35 @@ network_config:
   dns4_search: "{{ localdomain }}"
 
 zfs_additional_drives_enabled: true
-zfs_datasets:
-  - name: "{{ zfs_main_dataset.name }}/media"
-  - name: "{{ zfs_main_dataset.name }}/cloud"
-  - name: "{{ zfs_main_dataset.name }}/kube"
-  - name: "{{ zfs_main_dataset.name }}/other"
-  - name: "{{ zfs_main_dataset.name }}/backup"
-    properties: >
-      -o compression=zstd-9
-zfs_devices:
-  - "{{ lookup('community.general.bitwarden', 'host_vars_nas-1', field='zfs_devices_1') | first }}"
-  - "{{ lookup('community.general.bitwarden', 'host_vars_nas-1', field='zfs_devices_2') | first }}"
-  - "{{ lookup('community.general.bitwarden', 'host_vars_nas-1', field='zfs_devices_3') | first }}"
-  - "{{ lookup('community.general.bitwarden', 'host_vars_nas-1', field='zfs_devices_4') | first }}"
-  - "{{ lookup('community.general.bitwarden', 'host_vars_nas-1', field='zfs_devices_5') | first }}"
-  - "{{ lookup('community.general.bitwarden', 'host_vars_nas-1', field='zfs_devices_6') | first }}"
-  - "{{ lookup('community.general.bitwarden', 'host_vars_nas-1', field='zfs_devices_7') | first }}"
-  - "{{ lookup('community.general.bitwarden', 'host_vars_nas-1', field='zfs_devices_8') | first }}"
-  - "{{ lookup('community.general.bitwarden', 'host_vars_nas-1', field='zfs_devices_9') | first }}"
-  - "{{ lookup('community.general.bitwarden', 'host_vars_nas-1', field='zfs_devices_10') | first }}"
+zfs_zpools:
+  - name: zpool-hdd
+    raid: raidz2
+    compression: zstd-1
+    datasets:
+      - name: media
+      - name: cloud
+      - name: kube-hdd
+      - name: other-hdd
+      - name: backup
+        properties: >
+          -o compression=zstd-9
+    devices:
+      - "{{ lookup('community.general.bitwarden', 'host_vars_nas-1', field='zfs_devices_1') | first }}"
+      - "{{ lookup('community.general.bitwarden', 'host_vars_nas-1', field='zfs_devices_2') | first }}"
+      - "{{ lookup('community.general.bitwarden', 'host_vars_nas-1', field='zfs_devices_3') | first }}"
+      - "{{ lookup('community.general.bitwarden', 'host_vars_nas-1', field='zfs_devices_4') | first }}"
+      - "{{ lookup('community.general.bitwarden', 'host_vars_nas-1', field='zfs_devices_5') | first }}"
+      - "{{ lookup('community.general.bitwarden', 'host_vars_nas-1', field='zfs_devices_6') | first }}"
+      - "{{ lookup('community.general.bitwarden', 'host_vars_nas-1', field='zfs_devices_7') | first }}"
+      - "{{ lookup('community.general.bitwarden', 'host_vars_nas-1', field='zfs_devices_8') | first }}"
+      - "{{ lookup('community.general.bitwarden', 'host_vars_nas-1', field='zfs_devices_9') | first }}"
+      - "{{ lookup('community.general.bitwarden', 'host_vars_nas-1', field='zfs_devices_10') | first }}"
+  - name: zpool-nvme
+    datasets:
+      - name: kube-nvme
+      - name: other-nvme
+    devices:
+      - "{{ lookup('community.general.bitwarden', 'host_vars_nas-1', field='zfs_devices_nvme_1') | first }}"
 
 nfs_enabled: true
 nfs_server_root_access:
@@ -50,18 +60,10 @@ nfs_server_root_access:
   - client: "kube-[1-4].{{ localdomain }}"
 nfs_server_shares:
   - mount_point: /srv/nfs/kube-nvme
-    source: /zfs/ds1/kube-nvme
-    fstype: zfs
-    bind_options: bind,defaults,x-systemd.requires=zfs-mount.service
+    source: /mnt/kube-nvme
   - mount_point: /srv/nfs/kube-hdd
-    source: /zfs/ds1/kube-hdd
-    fstype: zfs
-    bind_options: bind,defaults,x-systemd.requires=zfs-mount.service
+    source: /mnt/kube-hdd
   - mount_point: /srv/nfs/media
-    source: /zfs/ds1/media
-    fstype: zfs
-    bind_options: bind,defaults,x-systemd.requires=zfs-mount.service
+    source: /mnt/media
   - mount_point: /srv/nfs/cloud
-    source: /zfs/ds1/cloud
-    fstype: zfs
-    bind_options: bind,defaults,x-systemd.requires=zfs-mount.service
+    source: /mnt/cloud

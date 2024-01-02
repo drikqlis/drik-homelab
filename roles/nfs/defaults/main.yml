@@ -10,9 +10,7 @@ nfs_server_root_access:
 nfs_server_shares:
   - mount_point: /srv/nfs/data-zfs1
     source: /zfs/ds1/data1
-    fstype: zfs
-    bind_options: bind,defaults,x-systemd.requires=zfs-mount.service
   - mount_point: /srv/nfs/data-zfs2
     source: /zfs/ds1/data2
-    fstype: zfs
-    bind_options: bind,defaults,x-systemd.requires=zfs-mount.service
+nfs_default_bind_options: bind,defaults,x-systemd.requires=zfs-mount.service
+nfs_default_fstype: zfs

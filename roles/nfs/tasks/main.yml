@@ -35,8 +35,8 @@
     fstab: /etc/fstab
     path: "{{ item.mount_point }}"
     src: "{{ item.source }}"
-    fstype: "{{ item.fstype }}"
-    opts: "{{ item.bind_options }}"
+    fstype: "{{ item.fstype | default(nfs_default_fstype) }}"
+    opts: "{{ item.bind_options | default(nfs_default_bind_options) }}"
     state: mounted
   loop: "{{ nfs_server_shares }}"
 
