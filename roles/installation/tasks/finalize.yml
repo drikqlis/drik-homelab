@@ -5,7 +5,7 @@
   changed_when: true
   loop:
     - arch-chroot /mnt passwd -l root
-    - arch-chroot /mnt zpool set cachefile=/etc/zfs/zpool.cache {{ installation_drive.root_zpool }}"
+    - arch-chroot /mnt zpool set cachefile=/etc/zfs/zpool.cache {{ installation_drive.root_zpool }}
 
 - name: Unmount partitions
   ansible.builtin.command: "{{ item }}"
