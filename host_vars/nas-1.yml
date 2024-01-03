@@ -24,7 +24,7 @@ zfs_additional_drives_enabled: true
 zfs_zpools:
   - name: hdd1
     raid: raidz2
-    compression: zstd-1
+    compression: zstd-3
     datasets:
       - name: media
       - name: cloud
