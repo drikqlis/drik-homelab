@@ -40,6 +40,10 @@
     state: mounted
   loop: "{{ nfs_server_shares }}"
 
+- name: Daemon reload
+  ansible.builtin.systemd:
+    daemon_reload: true
+
 - name: Set permissions for shares
   ansible.builtin.file:
     dest: "{{ nfs_server_root }}"
