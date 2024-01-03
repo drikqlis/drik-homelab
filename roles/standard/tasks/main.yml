@@ -59,5 +59,4 @@
       - sbctl
       - tpm2-tools
       - bash-completion
-      - mkinitcpio-firmware
     state: present
