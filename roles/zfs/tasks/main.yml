@@ -7,16 +7,6 @@
       - zfs-utils
     state: present
 
-- name: Enable required services and targets
-  ansible.builtin.systemd:
-    name: "{{ item }}"
-    enabled: true
-  loop:
-    - zfs-mount.service
-    - zfs-import-cache.service
-    - zfs.target
-    - zfs-import.target
-
 - name: Create required services and timers
   ansible.builtin.copy:
     src: "{{ item.src }}"
@@ -29,10 +19,23 @@
       dest: /etc/systemd/system/zfs-trim@.timer
     - src: zfs-trim@.service
       dest: /etc/systemd/system/zfs-trim@.service
+    - src: zfs-load-key.service
+      dest: /etc/systemd/system/zfs-load-key.service
 
 - name: Reload systemd daemon
   ansible.builtin.systemd:
     daemon_reload: true
+
+- name: Enable required services and targets
+  ansible.builtin.systemd:
+    name: "{{ item }}"
+    enabled: true
+  loop:
+    - zfs-mount.service
+    - zfs-import-cache.service
+    - zfs.target
+    - zfs-import.target
+    - zfs-load-key.service
 
 - name: Create zpools
   ansible.builtin.include_tasks: zpool.yml

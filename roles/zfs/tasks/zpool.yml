@@ -1,27 +1,37 @@
 ---
 
-- name: Create zpool
-  ansible.builtin.command: >
-    zpool create -o ashift=12
-    -O acltype=posixacl
-    -O relatime=on
-    -o autotrim=on
-    -o autoexpand=on
-    -O xattr=sa
-    -O dnodesize=legacy
-    -O normalization=formD
-    -O mountpoint=none
-    -O canmount=off
-    -O devices=off
-    -R /mnt
-    -O compression={{ zpool.compression | default(zfs_default_zpool_compression) }}
-    -O encryption=aes-256-gcm
-    -O keyformat=passphrase
-    -O keylocation=prompt
-    {{ zpool.additional_properties | default('') | trim }}
-    {{ zpool.name }} {{ zpool.raid | default('') }}
-    {{ zpool.devices | join(' ') }}
+- name: Check if zpool already exists
+  ansible.builtin.shell: set -o pipefail && zpool list -H | grep ^{{ zpool.name }}
+  changed_when: false
+  failed_when: false
+  register: zfs_zpool_list
+
+- name: Create encrypted zpool
+  ansible.builtin.expect:
+    command: >
+      zpool create -o ashift=12
+      -O acltype=posixacl
+      -O relatime=on
+      -o autotrim=on
+      -o autoexpand=on
+      -O xattr=sa
+      -O dnodesize=legacy
+      -O normalization=formD
+      -O mountpoint=none
+      -O canmount=off
+      -O devices=off
+      -O compression={{ zpool.compression | default(zfs_default_zpool_compression) }}
+      -O encryption=aes-256-gcm
+      -O keyformat=passphrase
+      -O keylocation=prompt
+      {{ zpool.additional_properties | default('') | trim }}
+      {{ zpool.name }} {{ zpool.raid | default('') }}
+      {{ zpool.devices | join(' ') }}
+    responses:
+      (?i)passphrase: "{{ crypt_passphrase }}"
+  no_log: true
   changed_when: true
+  when: zpool.name not in zfs_zpool_list.stdout
 
 - name: Enable weekly scrub timer
   ansible.builtin.systemd:

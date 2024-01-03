@@ -63,7 +63,7 @@
       {{ installation_drive.root_zpool }} {{ installation_drive.name }}{{ installation_drive.root_partition_suffix }}
     responses:
       (?i)passphrase: "{{ crypt_passphrase }}"
-  no_log: false
+  no_log: true
   changed_when: true
 
 - name: Create datasets
@@ -99,6 +99,7 @@
     - "zpool set bootfs={{ installation_zfs_root_dataset }} {{ installation_drive.root_zpool }}"
     - "zpool set cachefile=/etc/zfs/zpool.cache {{ installation_drive.root_zpool }}"
     - "mkdir -p /mnt/etc/zfs"
+    - "mkdir -p /mnt/etc/exports.d"
     - "cp /etc/zfs/zpool.cache /mnt/etc/zfs/zpool.cache"
 
 - name: Create mountpoints for efi
