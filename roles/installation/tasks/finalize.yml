@@ -12,6 +12,7 @@
   changed_when: true
   loop:
     - "umount /mnt{{ installation_efi_partiton_mount_point }}"
+    - "{{ 'umount /mnt/boot' if not installation_uki_enabled else 'cat /etc/hostname' }}"
     - "zfs umount -a"
     - "zpool export {{ installation_drive.root_zpool }}"
 
