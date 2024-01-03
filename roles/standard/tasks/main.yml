@@ -59,4 +59,5 @@
       - sbctl
       - tpm2-tools
       - bash-completion
+      - screen
     state: present
