@@ -4,7 +4,7 @@ installation_drive:
   efi_partition_suffix:
   efi_partition_label:
   root_partition_suffix:
-  root_partition_label:
+  root_zpool:
 hostname:
 # nvidia, intel, virt
 gpu_manufacturer:

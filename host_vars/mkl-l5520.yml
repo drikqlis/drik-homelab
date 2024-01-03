@@ -5,7 +5,7 @@ installation_drive:
   efi_partition_suffix: p1
   efi_partition_label: efi
   root_partition_suffix: p2
-  root_partition_label: arch
+  root_zpool: arch
 
 hostname: mkl-l5520
 # nvidia, intel, virt

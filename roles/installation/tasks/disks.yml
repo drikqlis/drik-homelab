@@ -60,33 +60,33 @@
       -O keyformat=passphrase
       -O keylocation=prompt
       {{ installation_zfs_additional_zpool_properties | default('') | trim }}
-      zroot {{ installation_drive.name }}{{ installation_drive.root_partition_suffix }}
+      {{ installation_drive.root_zpool }} {{ installation_drive.name }}{{ installation_drive.root_partition_suffix }}
     responses:
       (?i)passphrase: "{{ crypt_passphrase }}"
   no_log: false
   changed_when: true
 
 - name: Create datasets
-  ansible.builtin.command: zfs create {{ item.properties }} {{ item.name }}
+  ansible.builtin.command: zfs create {{ item.properties }} {{ installation_drive.root_zpool }}/{{ item.name }}
   changed_when: true
   loop: "{{ installation_zfs_datasets }}"
 
-- name: Export zroot
-  ansible.builtin.command: zpool export zroot
+- name: Export root zpool
+  ansible.builtin.command: zpool export {{ installation_drive.root_zpool }}
   changed_when: true
 
-- name: Get zroot id # noqa risky-shell-pipe
+- name: Get root zpool id # noqa risky-shell-pipe
   ansible.builtin.shell: zpool import | grep -oP '(?<=id:).*'
   changed_when: false
-  register: installation_zfs_zroot_import_id_result
+  register: installation_zfs_root_zpool_import_id_result
 
-- name: Import zroot
-  ansible.builtin.command: zpool import {{ installation_zfs_zroot_import_id_result.stdout | trim }} -R /mnt zroot
+- name: Import root zpool
+  ansible.builtin.command: zpool import {{ installation_zfs_root_zpool_import_id_result.stdout | trim }} -R /mnt {{ installation_drive.root_zpool }}
   changed_when: true
 
-- name: Open zroot
+- name: Open root zpool
   ansible.builtin.expect:
-    command: zfs load-key zroot
+    command: zfs load-key {{ installation_drive.root_zpool }}
     responses:
       (?i)passphrase: "{{ crypt_passphrase }}"
 
@@ -96,8 +96,8 @@
   loop:
     - "zfs mount {{ installation_zfs_root_dataset }}"
     - "zfs mount -a"
-    - "zpool set bootfs={{ installation_zfs_root_dataset }} zroot"
-    - "zpool set cachefile=/etc/zfs/zpool.cache zroot"
+    - "zpool set bootfs={{ installation_zfs_root_dataset }} {{ installation_drive.root_zpool }}"
+    - "zpool set cachefile=/etc/zfs/zpool.cache {{ installation_drive.root_zpool }}"
     - "mkdir -p /mnt/etc/zfs"
     - "cp /etc/zfs/zpool.cache /mnt/etc/zfs/zpool.cache"
 

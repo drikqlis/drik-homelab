@@ -20,7 +20,7 @@ installation_zfs_datasets:
     properties: -o mountpoint=/ -o canmount=noauto
   - name: home
     properties: -o mountpoint=/home
-installation_zfs_root_dataset: zroot/root
+installation_zfs_root_dataset: "{{ installation_drive.root_zpool }}/root"
 
 installation_intel_packages: mesa vulkan-intel intel-media-driver intel-gpu-tools
 installation_nvidia_packages: nvidia nvidia-settings

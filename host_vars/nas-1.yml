@@ -5,7 +5,7 @@ installation_drive:
   efi_partition_suffix: -part1
   efi_partition_label: efi
   root_partition_suffix: -part2
-  root_partition_label: arch
+  root_zpool: arch
 
 hostname: nas-1
 gpu_manufacturer: virt
@@ -22,7 +22,7 @@ network_config:
 
 zfs_additional_drives_enabled: true
 zfs_zpools:
-  - name: zpool-hdd
+  - name: hdd1
     raid: raidz2
     compression: zstd-1
     datasets:
@@ -44,7 +44,7 @@ zfs_zpools:
       - "{{ lookup('community.general.bitwarden', 'host_vars_nas-1', field='zfs_devices_8') | first }}"
       - "{{ lookup('community.general.bitwarden', 'host_vars_nas-1', field='zfs_devices_9') | first }}"
       - "{{ lookup('community.general.bitwarden', 'host_vars_nas-1', field='zfs_devices_10') | first }}"
-  - name: zpool-nvme
+  - name: nvme1
     datasets:
       - name: kube-nvme
       - name: other-nvme

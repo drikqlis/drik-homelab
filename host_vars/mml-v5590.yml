@@ -4,7 +4,7 @@ installation_drive:
   efi_partition_suffix: 1
   efi_partition_label: efi
   root_partition_suffix: 2
-  root_partition_label: arch
+  root_zpool: arch
 
 hostname: mml-v5590
 # nvidia, intel, virt

@@ -1,11 +1,11 @@
 ---
 
 installation_drive:
-  name: /dev/vda
-  efi_partition_suffix: 1
+  name: /dev/disk/by-id/virtio-vda
+  efi_partition_suffix: -part1
   efi_partition_label: efi
-  root_partition_suffix: 2
-  root_partition_label: arch
+  root_partition_suffix: -part2
+  root_zpool: arch
 
 hostname: kube-3
 gpu_manufacturer: virt
