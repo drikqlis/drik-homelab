@@ -15,11 +15,6 @@ installation_zfs_virt_zpool_properties: >
   -O recordsize=64KiB
 installation_zfs_additional_zpool_properties: "{{ installation__zfs_virt_zpool_properties if gpu_manufacturer == 'virt' else '' }}"
 installation_zfs_zpool_compression: lz4
-installation_zfs_datasets:
-  - name: root
-    properties: -o mountpoint=/ -o canmount=noauto
-  - name: home
-    properties: -o mountpoint=/home
 installation_zfs_root_dataset: "{{ installation_drive.root_zpool }}/root"
 
 installation_intel_packages: mesa vulkan-intel intel-media-driver intel-gpu-tools

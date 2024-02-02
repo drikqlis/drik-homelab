@@ -59,6 +59,12 @@
           when: nfs_enabled | bool and nfs_configure | default(false) | bool
           tags: [nfs]
 
+        - name: Sanoid configuration
+          ansible.builtin.import_role:
+            name: sanoid
+          when: sanoid_enabled | bool
+          tags: [sanoid]
+
     - name: GUI configuration
       when: gui_enabled | bool
       block:
