@@ -1,0 +1,19 @@
+---
+
+- name: Add metrics-server chart repo
+  kubernetes.core.helm_repository:
+    repo_name: metrics-server
+    repo_url: https://kubernetes-sigs.github.io/metrics-server/
+
+- name: Show values for deployment
+  ansible.builtin.debug:
+    msg: "{{ lookup('template', 'metrics-server-values.yaml') | from_yaml }}"
+
+- name: Deploy nginx-ingress chart
+  kubernetes.core.helm:
+    name: metrics-server
+    chart_ref: metrics-server/metrics-server
+    release_namespace: metrics-server
+    create_namespace: true
+    update_repo_cache: true
+    values: "{{ lookup('template', 'metrics-server-values.yaml') | from_yaml }}"

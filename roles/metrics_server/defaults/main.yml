@@ -1,0 +1,7 @@
+---
+
+metrics_server_replicas: 1
+metrics_server_resources:
+  requests:
+    cpu: 100m
+    memory: 200Mi

@@ -1,0 +1,39 @@
+app:
+  scaling:
+    replicas: {{ kubernetes_dashboard_replicas }}
+  settings:
+    global:
+      clusterName: "Kubernetes | Drik.IT"
+      itemsPerPage: 10
+      logsAutoRefreshTimeInterval: 5
+      resourceAutoRefreshTimeInterval: 5
+      disableAccessDeniedNotifications: false
+  ingress:
+    enabled: true
+    hosts:
+     - kubernetes.drik.it
+    ingressClassName: nginx
+    issuer:
+      name: letsencrypt-prod
+      scope: "cluster"
+
+api:
+  containers:
+    resources: {{ kubernetes_dashboard_api_resources }}
+
+web:
+  containers:
+    resources: {{ kubernetes_dashboard_web_resources }}
+
+metricsScraper:
+  containers:
+    resources: {{ kubernetes_dashboard_metrics_scraper_resources }}
+
+metrics-server:
+  enabled: false
+
+cert-manager:
+  enabled: false
+
+nginx:
+  enabled: false

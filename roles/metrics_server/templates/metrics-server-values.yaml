@@ -1,0 +1,7 @@
+replicas: {{ metrics_server_replicas }}
+
+args:
+  - --kubelet-preferred-address-types=InternalIP
+  - --kubelet-insecure-tls
+
+resources: {{ metrics_server_resources }}

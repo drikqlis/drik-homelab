@@ -1,0 +1,20 @@
+---
+
+- name: Add kubernetes-dashboard chart repo
+  kubernetes.core.helm_repository:
+    repo_name: kubernetes-dashboard
+    repo_url: https://kubernetes.github.io/dashboard/
+
+- name: Show values for deployment
+  ansible.builtin.debug:
+    msg: "{{ lookup('template', 'kubernetes-dashboard-values.yaml') | from_yaml }}"
+
+- name: Deploy kubernetes-dashboard chart
+  kubernetes.core.helm:
+    name: kubernetes-dashboard
+    chart_ref: kubernetes-dashboard/kubernetes-dashboard
+    release_namespace: kubernetes-dashboard
+    create_namespace: true
+    update_repo_cache: true
+    chart_version: 7.0.0-alpha1
+    values: "{{ lookup('template', 'kubernetes-dashboard-values.yaml') | from_yaml }}"

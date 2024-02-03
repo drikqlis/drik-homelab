@@ -1,3 +1,6 @@
 controller:
   replicaCount: {{ nginx_ingress_replicas }}
   resources: {{ nginx_ingress_resources }}
+  ingressClassResource:
+    name: nginx
+    default: true

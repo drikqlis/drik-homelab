@@ -203,7 +203,7 @@
         - name: Install and configure nginx-ingress
           ansible.builtin.import_role:
             name: nginx_ingress
-          tags: [nginx_ingress]
+          tags: [nginx_ingress, ingress_nginx]
 
         - name: Install and configure cert-manager
           ansible.builtin.import_role:
@@ -214,3 +214,13 @@
           ansible.builtin.import_role:
             name: csi_driver_nfs
           tags: [csi_driver_nfs]
+
+        - name: Install and configure metrics-server
+          ansible.builtin.import_role:
+            name: metrics_server
+          tags: [metrics_server]
+
+        - name: Install and configure kubernetes-dashboard
+          ansible.builtin.import_role:
+            name: kubernetes_dashboard
+          tags: [kubernetes_dashboard]
