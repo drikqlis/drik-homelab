@@ -1,0 +1,3 @@
+---
+
+localdomain: "{{ lookup('community.general.bitwarden', 'group_vars_pc', field='localdomain') | join }}"
