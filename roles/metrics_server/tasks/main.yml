@@ -9,7 +9,7 @@
   ansible.builtin.debug:
     msg: "{{ lookup('template', 'metrics-server-values.yaml') | from_yaml }}"
 
-- name: Deploy nginx-ingress chart
+- name: Deploy 'metrics-server chart
   kubernetes.core.helm:
     name: metrics-server
     chart_ref: metrics-server/metrics-server
