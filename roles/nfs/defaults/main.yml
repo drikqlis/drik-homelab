@@ -14,3 +14,4 @@ nfs_server_shares:
     source: /zfs/ds1/data2
 nfs_default_bind_options: bind,defaults,x-systemd.requires=zfs-mount.service
 nfs_default_fstype: zfs
+nfs_change_permissions: false

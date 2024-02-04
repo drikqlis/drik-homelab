@@ -1,0 +1,21 @@
+---
+
+authentik_replicas: 1
+authentik_resources_server:
+  requests:
+    cpu: 100m
+    memory: 200Mi
+authentik_resources_worker:
+  requests:
+    cpu: 100m
+    memory: 200Mi
+
+authentik_secret_key: change_me
+authentik_email_host: mail.example.com
+authentik_email_port: 465
+authentik_email_username: email@example.com
+authentik_email_password: change_me
+authentik_email_use_tls: true
+authentik_email_from: email@example.com
+authentik_postgresql_password: change_me
+authentik_redis_password: change_me

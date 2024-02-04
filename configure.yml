@@ -215,6 +215,11 @@
             name: csi_driver_nfs
           tags: [csi_driver_nfs]
 
+        - name: Install and configure authentik
+          ansible.builtin.import_role:
+            name: authentik
+          tags: [authentik]
+
         - name: Install and configure metrics-server
           ansible.builtin.import_role:
             name: metrics_server

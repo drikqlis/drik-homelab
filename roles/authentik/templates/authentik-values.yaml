@@ -1,0 +1,44 @@
+replicas: {{ authentik_replicas }}
+
+resources:
+  server: {{ authentik_resources_server }}
+  worker: {{ authentik_resources_worker }}
+
+ingress:
+  enabled: true
+  ingressClassName: nginx
+  annotations:
+     cert-manager.io/cluster-issuer: "letsencrypt-prod"
+  hosts:
+    - host: auth.drik.it
+      paths:
+        - path: "/"
+          pathType: Prefix
+  tls:
+    - hosts:
+      - auth.drik.it
+      secretName: authentik-certs
+
+authentik:
+  secret_key: {{ authentik_secret_key }}
+  email:
+    host: {{ authentik_email_host }}
+    port: {{ authentik_email_port }}
+    username: {{ authentik_email_username }}
+    password: {{ authentik_email_password }}
+    use_tls: {{ authentik_email_use_tls }}
+    from: {{ authentik_email_from }}
+  postgresql:
+    password: {{ authentik_postgresql_password }}
+  redis:
+    password: {{ authentik_redis_password }}
+
+postgresql:
+  enabled: true
+  postgresqlPassword: {{ authentik_postgresql_password }}
+
+redis:
+  enabled: true
+  auth:
+    enabled: true
+    password: {{ authentik_redis_password }}

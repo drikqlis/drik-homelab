@@ -1,20 +1,20 @@
 ---
 
-kubernetes_pod_network: "{{ lookup('community.general.bitwarden', 'group_vars_kube_nodes', field='kubernetes_pod_network') | join }}"
-kubernetes_control_plane_endpoint: "{{ lookup('community.general.bitwarden', 'group_vars_kube_nodes', field='kubernetes_control_plane_endpoint') | join }}"
-kubernetes_kube_vip_control_plane_address: "{{ lookup('community.general.bitwarden', 'group_vars_kube_nodes', field='kubernetes_kube_vip_control_plane_address') | join }}" # noqa yaml[line-length]
-kubernetes_dns_domain: "{{ lookup('community.general.bitwarden', 'group_vars_kube_nodes', field='kubernetes_dns_domain') | join }}"
-kubernetes_kube_vip_global_range: "{{ lookup('community.general.bitwarden', 'group_vars_kube_nodes', field='kubernetes_kube_vip_global_range') | join }}"
-kubernetes_kube_vip_local_as: "{{ lookup('community.general.bitwarden', 'group_vars_kube_nodes', field='kubernetes_kube_vip_local_as') | join }}"
-kubernetes_kube_vip_router_id: "{{ lookup('community.general.bitwarden', 'group_vars_kube_nodes', field='kubernetes_kube_vip_router_id') | join }}"
-kubernetes_kube_vip_peer_address: "{{ lookup('community.general.bitwarden', 'group_vars_kube_nodes', field='kubernetes_kube_vip_peer_address') | join }}"
-kubernetes_kube_vip_peer_as: "{{ lookup('community.general.bitwarden', 'group_vars_kube_nodes', field='kubernetes_kube_vip_peer_as') | join }}"
+kubernetes_pod_network: "{{ lookup('community.general.bitwarden', 'group_vars_kube_nodes', field='kubernetes_pod_network') | first }}"
+kubernetes_control_plane_endpoint: "{{ lookup('community.general.bitwarden', 'group_vars_kube_nodes', field='kubernetes_control_plane_endpoint') | first }}"
+kubernetes_kube_vip_control_plane_address: "{{ lookup('community.general.bitwarden', 'group_vars_kube_nodes', field='kubernetes_kube_vip_control_plane_address') | first }}" # noqa yaml[line-length]
+kubernetes_dns_domain: "{{ lookup('community.general.bitwarden', 'group_vars_kube_nodes', field='kubernetes_dns_domain') | first }}"
+kubernetes_kube_vip_global_range: "{{ lookup('community.general.bitwarden', 'group_vars_kube_nodes', field='kubernetes_kube_vip_global_range') | first }}"
+kubernetes_kube_vip_local_as: "{{ lookup('community.general.bitwarden', 'group_vars_kube_nodes', field='kubernetes_kube_vip_local_as') | first }}"
+kubernetes_kube_vip_router_id: "{{ lookup('community.general.bitwarden', 'group_vars_kube_nodes', field='kubernetes_kube_vip_router_id') | first }}"
+kubernetes_kube_vip_peer_address: "{{ lookup('community.general.bitwarden', 'group_vars_kube_nodes', field='kubernetes_kube_vip_peer_address') | first }}"
+kubernetes_kube_vip_peer_as: "{{ lookup('community.general.bitwarden', 'group_vars_kube_nodes', field='kubernetes_kube_vip_peer_as') | first }}"
 
-cert_manager_cloudflare_api_token: "{{ lookup('community.general.bitwarden', 'group_vars_kube_nodes', field='cert_manager_cloudflare_api_token') | join }}"
-cert_manager_email: "{{ lookup('community.general.bitwarden', 'group_vars_kube_nodes', field='cert_manager_email') | join }}"
-cert_manager_dns_zone: "{{ lookup('community.general.bitwarden', 'group_vars_kube_nodes', field='cert_manager_dns_zone') | join }}"
+cert_manager_cloudflare_api_token: "{{ lookup('community.general.bitwarden', 'group_vars_kube_nodes', field='cert_manager_cloudflare_api_token') | first }}"
+cert_manager_email: "{{ lookup('community.general.bitwarden', 'group_vars_kube_nodes', field='cert_manager_email') | first }}"
+cert_manager_dns_zone: "{{ lookup('community.general.bitwarden', 'group_vars_kube_nodes', field='cert_manager_dns_zone') | first }}"
 
-csi_driver_nfs_default_nfs_server: "{{ lookup('community.general.bitwarden', 'group_vars_kube_nodes', field='csi_driver_nfs_default_nfs_server') | join }}"
+csi_driver_nfs_default_nfs_server: "{{ lookup('community.general.bitwarden', 'group_vars_kube_nodes', field='csi_driver_nfs_default_nfs_server') | first }}"
 csi_driver_nfs_storage_classes:
   - storage_class_name: nfs-nvme
     is_default: true
@@ -27,3 +27,11 @@ csi_driver_nfs_storage_classes:
   - storage_class_name: nfs-cloud
     nfs_path: /cloud
     reclaim_policy: Retain
+
+authentik_secret_key: "{{ lookup('community.general.bitwarden', 'group_vars_kube_nodes', field='authentik_secret_key') | first }}"
+authentik_email_host: "{{ lookup('community.general.bitwarden', 'group_vars_kube_nodes', field='authentik_email_host') | first }}"
+authentik_email_username: "{{ lookup('community.general.bitwarden', 'group_vars_kube_nodes', field='authentik_email_username') | first }}"
+authentik_email_password: "{{ lookup('community.general.bitwarden', 'group_vars_kube_nodes', field='authentik_email_password') | first }}"
+authentik_email_from: "{{ lookup('community.general.bitwarden', 'group_vars_kube_nodes', field='authentik_email_from') | first }}"
+authentik_postgresql_password: "{{ lookup('community.general.bitwarden', 'group_vars_kube_nodes', field='authentik_postgresql_password') | first }}"
+authentik_redis_password: "{{ lookup('community.general.bitwarden', 'group_vars_kube_nodes', field='authentik_redis_password') | first }}"

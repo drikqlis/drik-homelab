@@ -1,6 +1,6 @@
-{{ nfs_server_root }} {% for access in nfs_server_root_access %}{{ access.client }}({{ access.options | default(nfs_server_root_default_options) }}) {% endfor %}
+{{ nfs_server_root }} {% for access in nfs_server_root_access %}{{ access.client }}({{ access.root_options | default(nfs_server_root_default_options) }}) {% endfor %}
 
 {% for share in nfs_server_shares %}
-{{ share.mount_point }} {% for share_access in share.access | default(nfs_server_root_access) %}{{ share_access.client }}({{ share_access.options | default(nfs_server_share_default_options) }}) {% endfor %}
+{{ share.mount_point }} {% for share_access in share.access | default(nfs_server_root_access) %}{{ share_access.client }}({{ share.options | default(share_access.options) | default(nfs_server_share_default_options) }}) {% endfor %}
 
 {% endfor %}

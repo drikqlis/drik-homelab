@@ -57,10 +57,15 @@ nfs_server_root_access:
   - client: "{{ lookup('community.general.bitwarden', 'host_vars_nas-1', field='nfs_server_root_access.client2') | first }}"
   - client: "{{ lookup('community.general.bitwarden', 'host_vars_nas-1', field='nfs_server_root_access.client3') | first }}"
   - client: "{{ lookup('community.general.bitwarden', 'host_vars_nas-1', field='nfs_server_root_access.client4') | first }}"
-  - client: "kube-[1-4].{{ localdomain }}"
+  - client: "{{ lookup('community.general.bitwarden', 'host_vars_nas-1', field='nfs_server_root_access.client5') | first }}"
+  - client: "{{ lookup('community.general.bitwarden', 'host_vars_nas-1', field='nfs_server_root_access.client6') | first }}"
+  - client: "{{ lookup('community.general.bitwarden', 'host_vars_nas-1', field='nfs_server_root_access.client7') | first }}"
+  - client: "{{ lookup('community.general.bitwarden', 'host_vars_nas-1', field='nfs_server_root_access.client8') | first }}"
+  - client: "{{ lookup('community.general.bitwarden', 'host_vars_nas-1', field='nfs_server_root_access.client9') | first }}"
 nfs_server_shares:
   - mount_point: /srv/nfs/kube-nvme
     source: /mnt/kube-nvme
+    options: rw,sync,nohide,no_root_squash,anonuid={{ nfs_user_uid }},anongid={{ nfs_user_uid }},no_subtree_check
   - mount_point: /srv/nfs/kube-hdd
     source: /mnt/kube-hdd
   - mount_point: /srv/nfs/media
