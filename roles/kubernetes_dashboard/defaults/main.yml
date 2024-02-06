@@ -6,7 +6,7 @@ kubernetes_dashboard_resources:
     cpu: 100m
     memory: 200Mi
   limits:
-    cpu: 2
+    cpu: 100m
     memory: 200Mi
 kubernetes_dashboard_metrics_scraper_resources:
   requests:
