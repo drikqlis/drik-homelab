@@ -16,4 +16,5 @@
     release_namespace: authentik
     create_namespace: true
     update_repo_cache: true
+    chart_version: 2023.10.7
     values: "{{ lookup('template', 'authentik-values.yaml') | from_yaml }}"

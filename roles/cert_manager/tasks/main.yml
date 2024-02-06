@@ -16,6 +16,7 @@
     release_namespace: cert-manager
     create_namespace: true
     update_repo_cache: true
+    chart_version: 1.14.1
     values: "{{ lookup('template', 'cert-manager-values.yaml') | from_yaml }}"
 
 - name: Create secret with cloudflare api token

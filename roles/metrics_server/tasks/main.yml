@@ -16,4 +16,5 @@
     release_namespace: metrics-server
     create_namespace: true
     update_repo_cache: true
+    chart_version: 3.11.0
     values: "{{ lookup('template', 'metrics-server-values.yaml') | from_yaml }}"
