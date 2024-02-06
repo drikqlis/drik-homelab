@@ -35,6 +35,12 @@ authentik_email_password: "{{ lookup('community.general.bitwarden', 'group_vars_
 authentik_email_from: "{{ lookup('community.general.bitwarden', 'group_vars_kube_nodes', field='authentik_email_from') | first }}"
 authentik_postgresql_password: "{{ lookup('community.general.bitwarden', 'group_vars_kube_nodes', field='authentik_postgresql_password') | first }}"
 authentik_redis_password: "{{ lookup('community.general.bitwarden', 'group_vars_kube_nodes', field='authentik_redis_password') | first }}"
+authentik_host: "{{ lookup('community.general.bitwarden', 'group_vars_kube_nodes', field='authentik_host') | first }}"
 
+kubernetes_dashboard_cluster_name: "{{ lookup('community.general.bitwarden', 'group_vars_kube_nodes', field='kubernetes_dashboard_cluster_name') | first }}"
 kubernetes_dashboard_oidc_issuer_url: "{{ lookup('community.general.bitwarden', 'group_vars_kube_nodes', field='kubernetes_dashboard_oidc_issuer_url') | first }}" # noqa yaml[line-length]
 kubernetes_dashboard_oidc_client_id: "{{ lookup('community.general.bitwarden', 'group_vars_kube_nodes', field='kubernetes_dashboard_oidc_client_id') | first }}"
+kubernetes_dashboard_oidc_client_secret: "{{ lookup('community.general.bitwarden', 'group_vars_kube_nodes', field='kubernetes_dashboard_oidc_client_secret') | first }}" # noqa yaml[line-length]
+kubernetes_dashboard_oidc_cookie_secret: "{{ lookup('community.general.bitwarden', 'group_vars_kube_nodes', field='kubernetes_dashboard_oidc_cookie_secret') | first }}" # noqa yaml[line-length]
+kubernetes_dashboard_oauth2_proxy_redis_password: "{{ lookup('community.general.bitwarden', 'group_vars_kube_nodes', field='kubernetes_dashboard_oauth2_proxy_redis_password') | first }}" # noqa yaml[line-length]
+kubernetes_dashboard_oauth2_host: "{{ lookup('community.general.bitwarden', 'group_vars_kube_nodes', field='kubernetes_dashboard_oauth2_host') | first }}"

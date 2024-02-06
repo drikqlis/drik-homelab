@@ -10,13 +10,13 @@ ingress:
   annotations:
      cert-manager.io/cluster-issuer: "letsencrypt-prod"
   hosts:
-    - host: auth.drik.it
+    - host: {{ authentik_host }}
       paths:
         - path: "/"
           pathType: Prefix
   tls:
     - hosts:
-      - auth.drik.it
+      - {{ authentik_host }}
       secretName: authentik-certs
 
 authentik:

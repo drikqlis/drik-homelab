@@ -1,0 +1,37 @@
+config:
+  annotations: {}
+  clientID: {{ kubernetes_dashboard_oidc_client_id }}
+  clientSecret: {{ kubernetes_dashboard_oidc_client_secret }}
+  cookieSecret: {{ kubernetes_dashboard_oidc_cookie_secret }}
+  cookieName: ""
+  google: {}
+  configFile: |-
+    email_domains = [ "*" ]
+    upstreams = [ "http://kubernetes-dashboard" ]
+
+ingress:
+  enabled: true
+  className: nginx
+  path: /
+  pathType: ImplementationSpecific
+  hosts:
+   - {{ kubernetes_dashboard_oauth2_host }}
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    kubernetes.io/tls-acme: "true"
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+  tls:
+    - secretName: oauth2-proxy-certs
+      hosts:
+        - {{ kubernetes_dashboard_oauth2_host }}
+
+resources: {{ kubernetes_dashboard_oauth2_proxy_resources }}
+replicaCount: {{ kubernetes_dashboard_oauth2_proxy_replicas }}
+
+extraArgs:
+  provider: oidc
+  oidc-issuer-url: {{ kubernetes_dashboard_oidc_issuer_url }}
+  provider-display-name: "Authentik"
+  skip-provider-button: "true"
+  pass-authorization-header: "true"
+  cookie-refresh: 15m

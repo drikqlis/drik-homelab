@@ -1,20 +1,13 @@
 ---
 
 kubernetes_dashboard_replicas: 1
-kubernetes_dashboard_api_resources:
+kubernetes_dashboard_resources:
   requests:
     cpu: 100m
     memory: 200Mi
   limits:
-    cpu: 250m
-    memory: 400Mi
-kubernetes_dashboard_web_resources:
-  requests:
-    cpu: 100m
+    cpu: 2
     memory: 200Mi
-  limits:
-    cpu: 250m
-    memory: 400Mi
 kubernetes_dashboard_metrics_scraper_resources:
   requests:
     cpu: 100m
@@ -22,5 +15,19 @@ kubernetes_dashboard_metrics_scraper_resources:
   limits:
     cpu: 250m
     memory: 400Mi
+kubernetes_dashboard_cluster_name: Kubernetes | Example
 kubernetes_dashboard_oidc_issuer_url: https://auth.example.com/application/o/kube-apiserver/
 kubernetes_dashboard_oidc_client_id: kube-apiserver
+kubernetes_dashboard_oidc_client_secret: change_me
+kubernetes_dashboard_oidc_cookie_secret: change_me
+
+kubernetes_dashboard_oauth2_proxy_replicas: 1
+kubernetes_dashboard_oauth2_proxy_resources:
+  limits:
+    cpu: 100m
+    memory: 300Mi
+  requests:
+    cpu: 100m
+    memory: 300Mi
+kubernetes_dashboard_oauth2_proxy_redis_password: change_me
+kubernetes_dashboard_oauth2_host: kube.example.com

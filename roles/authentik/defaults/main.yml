@@ -19,3 +19,4 @@ authentik_email_use_tls: true
 authentik_email_from: email@example.com
 authentik_postgresql_password: change_me
 authentik_redis_password: change_me
+authentik_host: authentik.example.com

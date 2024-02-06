@@ -1,11 +1,30 @@
 ---
 
+- name: Add oauth2-proxy chart repo
+  kubernetes.core.helm_repository:
+    repo_name: oauth2-proxy
+    repo_url: https://oauth2-proxy.github.io/manifests
+
+- name: Show values for deployment of oauth2-proxy
+  ansible.builtin.debug:
+    msg: "{{ lookup('template', 'oauth2-proxy-values.yaml') | from_yaml }}"
+
+- name: Deploy oauth2-proxy chart
+  kubernetes.core.helm:
+    name: oauth2-proxy
+    chart_ref: oauth2-proxy/oauth2-proxy
+    release_namespace: kubernetes-dashboard
+    create_namespace: true
+    update_repo_cache: true
+    chart_version: 6.23.1
+    values: "{{ lookup('template', 'oauth2-proxy-values.yaml') | from_yaml }}"
+
 - name: Add kubernetes-dashboard chart repo
   kubernetes.core.helm_repository:
     repo_name: kubernetes-dashboard
     repo_url: https://kubernetes.github.io/dashboard/
 
-- name: Show values for deployment
+- name: Show values for deployment of kubernetes-dashboard
   ansible.builtin.debug:
     msg: "{{ lookup('template', 'kubernetes-dashboard-values.yaml') | from_yaml }}"
 
@@ -16,7 +35,7 @@
     release_namespace: kubernetes-dashboard
     create_namespace: true
     update_repo_cache: true
-    chart_version: 7.0.0-alpha1
+    chart_version: 6.0.8
     values: "{{ lookup('template', 'kubernetes-dashboard-values.yaml') | from_yaml }}"
 
 # Run on all control plane nodes
