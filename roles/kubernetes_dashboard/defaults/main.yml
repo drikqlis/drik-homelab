@@ -22,3 +22,5 @@ kubernetes_dashboard_metrics_scraper_resources:
   limits:
     cpu: 250m
     memory: 400Mi
+kubernetes_dashboard_oidc_issuer_url: https://auth.example.com/application/o/kube-apiserver/
+kubernetes_dashboard_oidc_client_id: kube-apiserver

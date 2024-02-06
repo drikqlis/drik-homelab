@@ -18,3 +18,30 @@
     update_repo_cache: true
     chart_version: 7.0.0-alpha1
     values: "{{ lookup('template', 'kubernetes-dashboard-values.yaml') | from_yaml }}"
+
+# Run on all control plane nodes
+- name: Enable OIDC for cluster
+  ansible.builtin.blockinfile:
+    path: /etc/kubernetes/manifests/kube-apiserver.yaml
+    insertafter: "    - --advertise-address="
+    marker: "# {mark} ANSIBLE MANAGED BLOCK - OIDC"
+    block: "{{ lookup('template', 'oidc-settings.j2') }}"
+
+- name: Create cluster role binding for kube admins
+  kubernetes.core.k8s:
+    namespace: default
+    definition:
+      kind: ClusterRoleBinding
+      apiVersion: rbac.authorization.k8s.io/v1
+      metadata:
+        name: oidc-group-admin-kube-apiserver
+      roleRef:
+        apiGroup: rbac.authorization.k8s.io
+        kind: ClusterRole
+        name: cluster-admin
+      subjects:
+        - kind: Group
+          name: admin-kube-apiserver
+    apply: true
+    server_side_apply:
+      field_manager: ansible
