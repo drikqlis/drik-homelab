@@ -1,15 +1,8 @@
 ---
 
 authentik_replicas: 1
-authentik_resources_server:
-  requests:
-    cpu: 100m
-    memory: 200Mi
-authentik_resources_worker:
-  requests:
-    cpu: 100m
-    memory: 200Mi
-
+authentik_resources_server: {}
+authentik_resources_worker: {}
 authentik_secret_key: change_me
 authentik_email_host: mail.example.com
 authentik_email_port: 465
