@@ -36,9 +36,11 @@ authentik:
 postgresql:
   enabled: true
   postgresqlPassword: {{ authentik_postgresql_password }}
+  clusterDomain: {{ kubernetes_dns_domain }}
 
 redis:
   enabled: true
   auth:
     enabled: true
     password: {{ authentik_redis_password }}
+  clusterDomain: {{ kubernetes_dns_domain }}

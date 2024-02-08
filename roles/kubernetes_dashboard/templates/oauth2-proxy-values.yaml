@@ -34,4 +34,18 @@ extraArgs:
   provider-display-name: "Authentik"
   skip-provider-button: "true"
   pass-authorization-header: "true"
+  redis-connection-url: "redis://oauth2-proxy-redis-master"
+  session-store-type: redis
   cookie-refresh: 15m
+
+sessionStorage:
+  type: redis
+
+redis:
+  enabled: true
+  auth:
+    enabled: true
+    password: {{ kubernetes_dashboard_oauth2_proxy_redis_password }}
+  clusterDomain: {{ kubernetes_dns_domain }}
+  replica:
+    replicaCount: 1
