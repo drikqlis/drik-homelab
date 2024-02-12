@@ -57,7 +57,13 @@
   when: pacman_local_mirror_enabled
   notify: Update cache
 
-- name: Ensure arch.drik.it repo is added
+- name: Import key for archzfs repo
+  community.general.pacman_key:
+    id: DDF7DB817396A49B2A2723F7403BD972F75D9D76
+    url: https://archzfs.com/archzfs.gpg
+    state: present
+
+- name: Ensure custom repos are added
   ansible.builtin.blockinfile:
     path: /etc/pacman.conf
     insertafter: EOF
@@ -65,6 +71,8 @@
       [aur]
       SigLevel = Optional TrustAll
       Server = https://arch.drik.it
+      [archzfs]
+      Server = https://archzfs.com/$repo/$arch
 
 - name: Ensure reflector config is correct
   ansible.builtin.lineinfile:
