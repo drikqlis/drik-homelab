@@ -45,6 +45,12 @@
     insertafter: "    - --advertise-address="
     marker: "# {mark} ANSIBLE MANAGED BLOCK - OIDC"
     block: "{{ lookup('template', 'oidc-settings.j2') }}"
+  delegate_to: "{{ item }}"
+  loop: "{{ groups['kube_control'] }}"
+
+- name: Sleep for 60 seconds and continue
+  ansible.builtin.wait_for:
+    timeout: 60
 
 - name: Create cluster role binding for kube admins
   kubernetes.core.k8s:
