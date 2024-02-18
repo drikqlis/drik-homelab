@@ -21,3 +21,14 @@ ingress:
     - secretName: dagonite-empire-certs
       hosts:
         - {{ dagonite_empire_host }}
+
+postgresql:
+  clusterDomain: {{ kubernetes_dns_domain }}
+
+global:
+  postgresql:
+    auth:
+      postgresPassword: {{ dagonite_empire_postgres_admin_password }}
+      username: {{ dagonite_empire_postgres_username }}
+      password: {{ dagonite_empire_postgres_password }}
+      database: {{ dagonite_empire_postgres_database }}

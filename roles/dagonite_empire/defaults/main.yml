@@ -4,3 +4,7 @@ dagonite_empire_replicas: 1
 dagonite_empire_host: dagonite-empire.example.com
 dagonite_empire_docker_username: username
 dagonite_empire_docker_password: password
+dagonite_empire_postgres_admin_password: pass
+dagonite_empire_postgres_username: user
+dagonite_empire_postgres_password: pass
+dagonite_empire_postgres_database: DagoniteEmpire

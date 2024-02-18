@@ -48,3 +48,7 @@ kubernetes_dashboard_oauth2_host: "{{ lookup('community.general.bitwarden', 'gro
 dagonite_empire_host: "{{ lookup('community.general.bitwarden', 'group_vars_kube_nodes', field='dagonite_empire_host') | first }}"
 dagonite_empire_docker_username: "{{ lookup('community.general.bitwarden', 'group_vars_kube_nodes', field='dagonite_empire_docker_username') | first }}"
 dagonite_empire_docker_password: "{{ lookup('community.general.bitwarden', 'group_vars_kube_nodes', field='dagonite_empire_docker_password') | first }}"
+dagonite_empire_postgres_admin_password: "{{ lookup('community.general.bitwarden', 'group_vars_kube_nodes', field='dagonite_empire_postgres_admin_password') | first }}" # noqa yaml[line-length]
+dagonite_empire_postgres_username: "{{ lookup('community.general.bitwarden', 'group_vars_kube_nodes', field='dagonite_empire_postgres_username') | first }}"
+dagonite_empire_postgres_password: "{{ lookup('community.general.bitwarden', 'group_vars_kube_nodes', field='dagonite_empire_postgres_password') | first }}"
+dagonite_empire_postgres_database: "{{ lookup('community.general.bitwarden', 'group_vars_kube_nodes', field='dagonite_empire_postgres_database') | first }}"
