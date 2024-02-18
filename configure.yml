@@ -229,3 +229,8 @@
           ansible.builtin.import_role:
             name: kubernetes_dashboard
           tags: [kubernetes_dashboard]
+
+        - name: Install and configure dagonite-empire
+          ansible.builtin.import_role:
+            name: dagonite_empire
+          tags: [dagonite_empire]

@@ -44,3 +44,7 @@ kubernetes_dashboard_oidc_client_secret: "{{ lookup('community.general.bitwarden
 kubernetes_dashboard_oidc_cookie_secret: "{{ lookup('community.general.bitwarden', 'group_vars_kube_nodes', field='kubernetes_dashboard_oidc_cookie_secret') | first }}" # noqa yaml[line-length]
 kubernetes_dashboard_oauth2_proxy_redis_password: "{{ lookup('community.general.bitwarden', 'group_vars_kube_nodes', field='kubernetes_dashboard_oauth2_proxy_redis_password') | first }}" # noqa yaml[line-length]
 kubernetes_dashboard_oauth2_host: "{{ lookup('community.general.bitwarden', 'group_vars_kube_nodes', field='kubernetes_dashboard_oauth2_host') | first }}"
+
+dagonite_empire_host: "{{ lookup('community.general.bitwarden', 'group_vars_kube_nodes', field='dagonite_empire_host') | first }}"
+dagonite_empire_docker_username: "{{ lookup('community.general.bitwarden', 'group_vars_kube_nodes', field='dagonite_empire_docker_username') | first }}"
+dagonite_empire_docker_password: "{{ lookup('community.general.bitwarden', 'group_vars_kube_nodes', field='dagonite_empire_docker_password') | first }}"

@@ -1,0 +1,6 @@
+---
+
+dagonite_empire_replicas: 1
+dagonite_empire_host: dagonite-empire.example.com
+dagonite_empire_docker_username: username
+dagonite_empire_docker_password: password
