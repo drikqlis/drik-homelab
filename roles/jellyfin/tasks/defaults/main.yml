@@ -1,0 +1,6 @@
+---
+
+jellyfin_replicas: 1
+jellyfin_host: jellyfin.example.com
+jellyfin_media_storage_class: nfs-media
+jellyfin_media_storage_size: 40Ti

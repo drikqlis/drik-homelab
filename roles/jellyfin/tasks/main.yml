@@ -1,0 +1,14 @@
+---
+
+- name: Show values for deployment of jellyfin
+  ansible.builtin.debug:
+    msg: "{{ lookup('template', 'jellyfin-values.yaml') | from_yaml }}"
+
+- name: Deploy jellyfin chart
+  kubernetes.core.helm:
+    name: jellyfin
+    chart_ref: https://github.com/drikqlis/jellyfin-helm-chart/tarball/main
+    release_namespace: jellyfin
+    create_namespace: true
+    update_repo_cache: true
+    values: "{{ lookup('template', 'jellyfin-values.yaml') | from_yaml }}"

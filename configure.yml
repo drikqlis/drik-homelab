@@ -234,3 +234,8 @@
           ansible.builtin.import_role:
             name: dagonite_empire
           tags: [dagonite_empire]
+
+        - name: Install and configure jellyfin
+          ansible.builtin.import_role:
+            name: jellyfin
+          tags: [jellyfin]
