@@ -7,7 +7,7 @@
 - name: Deploy dagonite-empire chart
   kubernetes.core.helm:
     name: dagonite-empire
-    chart_ref: https://github.com/drikqlis/DagoniteEmpire-helm-chart/tarball/main
+    chart_ref: https://github.com/drikqlis/dagonite-empire-helm-chart/tarball/main
     release_namespace: dagonite-empire
     create_namespace: true
     update_repo_cache: true
