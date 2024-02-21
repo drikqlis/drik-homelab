@@ -1,6 +1,7 @@
 ---
 
-authentik_replicas: 1
+authentik_server_replicas: 1
+authentik_worker_replicas: 1
 authentik_resources_server: {}
 authentik_resources_worker: {}
 authentik_secret_key: change_me

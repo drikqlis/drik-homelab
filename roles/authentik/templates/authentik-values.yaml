@@ -1,23 +1,23 @@
-replicas: {{ authentik_replicas }}
-
-resources:
-  server: {{ authentik_resources_server }}
-  worker: {{ authentik_resources_worker }}
-
-ingress:
-  enabled: true
-  ingressClassName: nginx
-  annotations:
-     cert-manager.io/cluster-issuer: "letsencrypt-prod"
-  hosts:
-    - host: {{ authentik_host }}
-      paths:
-        - path: "/"
-          pathType: Prefix
-  tls:
-    - hosts:
+server:
+  resources: {{ authentik_resources_server }}
+  replicas: {{ authentik_server_replicas }}
+  ingress:
+    enabled: true
+    ingressClassName: nginx
+    annotations:
+      cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    hosts:
       - {{ authentik_host }}
-      secretName: authentik-certs
+    paths:
+      - /
+    pathType: Prefix
+    tls:
+      - hosts:
+        - {{ authentik_host }}
+        secretName: authentik-certs
+worker:
+  resources: {{ authentik_resources_worker }}
+  replicas: {{ authentik_worker_replicas }}
 
 authentik:
   secret_key: {{ authentik_secret_key }}
@@ -35,8 +35,13 @@ authentik:
 
 postgresql:
   enabled: true
-  postgresqlPassword: {{ authentik_postgresql_password }}
+  auth:
+    password: {{ authentik_postgresql_password }}
   clusterDomain: {{ kubernetes_dns_domain }}
+  primary:
+    resources: {}
+  readReplicas:
+    resources: {}
 
 redis:
   enabled: true
