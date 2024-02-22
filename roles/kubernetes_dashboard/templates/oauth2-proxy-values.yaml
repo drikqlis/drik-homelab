@@ -36,7 +36,7 @@ extraArgs:
   pass-authorization-header: "true"
   redis-connection-url: "redis://oauth2-proxy-redis-master"
   session-store-type: redis
-  cookie-refresh: 15m
+  cookie-refresh: 57s
 
 sessionStorage:
   type: redis
