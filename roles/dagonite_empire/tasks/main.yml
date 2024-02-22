@@ -12,3 +12,4 @@
     create_namespace: true
     update_repo_cache: true
     values: "{{ lookup('template', 'dagonite-empire-values.yaml') | from_yaml }}"
+    force: true
