@@ -18,3 +18,13 @@ network_config:
   gw4: 192.168.100.1
   dns4: 192.168.100.1
   dns4_search: "{{ localdomain }}"
+
+zfs_additional_drives_enabled: true
+zfs_zpools:
+  - name: nvme1
+    datasets:
+      - name: kube-nvme
+    devices:
+      - "{{ lookup('community.general.bitwarden', 'host_vars_nas-1', field='zfs_devices_nvme_1') | first }}"
+
+zfs_default_recordsize: 128k

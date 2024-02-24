@@ -215,6 +215,11 @@
             name: csi_driver_nfs
           tags: [csi_driver_nfs]
 
+        - name: Install and configure zfs-localpv
+          ansible.builtin.import_role:
+            name: zfs_localpv
+          tags: [zfs_localpv]
+
         - name: Install and configure authentik
           ansible.builtin.import_role:
             name: authentik

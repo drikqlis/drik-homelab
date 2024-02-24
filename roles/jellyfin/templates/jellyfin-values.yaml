@@ -21,11 +21,11 @@ persistence:
   config:
     enabled: true
     accessMode: ReadWriteOnce
-    size: 10Gi
+    size: 30Gi
   cache:
     enabled: true
     accessMode: ReadWriteOnce
-    size: 20Gi
+    size: 40Gi
   media:
     enabled: true
     storageClass: {{ jellyfin_media_storage_class }}

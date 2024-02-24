@@ -16,9 +16,6 @@ cert_manager_dns_zone: "{{ lookup('community.general.bitwarden', 'group_vars_kub
 
 csi_driver_nfs_default_nfs_server: "{{ lookup('community.general.bitwarden', 'group_vars_kube_nodes', field='csi_driver_nfs_default_nfs_server') | first }}"
 csi_driver_nfs_storage_classes:
-  - storage_class_name: nfs-nvme
-    is_default: true
-    nfs_path: /kube-nvme
   - storage_class_name: nfs-hdd
     nfs_path: /kube-hdd
   - storage_class_name: nfs-media
@@ -27,6 +24,11 @@ csi_driver_nfs_storage_classes:
   - storage_class_name: nfs-cloud
     nfs_path: /cloud
     reclaim_policy: Retain
+
+zfs_localpv_storage_classes:
+  - storage_class_name: localpv-nvme
+    pool_name: nvme1/kube-nvme
+    is_default: true
 
 authentik_secret_key: "{{ lookup('community.general.bitwarden', 'group_vars_kube_nodes', field='authentik_secret_key') | first }}"
 authentik_email_host: "{{ lookup('community.general.bitwarden', 'group_vars_kube_nodes', field='authentik_email_host') | first }}"

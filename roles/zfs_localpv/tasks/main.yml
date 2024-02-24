@@ -1,0 +1,29 @@
+---
+
+- name: Add zfs-localpv chart repo
+  kubernetes.core.helm_repository:
+    repo_name: openebs-zfslocalpv
+    repo_url: https://openebs.github.io/zfs-localpv
+
+- name: Show values for deployment
+  ansible.builtin.debug:
+    msg: "{{ lookup('template', 'zfs-localpv-values.yaml') | from_yaml }}"
+
+- name: Deploy zfs-localpv chart
+  kubernetes.core.helm:
+    name: zfs-localpv
+    chart_ref: openebs-zfslocalpv/zfs-localpv
+    release_namespace: zfs-localpv
+    create_namespace: true
+    update_repo_cache: true
+    chart_version: 2.4.1
+    values: "{{ lookup('template', 'zfs-localpv-values.yaml') | from_yaml }}"
+
+- name: Create storage classes
+  kubernetes.core.k8s:
+    namespace: default
+    definition: "{{ lookup('template', 'storage-class.yaml.j2') | from_yaml }}"
+    apply: true
+    server_side_apply:
+      field_manager: ansible
+  loop: "{{ zfs_localpv_storage_classes }}"

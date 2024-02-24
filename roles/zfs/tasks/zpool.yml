@@ -24,6 +24,7 @@
       -O encryption=aes-256-gcm
       -O keyformat=passphrase
       -O keylocation=prompt
+      -O recordsize={{ zpool.recordsize | default(zfs_default_recordsize) }}
       {{ zpool.additional_properties | default('') | trim }}
       {{ zpool.name }} {{ zpool.raid | default('') }}
       {{ zpool.devices | join(' ') }}

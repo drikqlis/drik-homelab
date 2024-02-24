@@ -1,0 +1,6 @@
+---
+
+zfs_localpv_storage_classes:
+  - storage_class_name: zfs-localpv
+    pool_name: zpool/dataset
+    is_default: true
