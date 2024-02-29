@@ -16,7 +16,7 @@
     release_namespace: kubernetes-dashboard
     create_namespace: true
     update_repo_cache: true
-    chart_version: 6.23.1
+    chart_version: 7.0.0
     values: "{{ lookup('template', 'oauth2-proxy-values.yaml') | from_yaml }}"
 
 - name: Add kubernetes-dashboard chart repo

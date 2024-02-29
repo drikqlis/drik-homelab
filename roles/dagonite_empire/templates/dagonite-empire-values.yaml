@@ -7,9 +7,9 @@ imageCredentials:
 
 ingress:
   enabled: true
-  className: "nginx"
+  className: "nginx-internal"
   annotations:
-    kubernetes.io/ingress.class: nginx
+    kubernetes.io/ingress.class: nginx-internal
     kubernetes.io/tls-acme: "true"
     cert-manager.io/cluster-issuer: "letsencrypt-prod"
   hosts:

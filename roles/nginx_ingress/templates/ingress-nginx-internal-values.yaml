@@ -1,0 +1,8 @@
+nameOverride: ingress-nginx-internal
+controller:
+  replicaCount: {{ nginx_ingress_replicas }}
+  resources: {{ nginx_ingress_resources }}
+  ingressClassResource:
+    name: nginx-internal
+    default: false
+  ingressClass: nginx-internal

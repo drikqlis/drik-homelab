@@ -5,7 +5,7 @@
     repo_name: ingress-nginx
     repo_url: https://kubernetes.github.io/ingress-nginx
 
-- name: Show values for deployment
+- name: Show values for nginx-ingress deployment
   ansible.builtin.debug:
     msg: "{{ lookup('template', 'ingress-nginx-values.yaml') | from_yaml }}"
 
@@ -18,3 +18,17 @@
     update_repo_cache: true
     chart_version: 4.9.1
     values: "{{ lookup('template', 'ingress-nginx-values.yaml') | from_yaml }}"
+
+- name: Show values for nginx-ingress-internal deployment
+  ansible.builtin.debug:
+    msg: "{{ lookup('template', 'ingress-nginx-internal-values.yaml') | from_yaml }}"
+
+- name: Deploy nginx-ingress-internal chart
+  kubernetes.core.helm:
+    name: ingress-nginx-internal
+    chart_ref: ingress-nginx/ingress-nginx
+    release_namespace: ingress-nginx-internal
+    create_namespace: true
+    update_repo_cache: true
+    chart_version: 4.9.1
+    values: "{{ lookup('template', 'ingress-nginx-internal-values.yaml') | from_yaml }}"
