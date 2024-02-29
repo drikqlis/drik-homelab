@@ -1,0 +1,20 @@
+---
+
+- name: Add cilium chart repo
+  kubernetes.core.helm_repository:
+    repo_name: cilium
+    repo_url: https://helm.cilium.io/
+
+- name: Show values for deployment
+  ansible.builtin.debug:
+    msg: "{{ lookup('template', 'cilium-values.yaml') | from_yaml }}"
+
+- name: Deploy cilium chart
+  kubernetes.core.helm:
+    name: cilium
+    chart_ref: cilium/cilium
+    release_namespace: kube-system
+    create_namespace: true
+    update_repo_cache: true
+    chart_version: 1.15.1
+    values: "{{ lookup('template', 'cilium-values.yaml') | from_yaml }}"

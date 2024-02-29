@@ -14,6 +14,8 @@ cert_manager_cloudflare_api_token: "{{ lookup('community.general.bitwarden', 'gr
 cert_manager_email: "{{ lookup('community.general.bitwarden', 'group_vars_kube_nodes', field='cert_manager_email') | first }}"
 cert_manager_dns_zone: "{{ lookup('community.general.bitwarden', 'group_vars_kube_nodes', field='cert_manager_dns_zone') | first }}"
 
+cilium_hubble_ui_host: "{{ lookup('community.general.bitwarden', 'group_vars_kube_nodes', field='cilium_hubble_ui_host') | first }}"
+
 csi_driver_nfs_default_nfs_server: "{{ lookup('community.general.bitwarden', 'group_vars_kube_nodes', field='csi_driver_nfs_default_nfs_server') | first }}"
 csi_driver_nfs_storage_classes:
   - storage_class_name: nfs-hdd

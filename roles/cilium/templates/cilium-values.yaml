@@ -1,0 +1,20 @@
+resources: {{ cilium_resources }}
+hubble:
+  relay:
+    enabled: true
+  ui:
+    enabled: true
+    ingress:
+      enabled: false
+      annotations:
+        cert-manager.io/cluster-issuer: "letsencrypt-prod"
+      className: "nginx"
+      hosts:
+        - {{ cilium_hubble_ui_host }}
+      labels: {}
+      tls:
+        - hosts:
+          - {{ cilium_hubble_ui_host }}
+          secretName: hubble-ui-certs
+  peerService:
+    clusterDomain: {{ kubernetes_dns_domain }}

@@ -1,0 +1,4 @@
+---
+
+cilium_resources: {}
+cilium_hubble_ui_host: hubble.example.com

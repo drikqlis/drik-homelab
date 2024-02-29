@@ -210,6 +210,11 @@
             name: cert_manager
           tags: [cert_manager]
 
+        - name: Install and configure cilium
+          ansible.builtin.import_role:
+            name: cilium
+          tags: [cilium]
+
         - name: Install and configure csi-driver-nfs
           ansible.builtin.import_role:
             name: csi_driver_nfs
