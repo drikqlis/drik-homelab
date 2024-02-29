@@ -87,6 +87,7 @@
 
 - name: Configure kube-vip
   ansible.builtin.import_tasks: kube-vip.yml
+  tags: [kube-vip]
   when:
     - kubernetes_control_plane_node | bool
 
@@ -104,5 +105,6 @@
 
 - name: Configure kube-vip-cloud-provider
   ansible.builtin.import_tasks: kube-vip-cp.yml
+  tags: [kube-vip, kube-vip-cp]
   when:
     - kubernetes_control_plane_node | bool
