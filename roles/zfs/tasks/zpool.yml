@@ -19,11 +19,9 @@
       -O normalization=formD
       -O mountpoint=none
       -O canmount=off
-      -O devices=off
       -O compression={{ zpool.compression | default(zfs_default_zpool_compression) }}
-      -O encryption=aes-256-gcm
-      -O keyformat=passphrase
-      -O keylocation=prompt
+      -O devices=off
+      {{ '-O encryption=aes-256-gcm -O keyformat=passphrase -O keylocation=prompt' if zpool.encryption | default(true) else '' }}
       -O recordsize={{ zpool.recordsize | default(zfs_default_recordsize) }}
       {{ zpool.additional_properties | default('') | trim }}
       {{ zpool.name }} {{ zpool.raid | default('') }}

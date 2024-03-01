@@ -30,3 +30,13 @@ network_config:
   gw4: 192.168.100.1
   dns4: 192.168.100.1
   dns4_search: "{{ localdomain }}"
+
+zfs_additional_drives_enabled: true
+zfs_zpools:
+  - name: nvme2
+    encryption: false
+    compression: "off"
+    datasets:
+      - name: vm-nvme
+    devices:
+      - "{{ lookup('community.general.bitwarden', 'host_vars_bm-2', field='zfs_devices_nvme_2') | first }}"
