@@ -10,9 +10,17 @@ kubernetes_kube_vip_router_id: "{{ lookup('community.general.bitwarden', 'group_
 kubernetes_kube_vip_peer_address: "{{ lookup('community.general.bitwarden', 'group_vars_kube_nodes', field='kubernetes_kube_vip_peer_address') | first }}"
 kubernetes_kube_vip_peer_as: "{{ lookup('community.general.bitwarden', 'group_vars_kube_nodes', field='kubernetes_kube_vip_peer_as') | first }}"
 
+nginx_ingress_external_hosts:
+  - name: cloud
+    source_host: "{{ lookup('community.general.bitwarden', 'group_vars_kube_nodes', field='nginx_ingress_external_hosts_source_host') | first }}"
+    source_port: 80
+    ingress_class: nginx
+    hostname: "{{ lookup('community.general.bitwarden', 'group_vars_kube_nodes', field='nginx_ingress_external_hosts_hostname') | first }}"
+
 cert_manager_cloudflare_api_token: "{{ lookup('community.general.bitwarden', 'group_vars_kube_nodes', field='cert_manager_cloudflare_api_token') | first }}"
 cert_manager_email: "{{ lookup('community.general.bitwarden', 'group_vars_kube_nodes', field='cert_manager_email') | first }}"
 cert_manager_dns_zone: "{{ lookup('community.general.bitwarden', 'group_vars_kube_nodes', field='cert_manager_dns_zone') | first }}"
+cert_manager_dns_server: "{{ lookup('community.general.bitwarden', 'group_vars_kube_nodes', field='cert_manager_dns_server') | first }}"
 
 cilium_hubble_ui_host: "{{ lookup('community.general.bitwarden', 'group_vars_kube_nodes', field='cilium_hubble_ui_host') | first }}"
 

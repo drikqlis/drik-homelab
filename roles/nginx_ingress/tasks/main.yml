@@ -32,3 +32,8 @@
     update_repo_cache: true
     chart_version: 4.9.1
     values: "{{ lookup('template', 'ingress-nginx-internal-values.yaml') | from_yaml }}"
+
+- name: Manage external ingress
+  ansible.builtin.include_tasks: external_ingress.yml
+  loop: "{{ nginx_ingress_external_hosts }}"
+  tags: [nginx_ingress_external]

@@ -1,0 +1,27 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: "{{ item.name }}-ingress"
+  labels:
+    app.kubernetes.io/name: "{{ item.name }}"
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    kubernetes.io/ingress.class: "{{ item.ingress_class }}"
+    kubernetes.io/tls-acme: "true"
+spec:
+  ingressClassName: "{{ item.ingress_class }}"
+  tls:
+    - hosts:
+      - "{{ item.hostname }}"
+      secretName: "{{ item.name }}-certs"
+  rules:
+    - host: "{{ item.hostname }}"
+      http:
+        paths:
+          - pathType: Prefix
+            path: "/"
+            backend:
+              service:
+                name: "{{ item.name }}-external-service"
+                port:
+                  number: {{ item.source_port }}

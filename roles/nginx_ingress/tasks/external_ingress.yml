@@ -1,0 +1,19 @@
+---
+
+- name: Create external service
+  kubernetes.core.k8s:
+    namespace: "ingress-{{ item.ingress_class }}"
+    definition: "{{ lookup('template', 'external-service.yaml') | from_yaml }}"
+    apply: true
+    server_side_apply:
+      field_manager: ansible
+  tags: [nginx_ingress_external]
+
+- name: Create external ingress
+  kubernetes.core.k8s:
+    namespace: "ingress-{{ item.ingress_class }}"
+    definition: "{{ lookup('template', 'external-ingress.yaml') | from_yaml }}"
+    apply: true
+    server_side_apply:
+      field_manager: ansible
+  tags: [nginx_ingress_external]

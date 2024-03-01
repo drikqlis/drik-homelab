@@ -2,3 +2,10 @@
 
 nginx_ingress_replicas: 1
 nginx_ingress_resources: {}
+
+nginx_ingress_external_hosts:
+  - name: example
+    source_host: server.example.local
+    source_port: 80
+    ingress_class: nginx
+    hostname: example.com

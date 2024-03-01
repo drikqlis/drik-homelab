@@ -1,3 +1,4 @@
 installCRDs: true
 replicaCount: {{ cert_manager_replicas }}
 resources: {{ cert_manager_resources }}
+dns01RecursiveNameservers: {{ cert_manager_dns_server }}

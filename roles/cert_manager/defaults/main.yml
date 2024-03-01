@@ -8,3 +8,4 @@ cert_manager_resources:
 cert_manager_cloudflare_api_token: "define_in_group_vars_kube_nodes_personal"
 cert_manager_email: "define_in_group_vars_kube_nodes_personal"
 cert_manager_dns_zone: "define_in_group_vars_kube_nodes_personal"
+cert_manager_dns_server: 1.1.1.1:53
