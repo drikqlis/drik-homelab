@@ -4,9 +4,12 @@ controller:
   resources: {{ nginx_ingress_resources }}
   ingressClassResource:
     name: nginx-internal
+    controllerValue: "k8s.io/ingress-nginx-internal"
     default: false
   ingressClass: nginx-internal
   dnsConfig:
     options:
       - name: ndots
         value: '1'
+  service:
+    loadBalancerIP: {{ nginx_ingress_internal_load_balancer_ip }}

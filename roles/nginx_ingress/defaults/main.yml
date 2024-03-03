@@ -9,3 +9,5 @@ nginx_ingress_external_hosts:
     source_port: 80
     ingress_class: nginx
     hostname: example.com
+nginx_ingress_load_balancer_ip: 192.168.101.11
+nginx_ingress_internal_load_balancer_ip: 192.168.101.12

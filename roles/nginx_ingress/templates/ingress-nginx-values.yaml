@@ -8,3 +8,5 @@ controller:
     options:
       - name: ndots
         value: '1'
+  service:
+    loadBalancerIP: {{ nginx_ingress_load_balancer_ip }}
