@@ -16,6 +16,11 @@ nginx_ingress_external_hosts:
     source_port: 80
     ingress_class: nginx
     hostname: "{{ lookup('community.general.bitwarden', 'group_vars_kube_nodes', field='nginx_ingress_external_hosts_hostname') | first }}"
+  - name: vault
+    source_host: vault-proxy.drik.it
+    source_port: 7880
+    ingress_class: nginx
+    hostname: vault.drik.it
 
 cert_manager_cloudflare_api_token: "{{ lookup('community.general.bitwarden', 'group_vars_kube_nodes', field='cert_manager_cloudflare_api_token') | first }}"
 cert_manager_email: "{{ lookup('community.general.bitwarden', 'group_vars_kube_nodes', field='cert_manager_email') | first }}"

@@ -8,6 +8,12 @@ metadata:
     cert-manager.io/cluster-issuer: letsencrypt-prod
     kubernetes.io/ingress.class: "{{ item.ingress_class }}"
     kubernetes.io/tls-acme: "true"
+{% if item.source_https | default(false) %}
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+{% endif %}
+{% if item.name == 'cloud' %}
+    nginx.ingress.kubernetes.io/proxy-body-size: 10g
+{% endif %}
 spec:
   ingressClassName: "{{ item.ingress_class }}"
   tls:
