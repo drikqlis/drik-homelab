@@ -16,5 +16,3 @@ network_config:
   connection_name: "Wired connection 1"
   ipv4: 192.168.100.82/24
   gw4: 192.168.100.1
-  dns4: 192.168.100.1
-  dns4_search: "{{ localdomain }}"

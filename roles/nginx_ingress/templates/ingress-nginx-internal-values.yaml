@@ -6,3 +6,7 @@ controller:
     name: nginx-internal
     default: false
   ingressClass: nginx-internal
+  dnsConfig:
+    options:
+      - name: ndots
+        value: '1'

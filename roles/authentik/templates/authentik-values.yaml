@@ -15,9 +15,17 @@ server:
       - hosts:
         - {{ authentik_host }}
         secretName: authentik-certs
+  dnsConfig:
+    options:
+      - name: ndots
+        value: '1'
 worker:
   resources: {{ authentik_resources_worker }}
   replicas: {{ authentik_worker_replicas }}
+  dnsConfig:
+    options:
+      - name: ndots
+        value: '1'
 
 authentik:
   error_reporting:
