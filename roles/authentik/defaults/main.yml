@@ -6,7 +6,7 @@ authentik_resources_server: {}
 authentik_resources_worker: {}
 authentik_secret_key: change_me
 authentik_email_host: mail.example.com
-authentik_email_port: 465
+authentik_email_port: 587
 authentik_email_username: email@example.com
 authentik_email_password: change_me
 authentik_email_use_tls: true
