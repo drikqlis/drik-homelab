@@ -1,10 +1,9 @@
-roles/remmina/files/*-connections
-group_vars/all/users.yml
-files/*-keys
+ansible/roles/remmina/files/*-connections
+ansible/group_vars/all/users.yml
+ansible/files/*-keys
 *.salt
 *.kwl
 *.remmina
-vault_pass
-files/users/*
-.vscode
-venv
+ansible/vault_pass
+ansible/files/users/*
+ansible/venv

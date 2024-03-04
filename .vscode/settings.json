@@ -1,0 +1,6 @@
+{
+    "ansible.python.interpreterPath": "ansible/venv/bin/python",
+    "ansible.python.activationScript": "ansible/venv/bin/activate",
+    "ansibleVault.keyfile": "ansible/vault_pass",
+    "ansible.validation.lint.arguments": ""
+}
