@@ -7,3 +7,5 @@ ansible/files/*-keys
 ansible/vault_pass
 ansible/files/users/*
 ansible/venv
+.terraform*
+*.tfvars
