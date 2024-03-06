@@ -9,4 +9,4 @@ ansible/files/users/*
 ansible/venv
 .terraform*
 *.tfvars
-terraform.tfstate
+terraform.tfstate*
