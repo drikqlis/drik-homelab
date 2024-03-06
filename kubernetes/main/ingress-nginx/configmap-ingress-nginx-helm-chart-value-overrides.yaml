@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  creationTimestamp: null
+  name: podinfo-helm-chart-value-overrides
+  namespace: podinfo
+data:
+  values.yaml: |-
+    controller:
+      replicaCount: 1
+      resources: {}
+      ingressClassResource:
+        name: nginx
+        default: true
+      dnsConfig:
+        options:
+          - name: ndots
+            value: '1'
+      service:
+        loadBalancerIP: 192.168.101.11
