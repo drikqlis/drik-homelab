@@ -38,5 +38,10 @@ zfs_zpools:
     compression: "off"
     datasets:
       - name: vm-nvme
+      - name: vm-nvme/nas-1
+      - name: vm-nvme/kube-1
+      - name: vm-nvme/kube-2
+      - name: vm-nvme/kube-3
+      - name: vm-nvme/kube-4
     devices:
       - "{{ lookup('community.general.bitwarden', 'host_vars_bm-2', field='zfs_devices_nvme_2') | first }}"
