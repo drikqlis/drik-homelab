@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  creationTimestamp: null
+  name: ingress-nginx-internal-helm-chart-value-overrides
+  namespace: ingress-nginx-internal
+data:
+  values.yaml: |-
+    nameOverride: ingress-nginx-internal
+    controller:
+      replicaCount: 1
+      resources: {}
+      ingressClassResource:
+        name: nginx-internal
+        controllerValue: "k8s.io/ingress-nginx-internal"
+        default: false
+      ingressClass: nginx-internal
+      dnsConfig:
+        options:
+          - name: ndots
+            value: '1'
+      service:
+        loadBalancerIP: 192.168.101.12
