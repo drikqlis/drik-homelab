@@ -17,5 +17,5 @@ spec:
   releaseName: ingress-nginx-internal
   valuesFrom:
   - kind: ConfigMap
-    name: ingress-nginx-internal-helm-chart-value-overrides
+    name: ingress-nginx-internal-values
     valuesKey: values.yaml

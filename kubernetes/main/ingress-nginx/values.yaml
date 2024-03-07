@@ -2,7 +2,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   creationTimestamp: null
-  name: ingress-nginx-helm-chart-value-overrides
+  name: ingress-nginx-values
   namespace: ingress-nginx
 data:
   values.yaml: |-
