@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  creationTimestamp: null
+  name: onepassword-values
+  namespace: onepassword
+data:
+  values.yaml: |-
+    operator:
+      create: true
