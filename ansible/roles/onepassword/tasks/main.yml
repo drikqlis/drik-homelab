@@ -1,0 +1,19 @@
+---
+
+- name: Add onepassword chart repo
+  kubernetes.core.helm_repository:
+    repo_name: onepassword
+    repo_url: https://1password.github.io/connect-helm-charts/
+
+- name: Show values for deployment
+  ansible.builtin.debug:
+    msg: "{{ lookup('template', 'onepassword-values.yaml') | from_yaml }}"
+
+- name: Deploy onepassword chart
+  kubernetes.core.helm:
+    name: onepassword
+    chart_ref: onepassword/connect
+    release_namespace: onepassword
+    create_namespace: true
+    update_repo_cache: true
+    values: "{{ lookup('template', 'onepassword-values.yaml') | from_yaml }}"

@@ -196,6 +196,11 @@
             name: kubernetes
           tags: [kubernetes_kubeadm]
 
+        - name: Install and configure onepassword
+          ansible.builtin.import_role:
+            name: onepassword
+          tags: [onepassword]
+
     - name: Kubernetes configuration
       when: kubernetes_enabled | bool and kubernetes_control_plane_node | bool
       tags: [kubernetes, kubernetes_config]

@@ -10,6 +10,9 @@ kubernetes_kube_vip_router_id: "{{ lookup('community.general.bitwarden', 'group_
 kubernetes_kube_vip_peer_address: "{{ lookup('community.general.bitwarden', 'group_vars_kube_nodes', field='kubernetes_kube_vip_peer_address') | first }}"
 kubernetes_kube_vip_peer_as: "{{ lookup('community.general.bitwarden', 'group_vars_kube_nodes', field='kubernetes_kube_vip_peer_as') | first }}"
 
+onepassword_connect_token: "{{ lookup('community.general.bitwarden', 'group_vars_kube_nodes', field='onepassword_connect_token') | first }}"
+onepassword_connect_credentials: "{{ lookup('community.general.bitwarden', 'group_vars_kube_nodes', field='onepassword_connect_credentials') | first }}"
+
 nginx_ingress_external_hosts:
   - name: cloud
     source_host: "{{ lookup('community.general.bitwarden', 'group_vars_kube_nodes', field='nginx_ingress_external_hosts_source_host') | first }}"
