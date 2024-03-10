@@ -19,3 +19,6 @@ spec:
   - kind: ConfigMap
     name: ingress-nginx-values
     valuesKey: values.yaml
+  - kind: Secret
+    name: ingress-nginx-secret-values
+    valuesKey: values.yaml
