@@ -1,0 +1,34 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  creationTimestamp: null
+  name: kubernetes-dashboard-values
+  namespace: kubernetes-dashboard
+data:
+  values.yaml: |-
+    replicaCount: 1
+    resources: {}
+
+    settings:
+      clusterName: Kubernetes | Drik.IT
+      itemsPerPage: 10
+      logsAutoRefreshTimeInterval: 5
+      resourceAutoRefreshTimeInterval: 5
+      disableAccessDeniedNotifications: false
+
+    ingress:
+      enabled: false
+
+    protocolHttp: true
+
+    service:
+      type: ClusterIP
+      externalPort: 80
+
+    metricsScraper:
+      enabled: true
+      resources: {}
+
+    extraArgs:
+      - --enable-insecure-login

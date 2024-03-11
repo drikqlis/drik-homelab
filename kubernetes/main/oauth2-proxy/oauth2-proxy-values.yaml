@@ -1,0 +1,51 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  creationTimestamp: null
+  name: oauth2-proxy-values
+  namespace: kubernetes-dashboard
+data:
+  values.yaml: |-
+    config:
+      annotations: {}
+      configFile: |-
+        email_domains = [ "*" ]
+        upstreams = [ "http://kubernetes-dashboard" ]
+      cookieName: ''
+      google: {}
+    extraArgs:
+      cookie-refresh: 359m
+      oidc-issuer-url: https://auth.drik.it/application/o/kube-apiserver/
+      pass-authorization-header: 'true'
+      provider: oidc
+      provider-display-name: Authentik
+      redis-connection-url: redis://oauth2-proxy-redis-master
+      session-store-type: redis
+      skip-provider-button: 'true'
+    ingress:
+      annotations:
+        cert-manager.io/cluster-issuer: letsencrypt-prod
+        kubernetes.io/ingress.class: nginx-internal
+        kubernetes.io/tls-acme: 'true'
+      className: nginx-internal
+      enabled: true
+      hosts:
+      - kube.drik.it
+      path: /
+      pathType: ImplementationSpecific
+      tls:
+      - hosts:
+        - kube.drik.it
+        secretName: oauth2-proxy-certs
+    redis:
+      auth:
+        enabled: true
+      clusterDomain: cluster.drik.it
+      enabled: true
+      replica:
+        replicaCount: 1
+    replicaCount: 1
+    resources: {}
+    sessionStorage:
+      type: redis
