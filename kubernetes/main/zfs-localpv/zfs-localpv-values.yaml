@@ -3,7 +3,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   creationTimestamp: null
-  name: zfs-localpv
+  name: zfs-localpv-values
   namespace: zfs-localpv
 data:
   values.yaml: |-
