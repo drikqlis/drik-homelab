@@ -1,0 +1,13 @@
+---
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  annotations:
+    storageclass.kubernetes.io/is-default-class: 'true'
+  name: localpv-nvme
+parameters:
+  fstype: zfs
+  poolname: nvme1/kube-nvme
+provisioner: zfs.csi.openebs.io
+reclaimPolicy: Delete
+volumeBindingMode: Immediate
