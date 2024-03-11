@@ -1,0 +1,42 @@
+---
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: nfs-hdd
+mountOptions:
+  - vers=4
+parameters:
+  server: nas-1.serv.drik.it
+  share: /kube-hdd
+provisioner: nfs.csi.k8s.io
+reclaimPolicy: Delete
+volumeBindingMode: Immediate
+
+---
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: nfs-media
+  resourceVersion: '4191'
+mountOptions:
+  - vers=4
+parameters:
+  server: nas-1.serv.drik.it
+  share: /media
+provisioner: nfs.csi.k8s.io
+reclaimPolicy: Retain
+volumeBindingMode: Immediate
+
+---
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: nfs-cloud
+mountOptions:
+  - vers=4
+parameters:
+  server: nas-1.serv.drik.it
+  share: /cloud
+provisioner: nfs.csi.k8s.io
+reclaimPolicy: Retain
+volumeBindingMode: Immediate
