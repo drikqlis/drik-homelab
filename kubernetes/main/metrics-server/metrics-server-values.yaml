@@ -1,0 +1,14 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  creationTimestamp: null
+  name: metrics-server-values
+  namespace: metrics-server
+data:
+  values.yaml: |-
+    replicas: 1
+    args:
+      - --kubelet-preferred-address-types=InternalIP
+      - --kubelet-insecure-tls
+    resources: {}
