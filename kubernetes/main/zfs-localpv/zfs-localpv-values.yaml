@@ -1,0 +1,11 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  creationTimestamp: null
+  name: zfs-localpv
+  namespace: zfs-localpv
+data:
+  values.yaml: |-
+    analytics:
+      enabled: false
