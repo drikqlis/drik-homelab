@@ -1,0 +1,42 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  creationTimestamp: null
+  name: jellyfin-values
+  namespace: jellyfin
+data:
+  values.yaml: |-
+    replicaCount: 1
+
+    ingress:
+      enabled: true
+      className: "nginx"
+      annotations:
+        kubernetes.io/ingress.class: nginx
+        kubernetes.io/tls-acme: "true"
+        cert-manager.io/cluster-issuer: "letsencrypt-prod"
+      hosts:
+        - host: jellyfin.drik.it
+          paths:
+            - path: /
+              pathType: ImplementationSpecific
+      tls:
+        - secretName: jellyfin-certs
+          hosts:
+            - jellyfin.drik.it
+
+    persistence:
+      config:
+        enabled: true
+        accessMode: ReadWriteOnce
+        size: 30Gi
+      cache:
+        enabled: true
+        accessMode: ReadWriteOnce
+        size: 40Gi
+      media:
+        enabled: true
+        storageClass: nfs-media
+        accessMode: ReadWriteMany
+        size: 40Ti
