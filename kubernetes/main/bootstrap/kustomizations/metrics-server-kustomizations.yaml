@@ -16,4 +16,4 @@ spec:
     - apiVersion: apps/v1
       kind: Deployment
       name: metrics-server
-      namespace: authentik
+      namespace: metrics-server
