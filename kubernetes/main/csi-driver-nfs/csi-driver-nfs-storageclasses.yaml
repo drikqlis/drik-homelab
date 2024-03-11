@@ -6,7 +6,7 @@ metadata:
 mountOptions:
   - vers=4
 parameters:
-  server: nas-1.serv.drik.it
+  server: nas-1.drik.it
   share: /kube-hdd
 provisioner: nfs.csi.k8s.io
 reclaimPolicy: Delete
@@ -21,7 +21,7 @@ metadata:
 mountOptions:
   - vers=4
 parameters:
-  server: nas-1.serv.drik.it
+  server: nas-1.drik.it
   share: /media
 provisioner: nfs.csi.k8s.io
 reclaimPolicy: Retain
@@ -35,7 +35,7 @@ metadata:
 mountOptions:
   - vers=4
 parameters:
-  server: nas-1.serv.drik.it
+  server: nas-1.drik.it
   share: /cloud
 provisioner: nfs.csi.k8s.io
 reclaimPolicy: Retain
