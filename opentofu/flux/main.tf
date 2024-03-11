@@ -46,4 +46,5 @@ resource "flux_bootstrap_git" "this" {
 
   path = "kubernetes/main/bootstrap"
   cluster_domain = var.cluster_domain
+  components_extra = ["image-reflector-controller", "image-automation-controller"]
 }
