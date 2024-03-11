@@ -14,7 +14,7 @@ spec:
         name: csi-driver-nfs
         namespace: flux-system
   interval: 15m
-  timeout: 5m
+  timeout: 10m
   releaseName: csi-driver-nfs
   valuesFrom:
   - kind: ConfigMap
