@@ -20,3 +20,6 @@ spec:
   - kind: ConfigMap
     name: oauth2-proxy-values
     valuesKey: values.yaml
+  - kind: Secret
+    name: oauth2-proxy-secret-values
+    valuesKey: notesPlain
