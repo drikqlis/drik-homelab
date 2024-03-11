@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  creationTimestamp: null
+  name: cert-manager-values
+  namespace: cert-manager
+data:
+  values.yaml: |-
+    installCRDs: true
+    replicaCount: 1
+    resources: {}
+    dns01RecursiveNameservers: 1.1.1.1:53
