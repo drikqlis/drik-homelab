@@ -1,0 +1,9 @@
+---
+apiVersion: image.toolkit.fluxcd.io/v1beta1
+kind: ImageRepository
+metadata:
+  name: dagonite-empire
+  namespace: flux-system
+spec:
+  image: docker.io/drikqlis/dagonite-empire
+  interval: 5m
