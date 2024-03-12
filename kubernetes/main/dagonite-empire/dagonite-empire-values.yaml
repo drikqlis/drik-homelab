@@ -7,10 +7,6 @@ metadata:
   namespace: dagonite-empire
 data:
   values.yaml: |-
-    image:
-      repository: docker.io/drikqlis/dagonite-empire # {"$imagepolicy": "flux-system:dagonite-empire:name"}
-      tag: 0.1.11 # {"$imagepolicy": "flux-system:dagonite-empire:tag"}
-
     replicaCount: 1
 
     ingress:
