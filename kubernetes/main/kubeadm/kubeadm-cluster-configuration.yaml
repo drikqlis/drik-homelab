@@ -1,0 +1,9 @@
+---
+apiVersion: kubeadm.k8s.io/v1beta4
+kind: ClusterConfiguration
+apiServer:
+  extraArgs:
+    oidc-issuer-url: https://auth.drik.it/application/o/kube-apiserver/
+    oidc-client-id: kube-apiserver
+    oidc-username-claim: email
+    oidc-groups-claim: groups
