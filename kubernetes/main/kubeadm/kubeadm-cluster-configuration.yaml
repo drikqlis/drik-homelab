@@ -1,6 +1,8 @@
 ---
 apiVersion: kubeadm.k8s.io/v1beta4
 kind: ClusterConfiguration
+metadata:
+  name: kubeadm-oidc
 apiServer:
   extraArgs:
     oidc-issuer-url: https://auth.drik.it/application/o/kube-apiserver/
