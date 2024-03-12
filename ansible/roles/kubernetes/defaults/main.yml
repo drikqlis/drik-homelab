@@ -23,3 +23,6 @@ kubernetes_kube_vip_local_as: 64501
 kubernetes_kube_vip_router_id: 192.168.101.2
 kubernetes_kube_vip_peer_address: 192.168.101.1
 kubernetes_kube_vip_peer_as: 64500
+
+kubernetes_dashboard_oidc_issuer_url: https://auth.example.com/application/o/kube-apiserver/
+kubernetes_dashboard_oidc_client_id: kube-apiserver

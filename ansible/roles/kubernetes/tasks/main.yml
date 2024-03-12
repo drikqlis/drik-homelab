@@ -108,3 +108,12 @@
   tags: [kube-vip, kube-vip-cp]
   when:
     - kubernetes_control_plane_node | bool
+
+- name: Enable OIDC for cluster
+  ansible.builtin.blockinfile:
+    path: /etc/kubernetes/manifests/kube-apiserver.yaml
+    insertafter: "    - --advertise-address="
+    marker: "# {mark} ANSIBLE MANAGED BLOCK - OIDC"
+    block: "{{ lookup('template', 'oidc-settings.j2') }}"
+  delegate_to: "{{ item }}"
+  loop: "{{ groups['kube_control'] }}"
