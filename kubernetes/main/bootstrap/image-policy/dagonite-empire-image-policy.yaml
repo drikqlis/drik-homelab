@@ -5,6 +5,8 @@ metadata:
   name: dagonite-empire
   namespace: flux-system
 spec:
+  imageRepositoryRef:
+    name: dagonite-empire
   policy:
     semver:
       range: '>=1.0.0-0'
