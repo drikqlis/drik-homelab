@@ -15,7 +15,7 @@ spec:
         namespace: flux-system
   interval: 15m
   timeout: 5m
-  releaseName: vaultwardendb
+  releaseName: vaultwarden-postgresql
   valuesFrom:
   - kind: ConfigMap
     name: vaultwardendb-values
