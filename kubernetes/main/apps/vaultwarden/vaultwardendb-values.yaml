@@ -1,0 +1,10 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: vaultwardendb-values
+  namespace: vaultwarden
+data:
+  values.yaml: |-
+    nameOverride: vaultwarden
+    clusterDomain: cluster.drik.it
