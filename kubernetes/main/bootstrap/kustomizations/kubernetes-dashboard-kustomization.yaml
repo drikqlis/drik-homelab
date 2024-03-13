@@ -6,7 +6,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 15m
-  path: kubernetes/main/kubernetes-dashboard
+  path: kubernetes/main/apps/kubernetes-dashboard
   prune: true
   timeout: 2m
   sourceRef:

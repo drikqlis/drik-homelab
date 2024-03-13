@@ -6,7 +6,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 15m
-  path: kubernetes/main/jellyfin
+  path: kubernetes/main/apps/jellyfin
   prune: true
   timeout: 2m
   sourceRef:

@@ -6,7 +6,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 15m
-  path: kubernetes/main/dagonite-empire
+  path: kubernetes/main/apps/dagonite-empire
   prune: true
   timeout: 2m
   sourceRef:

@@ -6,7 +6,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 15m
-  path: kubernetes/main/csi-driver-nfs
+  path: kubernetes/main/apps/csi-driver-nfs
   prune: true
   timeout: 2m
   sourceRef:

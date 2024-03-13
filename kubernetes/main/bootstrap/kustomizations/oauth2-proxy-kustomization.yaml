@@ -6,7 +6,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 15m
-  path: kubernetes/main/oauth2-proxy
+  path: kubernetes/main/apps/oauth2-proxy
   prune: true
   timeout: 2m
   sourceRef:
