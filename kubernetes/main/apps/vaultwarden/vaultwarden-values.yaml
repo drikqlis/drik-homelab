@@ -34,3 +34,5 @@ data:
       tls: true
       hostname: "vault.drik.it"
       tlsSecret: "vaultwarden-tls"
+    postgresql:
+      clusterDomain: cluster.drik.it
