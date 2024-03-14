@@ -11,7 +11,7 @@ spec:
       version: 0.22.*
       sourceRef:
         kind: HelmRepository
-        name: drik-homelab
+        name: vaultwarden
         namespace: flux-system
   interval: 15m
   timeout: 5m
