@@ -18,7 +18,7 @@ spec:
   values:
     image:
       repository: docker.io/drikqlis/dagonite-empire # {"$imagepolicy": "flux-system:dagonite-empire:name"}
-      tag: 0.1.15 # {"$imagepolicy": "flux-system:dagonite-empire:tag"}
+      tag: 0.1.16 # {"$imagepolicy": "flux-system:dagonite-empire:tag"}
   valuesFrom:
   - kind: ConfigMap
     name: dagonite-empire-values
