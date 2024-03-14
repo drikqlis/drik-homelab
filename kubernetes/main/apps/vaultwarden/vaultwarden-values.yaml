@@ -22,7 +22,6 @@ data:
     signupsAllowed: false"
     invitationsAllowed: true
     invitationOrgName: "Vault | Drik.IT"
-    adminToken: null
     ingress:
       enabled: true
       class: "nginx"
