@@ -17,11 +17,13 @@ data:
     pushNotifications:
       relayUri: "https://push.bitwarden.eu"
       identityUri: "https://identity.bitwarden.eu"
-    domain: "vault.drik.it"
+    domain: "https://vault.drik.it"
     sendsAllowed: "true"
     signupsAllowed: false"
     invitationsAllowed: true
     invitationOrgName: "Vault | Drik.IT"
+    adminToken:
+      value: ""
     ingress:
       enabled: true
       class: "nginx"
