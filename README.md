@@ -22,7 +22,7 @@
 ---
 
 ## 📔 Overview
-This is a mono repository containing all the automations I use for my homelab spaning from kubernetes clusters, trough baremetal KVM hosts, to personal computers and everything in between. I keep my infrastructure as code (IaC) and try to put GitOps into practice. I use tools like [Ansible](https://www.ansible.com), [Flux](https://fluxcd.io), [OpenTofu](https://opentofu.org) (Terraform fork), [Github Actions](https://docs.github.com/en/actions), [Kubernetes](https://kubernetes.io), [Helm](https://helm.sh) and more. All my machines use [Arch Linux](https://archlinux.org) as an operating system and [OpenZFS](https://openzfs.org) for storage.
+This is a mono repository containing all the automations I use for my homelab spaning from kubernetes clusters, through baremetal KVM hosts, to personal computers and everything in between. I keep my infrastructure as code (IaC) and try to put GitOps into practice. I use tools like [Ansible](https://www.ansible.com), [Flux](https://fluxcd.io), [OpenTofu](https://opentofu.org) (Terraform fork), [Github Actions](https://docs.github.com/en/actions), [Kubernetes](https://kubernetes.io), [Helm](https://helm.sh) and more. All my machines use [Arch Linux](https://archlinux.org) as an operating system and [OpenZFS](https://openzfs.org) for storage.
 
 ## 🐧 Ansible
 Ansible code resides in ansible directory (duh!) and is responsible for insalling, configuring and keeping up to date all of my baremetal servers, virtual machines and personal computers.
