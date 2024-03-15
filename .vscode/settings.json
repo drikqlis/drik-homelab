@@ -6,5 +6,13 @@
     "ansible.validation.lint.enabled": true,
     "ansible.validation.lint.path": "./ansible/venv/bin/ansible-lint",
     "ansible.python.interpreterPath": "./ansible/venv/bin/python3",
-    "ansible.validation.lint.arguments": "-c ansible/.ansible-lint"
+    "ansible.validation.lint.arguments": "-c ansible/.ansible-lint",
+    "spellright.language": [
+        "en-US-10-1."
+    ],
+    "spellright.documentTypes": [
+        "markdown",
+        "latex",
+        "plaintext"
+    ]
 }
