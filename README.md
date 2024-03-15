@@ -2,7 +2,7 @@
 <img src="files/drik-it-logo.svg" alt="drik-it-logo" width="500"/>
 
 ### ⚔️ Drik.IT Homelab 🛡️
-*IaC, GitOps, DevOps and all that fluff but in home.*
+💾 *GitOps, IaC, DevOps and all that fluff but in home.* 🏡
 
 ![GitHub last commit](https://img.shields.io/github/last-commit/drikqlis/drik-homelab?logo=github&style=for-the-badge&color=8060ff)
 
