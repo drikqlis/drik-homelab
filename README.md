@@ -2,6 +2,7 @@
 <img src="files/drik-it-logo.svg" alt="drik-it-logo" width="500"/>
 
 ### ⚔️ Drik.IT Homelab 🛡️
+*IaC, GitOps, DevOps and all that fluff but in home.*
 
 ![GitHub last commit](https://img.shields.io/github/last-commit/drikqlis/drik-homelab?logo=github&style=for-the-badge&color=8060ff)
 
@@ -9,6 +10,7 @@
 ![Flux](https://img.shields.io/badge/flux-8060ff?style=for-the-badge&logo=flux&logoColor=white&link=https%3A%2F%2Ffluxcd.io%2F)
 ![OpenTofu](https://img.shields.io/badge/opentofu-8060ff?style=for-the-badge&logo=opentofu&logoColor=white&link=https%3A%2F%2Fopentofu.org%2F)
 ![Github Actions](https://img.shields.io/badge/github_actions-8060ff?style=for-the-badge&logo=github-actions&logoColor=white&link=https%3A%2F%2Fdocs.github.com%2Fen%2Factions)
+
 ![Kubernetes](https://img.shields.io/badge/kubernetes-8060ff?style=for-the-badge&logo=kubernetes&logoColor=white&link=https%3A%2F%2Fkubernetes.io%2F)
 ![Helm](https://img.shields.io/badge/helm-8060ff?style=for-the-badge&logo=helm&logoColor=white&link=https%3A%2F%2Fhelm.sh%2F)
 ![Arch Linux](https://img.shields.io/badge/arch_linux-8060ff?style=for-the-badge&logo=arch-linux&logoColor=white&link=https%3A%2F%2Farchlinux.org%2F)
