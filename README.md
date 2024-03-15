@@ -27,7 +27,7 @@ This is a mono repository containing all the automations I use for my homelab sp
 ## 🐧 Ansible
 Ansible code resides in ansible directory (duh!) and is responsible for insalling, configuring and keeping up to date all of my baremetal servers, virtual machines and personal computers.
 
-### Instalation
+### Installation
 My `install.yml` playbook can install (duh again!) Arch Linux from scrach using archiso and archzfs, configuring all the system components up to my liking (but it is still somewhat customizable). All my partitions are encrypted by default, I use systemd-boot with unified kernel image, SecureBoot, and ZFS for all storage including root. Install config diffres according to the type of machine (baremetal server, virtual machine, PC with nVIDIA GPU - they all need diffrent customizations).
 
 ### Configuration
