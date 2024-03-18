@@ -27,7 +27,7 @@ data:
             postgresPassword: ""
             username: "immich"
             password: ""
-            database: "immichdb"
+            database: "immich"
             existingSecret: "immich-secret-values"
             secretKeys:
               adminPasswordKey: DB_PASSWORD_ADMIN
