@@ -1,0 +1,15 @@
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: immich-library
+  labels:
+    app.kubernetes.io/name: immich
+    app.kubernetes.io/instance: immich
+spec:
+  accessModes:
+    - "ReadWriteMany"
+  resources:
+    requests:
+      storage: 2Ti
+  storageClassName: nfs-cloud
