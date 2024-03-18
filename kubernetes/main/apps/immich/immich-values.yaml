@@ -6,6 +6,8 @@ metadata:
   namespace: immich
 data:
   values.yaml: |-
+    env:
+      DB_PASSWORD: null
     envFrom:
     - secretRef:
         name: immich-secret-values
