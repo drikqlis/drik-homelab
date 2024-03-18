@@ -17,6 +17,7 @@ data:
 
     postgresql:
       enabled: true
+      clusterDomain: cluster.drik.it
       global:
         postgresql:
           auth:
@@ -32,6 +33,7 @@ data:
 
     redis:
       enabled: true
+      clusterDomain: cluster.drik.it
       auth:
         enabled: false
 
