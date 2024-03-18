@@ -6,6 +6,8 @@ metadata:
   namespace: immich
 data:
   values.yaml: |-
+    image:
+      tag: 1.98.2
     env:
       DB_PASSWORD:
         valueFrom:
