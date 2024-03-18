@@ -14,7 +14,7 @@ spec:
         name: immich
         namespace: flux-system
   interval: 15m
-  timeout: 5m
+  timeout: 10m
   releaseName: immich
   valuesFrom:
   - kind: ConfigMap
