@@ -7,10 +7,11 @@ metadata:
 data:
   values.yaml: |-
     env:
-      DB_PASSWORD: null
-    envFrom:
-    - secretRef:
-        name: immich-secret-values
+      DB_PASSWORD:
+        valueFrom:
+          secretKeyRef:
+            name: immich-secret-values
+            key: DB_PASSWORD
 
     immich:
       persistence:
