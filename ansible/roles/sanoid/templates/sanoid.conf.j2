@@ -1,4 +1,5 @@
 
+{% if sanoid_root_datasets_snapshot_enabled %}
 # {{ installation_drive.root_zpool }} datasets
 
 {% for dataset in installation_zfs_datasets %}
@@ -7,6 +8,7 @@
 	recursive = yes
 
 {% endfor %}
+{% endif %}
 {% if zfs_additional_drives_enabled %}
 {% for zpool in zfs_zpools %}
 
@@ -25,7 +27,7 @@
 
 [template_default]
     frequently = 0
-    hourly = 24
+    hourly = 12
     daily = 14
     monthly = 0
     yearly = 0
