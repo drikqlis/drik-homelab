@@ -1,11 +1,5 @@
 ---
 
-- name: Ensure multilib repo is added
-  ansible.builtin.replace:
-    path: /etc/pacman.conf
-    regexp: '^#?\[multilib\]\n#?Include.*'
-    replace: '[multilib]\nInclude = /etc/pacman.d/mirrorlist'
-
 - name: Ensure steam and other packages are installed
   community.general.pacman:
     name:

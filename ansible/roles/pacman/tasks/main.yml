@@ -34,27 +34,12 @@
   notify: Daemon reload
 
 - name: Ensure pacman config is correct
-  ansible.builtin.lineinfile:
+  ansible.builtin.template:
+    src: pacman.conf.j2
     dest: /etc/pacman.conf
-    regexp: "{{ item.regexp }}"
-    line: "{{ item.line }}"
-  loop:
-    - { regexp: "^#?.?CleanMethod", line: "CleanMethod = KeepCurrent" }
-    - { regexp: "^#?.?ParallelDownloads", line: "ParallelDownloads = 5" }
-    - { regexp: "^#?.?Color", line: "Color" }
-
-- name: Ensure local mirror is enabled for repos
-  community.general.ini_file:
-    path: /etc/pacman.conf
-    section: "{{ item.section }}"
-    option: "{{ item.option }}"
-    value: "{{ item.value }}"
-    modify_inactive_option: false
+    owner: root
+    group: root
     mode: "0644"
-  loop:
-    - { section: "core", option: "Server", value: "{{ pacman_local_mirror_url }}" }
-    - { section: "extra", option: "Server", value: "{{ pacman_local_mirror_url }}" }
-  when: pacman_local_mirror_enabled
   notify: Update cache
 
 - name: Import key for archzfs repo
@@ -62,17 +47,6 @@
     id: DDF7DB817396A49B2A2723F7403BD972F75D9D76
     url: https://archzfs.com/archzfs.gpg
     state: present
-
-- name: Ensure custom repos are added
-  ansible.builtin.blockinfile:
-    path: /etc/pacman.conf
-    insertafter: EOF
-    block: |
-      [aur]
-      SigLevel = Optional TrustAll
-      Server = https://arch.drik.it
-      [archzfs]
-      Server = https://archzfs.com/$repo/$arch
 
 - name: Ensure reflector config is correct
   ansible.builtin.lineinfile:

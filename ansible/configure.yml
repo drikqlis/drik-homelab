@@ -172,7 +172,7 @@
           tags: [signal]
 
         - name: Steam configuration
-          when: host_type == "personal"
+          when: steam_enabled
           ansible.builtin.import_role:
             name: steam
           tags: [steam]
