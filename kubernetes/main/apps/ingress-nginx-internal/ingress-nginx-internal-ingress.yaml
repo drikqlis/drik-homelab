@@ -5,7 +5,7 @@ metadata:
   name: valetudo-service
   namespace: ingress-nginx-internal
 spec:
-  externalName: U02293ZM.off.drik.it
+  externalName: u02293zm.off.drik.it
   ports:
   - port: 80
     protocol: TCP
