@@ -10,15 +10,16 @@ terraform {
 }
 
 provider "onepassword" {
-  url = "https://onepassword.drik.it"
+  url = var.onepassword_url
+  token = var.onepassword_token
 }
 
 provider "authentik" {
-  url = "https://auth.drik.it"
+  url = var.authentik_url
   token = data.onepassword_item.opentofu_authentik_secrets.section[index(data.onepassword_item.opentofu_authentik_secrets.section.*.label, "secrets")].field[index(data.onepassword_item.opentofu_authentik_secrets.section[index(data.onepassword_item.opentofu_authentik_secrets.section.*.label, "secrets")].field.*.label, "token")].value
 }
 
 data "onepassword_item" "opentofu_authentik_secrets" {
-  vault = var.kube_vault
+  vault = var.onepassword_vault
   title = "opentofu_authentik_secrets"
 }

@@ -9,12 +9,14 @@ resource "authentik_user" "user" {
 resource "authentik_group" "authentik_admins" {
   name = "authentik-admins"
   is_superuser = true
-  users = [authentik_user.user["user1"].id, authentik_user.user["user2"].id]
+  users = [authentik_user.user["user1"].id,
+          authentik_user.user["user2"].id]
 }
 
 resource "authentik_group" "jellyfin_admins" {
   name = "jellyfin-admins"
-  users = [authentik_user.user["user1"].id, authentik_user.user["user2"].id]
+  users = [authentik_user.user["user1"].id,
+          authentik_user.user["user2"].id]
 }
 
 resource "authentik_group" "jellyfin_users" {
@@ -34,5 +36,6 @@ resource "authentik_group" "immich_users" {
 
 resource "authentik_group" "kube_apiserver_admins" {
   name = "kube-apiserver-admins"
-  users = [authentik_user.user["user1"].id, authentik_user.user["user2"].id]
+  users = [authentik_user.user["user1"].id,
+          authentik_user.user["user2"].id]
 }

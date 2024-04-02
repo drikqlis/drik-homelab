@@ -1,4 +1,17 @@
-variable "kube_vault" {
+variable "onepassword_vault" {
+  type = string
+}
+
+variable "onepassword_url" {
+  type = string
+}
+
+variable "onepassword_token" {
+  type = string
+  sensitive = true
+}
+
+variable "authentik_url" {
   type = string
 }
 
