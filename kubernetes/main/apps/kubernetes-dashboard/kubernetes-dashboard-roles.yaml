@@ -18,4 +18,3 @@ rules:
 - apiGroups: [""]
   resources: ["namespaces"]
   verbs: ["get", "list"]
-  resourceNames: ["default", "dagonite-empire"]
