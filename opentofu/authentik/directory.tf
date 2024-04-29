@@ -39,3 +39,8 @@ resource "authentik_group" "kube_apiserver_admins" {
   users = [authentik_user.user["user1"].id,
           authentik_user.user["user2"].id]
 }
+
+resource "authentik_group" "dagonite_empire_kube_admins" {
+  name = "dagonite-empire-kube-admins"
+  users = [authentik_user.user["user5"].id]
+}
