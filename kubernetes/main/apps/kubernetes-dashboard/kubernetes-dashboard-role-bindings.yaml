@@ -24,3 +24,17 @@ roleRef:
 subjects:
   - kind: Group
     name: dagonite-empire-kube-admins
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: oidc-group-dagonite-admin-list-namespaces-binding
+  namespace: dagonite-empire
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: dagonite-admin-list-namespaces-role
+subjects:
+  - kind: Group
+    name: dagonite-empire-kube-admins
