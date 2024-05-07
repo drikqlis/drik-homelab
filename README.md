@@ -41,7 +41,7 @@ Next is `configure.yml` that is responsible for, guess what, configuration of al
 Currently I use OpenTofu for bootstraping Flux deployment into my Kubernetes cluster. I plan to add code for my Authentik instance. I would also like to create my VMs in libvirt using OpenTofu. I hope to implement this and more in near future.
 - [x] Flux bootstraping
 - [ ] Libvirt VM creation
-- [ ] Authentik menagement
+- [ ] Authentik management
 
 ## ⛵ Kubernetes
 I manage my Kubernetes cluster using Flux and Helm. For deployments that do not have charts created by the developer i create my own. They can be found in [drikqlis/drik-homelab-helm-charts](https://github.com/drikqlis/drik-homelab-helm-charts) repository. I generate my helm repository automatically using Github Actions.
