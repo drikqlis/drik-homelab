@@ -1,11 +1,7 @@
 {
-    "ansible.ansible.path": "./ansible/venv/bin/ansible",
-    "ansible.python.activationScript": "ansible/venv/bin/activate",
     "ansibleVault.keyfile": "./ansible/vault_pass",
     "ansible.validation.enabled": true,
     "ansible.validation.lint.enabled": true,
-    "ansible.validation.lint.path": "./ansible/venv/bin/ansible-lint",
-    "ansible.python.interpreterPath": "./ansible/venv/bin/python3",
     "ansible.validation.lint.arguments": "-c ansible/.ansible-lint",
     "spellright.language": [
         "en-US-10-1."
