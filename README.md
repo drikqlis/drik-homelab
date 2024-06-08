@@ -22,10 +22,10 @@
 ---
 
 ## 📔 Overview
-This is a mono repository containing all the automations I use for my homelab spaning from kubernetes clusters, through baremetal KVM hosts, to personal computers and everything in between. I keep my infrastructure as code (IaC) and try to put GitOps into practice. I use tools like [Ansible](https://www.ansible.com), [Flux](https://fluxcd.io), [OpenTofu](https://opentofu.org) (Terraform fork), [Github Actions](https://docs.github.com/en/actions), [Kubernetes](https://kubernetes.io), [Helm](https://helm.sh) and more. All my machines use [Arch Linux](https://archlinux.org) as an operating system and [OpenZFS](https://openzfs.org) for storage.
+This is a mono repository containing all the automations I use for my homelab spanning from kubernetes clusters, through baremetal KVM hosts, to personal computers and everything in between. I keep my infrastructure as code (IaC) and try to put GitOps into practice. I use tools like [Ansible](https://www.ansible.com), [Flux](https://fluxcd.io), [OpenTofu](https://opentofu.org) (Terraform fork), [Github Actions](https://docs.github.com/en/actions), [Kubernetes](https://kubernetes.io), [Helm](https://helm.sh) and more. All my machines use [Arch Linux](https://archlinux.org) as an operating system and [OpenZFS](https://openzfs.org) for storage.
 
 ## 🐧 Ansible
-Ansible code resides in ansible directory (duh!) and is responsible for insalling, configuring and keeping up to date all of my baremetal servers, virtual machines and personal computers.
+Ansible code resides in ansible directory (duh!) and is responsible for installing, configuring and keeping up to date all of my baremetal servers, virtual machines and personal computers.
 
 ### Installation
 My `install.yml` playbook can install (duh again!) Arch Linux from scrach using archiso and archzfs, configuring all the system components up to my liking (but it is still somewhat customizable). All my partitions are encrypted by default, I use systemd-boot with unified kernel image, SecureBoot, and ZFS for all storage including root. Install config diffres according to the type of machine (baremetal server, virtual machine, PC with nVIDIA GPU - they all need diffrent customizations).
@@ -41,7 +41,7 @@ Next is `configure.yml` that is responsible for, guess what, configuration of al
 Currently I use OpenTofu for bootstraping Flux deployment into my Kubernetes cluster. I plan to add code for my Authentik instance. I would also like to create my VMs in libvirt using OpenTofu. I hope to implement this and more in near future.
 - [x] Flux bootstraping
 - [ ] Libvirt VM creation
-- [ ] Authentik menagement
+- [ ] Authentik management
 
 ## ⛵ Kubernetes
 I manage my Kubernetes cluster using Flux and Helm. For deployments that do not have charts created by the developer i create my own. They can be found in [drikqlis/drik-homelab-helm-charts](https://github.com/drikqlis/drik-homelab-helm-charts) repository. I generate my helm repository automatically using Github Actions.
