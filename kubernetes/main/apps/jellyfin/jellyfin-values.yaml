@@ -38,4 +38,4 @@ data:
         enabled: true
         storageClass: nfs-media
         accessMode: ReadWriteMany
-        size: 40Ti
+        size: 41Ti
