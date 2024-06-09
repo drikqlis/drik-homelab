@@ -34,4 +34,4 @@ data:
         enabled: true
         storageClass: nfs-media
         accessMode: ReadWriteMany
-        subPath: pvc-5ec72088-7e99-48c3-8551-cc0e35389052/downloads
+        subPath: downloads
