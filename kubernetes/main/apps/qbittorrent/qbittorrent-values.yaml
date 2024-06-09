@@ -30,9 +30,8 @@ data:
         enabled: true
         accessMode: ReadWriteOnce
         size: 30Gi
-      downloads:
+      data:
         enabled: true
         storageClass: nfs-media
         accessMode: ReadWriteMany
-        subPath: downloads
         size: 41Ti
