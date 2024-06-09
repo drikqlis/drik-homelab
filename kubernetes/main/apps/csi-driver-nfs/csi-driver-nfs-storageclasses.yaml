@@ -22,6 +22,7 @@ mountOptions:
 parameters:
   server: nas-1.drik.it
   share: /media
+  subDir: pv
 provisioner: nfs.csi.k8s.io
 reclaimPolicy: Retain
 volumeBindingMode: Immediate
