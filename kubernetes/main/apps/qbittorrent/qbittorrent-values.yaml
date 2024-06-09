@@ -35,3 +35,4 @@ data:
         storageClass: nfs-media
         accessMode: ReadWriteMany
         subPath: downloads
+        size: 41Ti
