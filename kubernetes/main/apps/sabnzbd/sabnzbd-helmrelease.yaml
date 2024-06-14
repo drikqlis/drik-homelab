@@ -1,0 +1,22 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: sabnzbd
+  namespace: sabnzbd
+spec:
+  chart:
+    spec:
+      chart: sabnzbd
+      version: 0.1.*
+      sourceRef:
+        kind: HelmRepository
+        name: drik-homelab
+        namespace: flux-system
+  interval: 15m
+  timeout: 5m
+  releaseName: sabnzbd
+  valuesFrom:
+  - kind: ConfigMap
+    name: sabnzbd-values
+    valuesKey: values.yaml
