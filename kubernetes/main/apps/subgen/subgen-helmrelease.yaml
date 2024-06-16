@@ -1,0 +1,22 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: subgen
+  namespace: subgen
+spec:
+  chart:
+    spec:
+      chart: subgen
+      version: 0.1.*
+      sourceRef:
+        kind: HelmRepository
+        name: drik-homelab
+        namespace: flux-system
+  interval: 15m
+  timeout: 5m
+  releaseName: subgen
+  valuesFrom:
+  - kind: ConfigMap
+    name: subgen-values
+    valuesKey: values.yaml
