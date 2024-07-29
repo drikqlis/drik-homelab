@@ -44,14 +44,16 @@
     enabled: true
 
 - name: Create datasets
-  ansible.builtin.command: >
-    zfs create
-    -o mountpoint={{ item.mount_point | default('/mnt/' + item.name) }}
-    -o recordsize={{ item.recordsize | default(zfs_default_recordsize) }}
-    {{ item.properties | default('') | trim }}
-    {{ zpool.name }}/{{ item.name }}
-    creates=/{{ item.mount_point | default('/mnt/' + item.name) }}
+  ansible.builtin.command:
+    cmd: >
+      zfs create
+      -o mountpoint={{ item.mount_point | default('/mnt/' + item.name) }}
+      -o recordsize={{ item.recordsize | default(zfs_default_recordsize) }}
+      {{ item.properties | default('') | trim }}
+      {{ zpool.name }}/{{ item.name }}
+      creates=/{{ item.mount_point | default('/mnt/' + item.name) }}
   loop: "{{ zpool.datasets }}"
+  changed_when: true
 
 - name: Mount datasets
   ansible.builtin.command: zfs mount -a
