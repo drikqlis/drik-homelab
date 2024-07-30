@@ -62,3 +62,10 @@
     mode: "0644"
     owner: "{{ user_name }}"
     group: "{{ user_name }}"
+
+- name: Install Lutris
+  community.general.pacman:
+    name:
+      - lutris
+      - wine-ge-custom
+  when: steam_lutris_enabled | bool
