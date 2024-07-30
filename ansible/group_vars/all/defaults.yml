@@ -16,7 +16,7 @@ kubernetes_enabled: false
 ufw_enabled: true
 sanoid_enabled: true
 zfs_additional_drives_enabled: false
-pacman_local_mirror_enabled: true
+pacman_local_mirror_enabled: false
 steam_enabled: "{{ host_type == 'personal' }}"
 
 network_interface: eno1
