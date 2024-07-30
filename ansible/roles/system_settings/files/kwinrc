@@ -48,7 +48,7 @@ BorderActivate=9
 ShowDesktopMode=1
 
 [Windows]
-BorderlessMaximizedWindows=true
+BorderlessMaximizedWindows=false
 SeparateScreenFocus=true
 
 [org.kde.kdecoration2]
