@@ -44,7 +44,7 @@ installation_mkinicpio_modules: >
   else installation_virt_mkinicpio_modules if gpu_manufacturer == 'virt'
   else '' }}
 
-installation_mkinitcpio_hooks: "base udev autodetect modconf block keyboard zfs filesystems"
+installation_mkinitcpio_hooks: "base udev autodetect microcode modconf kms keyboard keymap consolefont block zfs filesystems"
 
 installation_existing_secureboot_keys: false
 installation_reboot_after_install: true
