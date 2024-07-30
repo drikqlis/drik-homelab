@@ -7,4 +7,5 @@
       - mumble
       - speech-dispatcher
       - espeak-ng
+      - mullvad-vpn
     state: present

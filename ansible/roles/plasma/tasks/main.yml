@@ -4,7 +4,6 @@
   community.general.pacman:
     name:
       - plasma
-      - plasma-wayland-session
       - kdenetwork-filesharing
       - kio-fuse
       - kdeconnect
@@ -21,6 +20,7 @@
       - print-manager
       - krita
       - firefox
+      - chromium
       - dolphin
       - gwenview
       - hunspell
@@ -34,6 +34,7 @@
       - ttf-opensans
       - partitionmanager
       - power-profiles-daemon
+      - powerdevil
       - filelight
       - pipewire
       - pipewire-alsa
