@@ -146,8 +146,8 @@
           ansible.builtin.import_role:
             name: kdewallet
           when:
-            - kwl is file
-            - salt is file
+            - kdewallet_kwl is file
+            - kdewallet_salt is file
           tags: [kdewallet]
 
         - name: Librewolf configuration
