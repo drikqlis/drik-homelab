@@ -15,12 +15,25 @@
       - lib32-sqlite
       - lib32-libpulse
       - lib32-alsa-plugins
+      - vulkan-icd-loader
+      - lib32-vulkan-icd-loader
     state: present
 
-- name: Additional packages for nvidia
+- name: Additional packages for Intel
   community.general.pacman:
     name:
+      - vulkan-intel
+      - lib32-vulkan-intel
+    state: present
+  when:
+    - gpu_manufacturer == "intel"
+
+- name: Additional packages for nvidia  
+  community.general.pacman:
+    name:
+      - nvidia-utils
       - lib32-nvidia-utils
+      - nvidia-settings
     state: present
   when:
     - gpu_manufacturer == "nvidia"
