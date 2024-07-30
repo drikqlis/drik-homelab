@@ -56,7 +56,6 @@
       - python-pexpect
       - python-lxml
       - sudo
-      - sbctl
       - tpm2-tools
       - bash-completion
       - screen

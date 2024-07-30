@@ -30,7 +30,8 @@
   ansible.builtin.command: >
     pacstrap /mnt base bind inetutils base-devel linux linux-headers linux-firmware zfs-dkms zfs-utils
     vim nano sudo htop networkmanager e2fsprogs dosfstools ntfs-3g intel-ucode git openssh rsync
-    python python-pexpect python-lxml sudo sbctl tpm2-tools efibootmgr less {{ installation_additional_packages }}
+    python python-pexpect python-lxml sudo tpm2-tools efibootmgr less {{ installation_additional_packages }}
+    {{ 'sbctl' if installation_secure_boot_enabled else '' }}
   changed_when: true
 
 - name: Make sure pacman hook dir exisits
