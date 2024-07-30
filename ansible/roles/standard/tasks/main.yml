@@ -59,4 +59,5 @@
       - tpm2-tools
       - bash-completion
       - screen
+      - fwupd
     state: present
