@@ -8,13 +8,13 @@ spec:
   chart:
     spec:
       chart: ingress-nginx
-      version: 4.9.*
+      version: 4.11.*
       sourceRef:
         kind: HelmRepository
         name: ingress-nginx
         namespace: flux-system
   interval: 15m
-  timeout: 5m
+  timeout: 10m
   releaseName: ingress-nginx-internal
   valuesFrom:
   - kind: ConfigMap
