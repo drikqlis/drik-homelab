@@ -15,7 +15,7 @@ data:
       type: "postgresql"
       host: "vaultwarden-postgresql"
     pushNotifications:
-      relayUri: "https://push.bitwarden.eu"
+      relayUri: "https://api.bitwarden.eu"
       identityUri: "https://identity.bitwarden.eu"
     domain: "https://vault.drik.it"
     sendsAllowed: "true"
