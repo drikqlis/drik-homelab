@@ -8,13 +8,13 @@ spec:
   chart:
     spec:
       chart: cilium
-      version: 1.15.*
+      version: 1.16.*
       sourceRef:
         kind: HelmRepository
         name: cilium
         namespace: flux-system
-  interval: 15m
-  timeout: 5m
+  interval: 30m
+  timeout: 25m
   releaseName: cilium
   valuesFrom:
   - kind: ConfigMap
