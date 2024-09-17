@@ -8,13 +8,13 @@ spec:
   chart:
     spec:
       chart: authentik
-      version: 2024.4.*
+      version: 2024.8.*
       sourceRef:
         kind: HelmRepository
         name: authentik
         namespace: flux-system
-  interval: 15m
-  timeout: 5m
+  interval: 30m
+  timeout: 25m
   releaseName: authentik
   valuesFrom:
   - kind: ConfigMap
