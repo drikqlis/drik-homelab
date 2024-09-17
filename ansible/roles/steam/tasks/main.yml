@@ -28,7 +28,7 @@
   when:
     - gpu_manufacturer == "intel"
 
-- name: Additional packages for nvidia  
+- name: Additional packages for nvidia
   community.general.pacman:
     name:
       - nvidia-utils

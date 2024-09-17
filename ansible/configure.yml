@@ -104,6 +104,18 @@
             name: personal_apps
           tags: [personal_apps]
 
+        - name: Cli apps configuration
+          when: cli_enabled
+          ansible.builtin.import_role:
+            name: cli
+          tags: [cli]
+
+        - name: SSH configuration
+          when: ssh_client_enabled
+          ansible.builtin.import_role:
+            name: ssh
+          tags: [ssh]
+
     - name: GUI personalization
       when: gui_enabled | bool
       block:

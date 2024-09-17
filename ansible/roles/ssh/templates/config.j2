@@ -1,0 +1,7 @@
+AddKeysToAgent yes
+
+{% for host in groups['managed'] %}
+Host {{ hostvars[host].inventory_hostname_short }}
+    HostName {{ hostvars[host].inventory_hostname }}
+    User {{ hostvars[host].user_name }}
+{% endfor %}

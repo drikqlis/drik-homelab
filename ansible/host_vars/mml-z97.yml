@@ -14,6 +14,8 @@ gpu_manufacturer: nvidia
 system_lang: pl_PL
 
 kvm_enabled: false
+cli_enabled: false
+ssh_client_enabled: false
 
 crypt_passphrase: "{{ lookup('community.general.bitwarden', 'mm_secrets', field='crypt_passphrase') | join }}"
 user_name: "{{ mm_user_name }}"

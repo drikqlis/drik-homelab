@@ -1,0 +1,14 @@
+---
+
+- name: Ensure kubectl is installed
+  community.general.pacman:
+    name:
+      - kubectl
+      - kubelogin
+    state: present
+
+- name: Ensure bitwarden-cli is installed
+  community.general.pacman:
+    name:
+      - bitwarden-cli
+    state: present

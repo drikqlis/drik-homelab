@@ -13,6 +13,8 @@ gui_enabled: false
 kvm_enabled: false
 nfs_enabled: false
 kubernetes_enabled: false
+cli_enabled: false
+ssh_client_enabled: false
 ufw_enabled: true
 sanoid_enabled: true
 zfs_additional_drives_enabled: false
