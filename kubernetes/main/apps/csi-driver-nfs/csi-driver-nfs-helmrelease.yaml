@@ -8,13 +8,13 @@ spec:
   chart:
     spec:
       chart: csi-driver-nfs
-      version: 4.6.*
+      version: 4.9.*
       sourceRef:
         kind: HelmRepository
         name: csi-driver-nfs
         namespace: flux-system
-  interval: 15m
-  timeout: 10m
+  interval: 30m
+  timeout: 25m
   releaseName: csi-driver-nfs
   valuesFrom:
   - kind: ConfigMap
