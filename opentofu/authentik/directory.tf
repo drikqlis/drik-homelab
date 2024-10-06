@@ -21,7 +21,7 @@ resource "authentik_group" "jellyfin_admins" {
 
 resource "authentik_group" "jellyfin_users" {
   name = "jellyfin-users"
-  users = values(authentik_user.user)[*].id
+  users = [for user in authentik_user.user : user.id]
 }
 
 resource "authentik_group" "immich_users" {
