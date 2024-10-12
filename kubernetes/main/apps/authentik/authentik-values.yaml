@@ -22,6 +22,7 @@ data:
         tls:
           - hosts:
             - auth.drik.it
+            - ldap.auth.drik.it
             secretName: authentik-certs
       dnsConfig:
         options:
