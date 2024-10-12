@@ -30,6 +30,7 @@ data:
       volumeMounts:
         - name: authentik-cert-vol
           mountPath: /certs/authentik
+          readOnly: true
       volumes:
         - name: authentik-cert-vol
           secret:
