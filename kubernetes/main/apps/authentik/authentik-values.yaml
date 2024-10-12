@@ -27,6 +27,18 @@ data:
         options:
           - name: ndots
             value: '1'
+      volumeMounts:
+        - name: authentik-cert-vol
+          mountPath: /certs/authentik
+      volumes:
+        - name: authentik-cert-vol
+          secret:
+            secretName: authentik-certs
+            items:
+              - key: tls.crt
+                path: fullchain.pem
+              - key: tls.key
+                path: privkey.pem
     worker:
       resources: {}
       replicas: 1
