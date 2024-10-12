@@ -30,7 +30,7 @@ data:
             value: '1'
       volumeMounts:
         - name: authentik-cert-vol
-          mountPath: /certs/authentik
+          mountPath: /certs/auth.drik.it/
           readOnly: true
       volumes:
         - name: authentik-cert-vol
