@@ -36,6 +36,7 @@ data:
         - name: authentik-cert-vol
           secret:
             secretName: authentik-certs
+            defaultMode: 0644
             items:
               - key: tls.crt
                 path: fullchain.pem
