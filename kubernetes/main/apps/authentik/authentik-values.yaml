@@ -6,6 +6,21 @@ metadata:
   namespace: authentik
 data:
   values.yaml: |-
+    global:
+      volumeMounts:
+        - name: authentik-cert-vol
+          mountPath: /certs/auth.drik.it/
+          readOnly: true
+      volumes:
+        - name: authentik-cert-vol
+          secret:
+            secretName: authentik-certs
+            defaultMode: 0644
+            items:
+              - key: tls.crt
+                path: fullchain.pem
+              - key: tls.key
+                path: privkey.pem
     server:
       resources: {}
       replicas: 1
@@ -28,20 +43,6 @@ data:
         options:
           - name: ndots
             value: '1'
-      volumeMounts:
-        - name: authentik-cert-vol
-          mountPath: /certs/auth.drik.it/
-          readOnly: true
-      volumes:
-        - name: authentik-cert-vol
-          secret:
-            secretName: authentik-certs
-            defaultMode: 0644
-            items:
-              - key: tls.crt
-                path: fullchain.pem
-              - key: tls.key
-                path: privkey.pem
     worker:
       resources: {}
       replicas: 1
