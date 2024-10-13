@@ -11,7 +11,7 @@ spec:
       version: 0.7.*
       sourceRef:
         kind: GitRepository
-        name: ocis
+        name: charts/ocis
         namespace: flux-system
   interval: 30m
   timeout: 25m
