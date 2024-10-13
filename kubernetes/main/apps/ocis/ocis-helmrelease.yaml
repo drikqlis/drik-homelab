@@ -1,0 +1,25 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
+kind: HelmRelease
+metadata:
+  name: ocis
+  namespace: ocis
+spec:
+  chart:
+    spec:
+      chart: ocis
+      version: 0.7.*
+      sourceRef:
+        kind: GitRepository
+        name: ocis
+        namespace: flux-system
+  interval: 30m
+  timeout: 25m
+  releaseName: ocis
+  valuesFrom:
+  - kind: ConfigMap
+    name: ocis-values
+    valuesKey: values.yaml
+  - kind: Secret
+    name: ocis-secret-values
+    valuesKey: notesPlain
