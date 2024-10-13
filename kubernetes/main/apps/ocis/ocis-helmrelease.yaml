@@ -7,11 +7,11 @@ metadata:
 spec:
   chart:
     spec:
-      chart: ocis
+      chart: charts/ocis
       version: 0.7.*
       sourceRef:
         kind: GitRepository
-        name: charts/ocis
+        name: ocis
         namespace: flux-system
   interval: 30m
   timeout: 25m
