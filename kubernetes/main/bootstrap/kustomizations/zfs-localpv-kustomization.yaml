@@ -14,6 +14,6 @@ spec:
     name: flux-system
   healthChecks:
     - apiVersion: apps/v1
-      kind: StatefulSet
+      kind: Deployment
       name: zfs-localpv-controller
       namespace: zfs-localpv
