@@ -38,7 +38,7 @@ data:
           editAccountLink: "https://auth.drik.it/if/user/#/settings"
           userIDClaim: email
           userIDClaimAttributeMapping: mail
-          accessTokenVerifyMethod: "jwt"
+          accessTokenVerifyMethod: "none"
 
           roleAssignment:
             enabled: true
