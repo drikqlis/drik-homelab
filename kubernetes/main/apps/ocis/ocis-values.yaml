@@ -134,9 +134,10 @@ data:
           maxInputHeight: 7680
         persistence:
           enabled: true
+          storageClassName: nfs-cloud
           accessModes:
-            - ReadWriteOnce
-          size: 10Gi
+            - ReadWriteMany
+          size: 50Gi
         maintenance:
           cleanUpOldThumbnails:
             enabled: true
