@@ -6,6 +6,15 @@ metadata:
   namespace: ocis
 data:
   values.yaml: |-
+    http:
+      cors:
+        allow_origins:
+          - "https://auth.drik.it"
+      csp:
+        directives:
+          connectSrc:
+            - "'self'"
+            - "https://auth.drik.it"
     externalDomain: ocis.drik.it
     features:
       emailNotifications:
