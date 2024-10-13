@@ -63,9 +63,9 @@ data:
             objectClass: group
 
     secretRefs:
-      ldapSecretRef: "ldap-secret"
-      notificationsSmtpSecretRef: "smtp-secret"
-      jwtSecretRef: "jwt-secret"
+      ldapSecretRef: "ocis-secret-values"
+      notificationsSmtpSecretRef: "ocis-secret-values"
+      jwtSecretRef: "ocis-secret-values"
 
     ingress:
       enabled: true
