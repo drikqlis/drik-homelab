@@ -24,7 +24,7 @@ data:
       externalUserManagement:
         enabled: true
         oidc:
-          issuerURI: "https://ocis.drik.it/application/o/ocis/"
+          issuerURI: "https://auth.drik.it/application/o/ocis/"
           sessionManagementLink: "https://auth.drik.it/if/user/#/settings"
           editAccountLink: "https://auth.drik.it/if/user/#/settings"
           userIDClaim: email
