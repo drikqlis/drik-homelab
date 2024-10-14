@@ -60,6 +60,7 @@ data:
               userName: cn
               userType: ""
             baseDN: ou=users,dc=ldap,dc=auth,dc=drik,dc=it
+            filter: (|(memberOf=cn=ocis-users,ou=groups,dc=ldap,dc=auth,dc=drik,dc=it)(memberOf=cn=ocis-admins,ou=groups,dc=ldap,dc=auth,dc=drik,dc=it))
             objectClass: user
           group:
             schema:
