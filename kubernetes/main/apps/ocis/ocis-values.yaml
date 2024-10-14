@@ -125,12 +125,15 @@ data:
         maintenance:
           cleanUpExpiredUploads:
             enabled: true
+            schedule: "2 * * * *"
           purgeExpiredTrashBinItems:
             enabled: true
+            schedule: "17 * * * *"
             personalDeleteBefore: 30d
             projectDeleteBefore: 30d
           restartPostprocessing:
             enabled: true
+            schedule: "32 * * * *"
         persistence:
           enabled: true
           storageClassName: nfs-cloud
@@ -151,6 +154,7 @@ data:
         maintenance:
           cleanUpOldThumbnails:
             enabled: true
+            schedule: "47 * * * *"
       web:
         config:
           feedbackLink:
