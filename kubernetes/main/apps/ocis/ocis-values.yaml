@@ -77,9 +77,6 @@ data:
       notificationsSmtpSecretRef: "ocis-secret-values"
       jwtSecretRef: "ocis-secret-values"
 
-    securityContext:
-      fsGroup: 1099
-
     ingress:
       enabled: true
       ingressClassName: nginx
@@ -127,15 +124,15 @@ data:
               maxConcurrency: 100
         maintenance:
           cleanUpExpiredUploads:
-            enabled: false
+            enabled: true
             schedule: "2 * * * *"
           purgeExpiredTrashBinItems:
-            enabled: false
+            enabled: true
             schedule: "17 * * * *"
             personalDeleteBefore: 30d
             projectDeleteBefore: 30d
           restartPostprocessing:
-            enabled: false
+            enabled: true
             schedule: "32 * * * *"
         persistence:
           enabled: true
@@ -156,7 +153,7 @@ data:
           size: 50Gi
         maintenance:
           cleanUpOldThumbnails:
-            enabled: false
+            enabled: true
             schedule: "47 * * * *"
       web:
         config:
