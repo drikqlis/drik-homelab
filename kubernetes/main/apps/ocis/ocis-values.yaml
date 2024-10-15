@@ -127,15 +127,15 @@ data:
               maxConcurrency: 100
         maintenance:
           cleanUpExpiredUploads:
-            enabled: true
+            enabled: false
             schedule: "2 * * * *"
           purgeExpiredTrashBinItems:
-            enabled: true
+            enabled: false
             schedule: "17 * * * *"
             personalDeleteBefore: 30d
             projectDeleteBefore: 30d
           restartPostprocessing:
-            enabled: true
+            enabled: false
             schedule: "32 * * * *"
         persistence:
           enabled: true
@@ -156,7 +156,7 @@ data:
           size: 50Gi
         maintenance:
           cleanUpOldThumbnails:
-            enabled: true
+            enabled: false
             schedule: "47 * * * *"
       web:
         config:
