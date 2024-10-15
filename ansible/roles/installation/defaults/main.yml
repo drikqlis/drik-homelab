@@ -20,7 +20,7 @@ installation_zfs_zpool_compression: lz4
 installation_zfs_root_dataset: "{{ installation_drive.root_zpool }}/root"
 
 installation_intel_packages: mesa vulkan-intel intel-media-driver intel-gpu-tools
-installation_nvidia_packages: nvidia nvidia-settings
+installation_nvidia_packages: nvidia-open-dkms nvidia-settings
 installation_virt_packages: qemu-guest-agent
 installation_additional_packages: >
   {{ installation_intel_packages if gpu_manufacturer == 'intel'
