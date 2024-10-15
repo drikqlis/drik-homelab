@@ -9,6 +9,8 @@ installation_zfs_datasets:
   - name: home
     properties: -o mountpoint=/home
 
+installation_kernel_version: linux-lts
+
 gui_enabled: false
 kvm_enabled: false
 nfs_enabled: false

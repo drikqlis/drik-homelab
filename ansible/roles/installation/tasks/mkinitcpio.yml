@@ -15,7 +15,7 @@
 - name: Create linux preset
   ansible.builtin.template:
     src: linux.preset.j2
-    dest: /mnt/etc/mkinitcpio.d/linux.preset
+    dest: /mnt/etc/mkinitcpio.d/{{ installation_kernel_version }}.preset
     owner: root
     group: root
     mode: "0600"

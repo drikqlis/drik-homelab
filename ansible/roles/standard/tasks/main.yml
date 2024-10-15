@@ -32,8 +32,8 @@
       - inetutils
       - base
       - base-devel
-      - linux
-      - linux-headers
+      - "{{ installation_kernel_version }}"
+      - "{{ installation_kernel_version }}-headers"
       - linux-firmware
       - vim
       - vi
