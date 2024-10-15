@@ -117,3 +117,4 @@
     block: "{{ lookup('template', 'oidc-settings.j2') }}"
   delegate_to: "{{ item }}"
   loop: "{{ groups['kube_control'] }}"
+  tags: [kube-oidc]
