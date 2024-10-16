@@ -3,11 +3,11 @@ title   Arch Linux
 {% else %}
 title   Arch Linux (fallback initramfs)
 {% endif %}
-linux   /vmlinuz-linux
+linux   /vmlinuz-{{ installation_kernel_version }}
 initrd  /intel-ucode.img
 {% if item == "arch" %}
-initrd  /initramfs-linux.img
+initrd  /initramfs-{{ installation_kernel_version }}.img
 {% else %}
-initrd  /initramfs-linux-fallback.img
+initrd  /initramfs-{{ installation_kernel_version }}-fallback.img
 {% endif %}
 options zfs={{ installation_zfs_root_dataset }} rw nosgx {{ installation_kernel_cmdline }}
