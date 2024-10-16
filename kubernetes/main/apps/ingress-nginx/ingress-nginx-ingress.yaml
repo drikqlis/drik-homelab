@@ -67,7 +67,7 @@ metadata:
     kubernetes.io/tls-acme: 'true'
     nginx.ingress.kubernetes.io/proxy-body-size: 10g
   labels:
-    app.kubernetes.io/name: cloud
+    app.kubernetes.io/name: arch
   name: arch-ingress
   namespace: ingress-nginx
 spec:
