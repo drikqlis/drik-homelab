@@ -42,3 +42,48 @@ spec:
   - hosts:
     - cloud.drik.it
     secretName: cloud-certs
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: arch-external-service
+  namespace: ingress-nginx
+spec:
+  externalName: vm-game.drik.it
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 80
+  type: ExternalName
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    kubernetes.io/ingress.class: nginx
+    kubernetes.io/tls-acme: 'true'
+    nginx.ingress.kubernetes.io/proxy-body-size: 10g
+  labels:
+    app.kubernetes.io/name: cloud
+  name: arch-ingress
+  namespace: ingress-nginx
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: arch.drik.it
+    http:
+      paths:
+      - backend:
+          service:
+            name: arch-external-service
+            port:
+              number: 80
+        path: /
+        pathType: Prefix
+  tls:
+  - hosts:
+    - arch.drik.it
+    secretName: arch-certs
