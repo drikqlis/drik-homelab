@@ -24,6 +24,10 @@ zfs_additional_drives_enabled: false
 pacman_local_mirror_enabled: false
 steam_enabled: "{{ host_type == 'personal' }}"
 
+nginx_enabled: false
+mailcow_enabled: false
+certbot_enabled: false
+
 network_interface: eno1
 network_bond_enabled: false
 network_bond_slaves:

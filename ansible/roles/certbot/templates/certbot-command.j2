@@ -1,0 +1,6 @@
+certbot certonly --non-interactive --agree-tos --keep-until-expiring -m {{ certbot_email }}
+--dns-cloudflare --dns-cloudflare-credentials /etc/certbot-cloudflare.creds.ini
+--dns-cloudflare-propagation-seconds 60
+{% for domain in item.domains %}
+-d {{ domain }}
+{% endfor %}

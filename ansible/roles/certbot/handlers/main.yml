@@ -1,0 +1,6 @@
+---
+
+- name: Run renew hook
+  ansible.builtin.command:
+    cmd: /etc/letsencrypt/renewal-hooks/post/renew_hook.sh
+  changed_when: true

@@ -1,0 +1,16 @@
+#!/bin/bash
+
+/usr/bin/systemctl reload nginx.service
+{% if mailcow_enabled | default(false) %}
+
+cp /etc/letsencrypt/live/{{ mailcow_server_hostname }}/fullchain.pem /opt/mailcow-dockerized/data/assets/ssl/cert.pem
+cp /etc/letsencrypt/live/{{ mailcow_server_hostname }}/privkey.pem /opt/mailcow-dockerized/data/assets/ssl/key.pem
+postfix_c=$(docker ps -qaf name=postfix-mailcow)
+dovecot_c=$(docker ps -qaf name=dovecot-mailcow)
+nginx_c=$(docker ps -qaf name=nginx-mailcow)
+
+if [[ ${postfix_c} != '' ]] || [[ ${dovecot_c} != '' ]] || [[ ${nginx_c} != '' ]]
+then
+    /usr/bin/docker restart ${postfix_c} ${dovecot_c} ${nginx_c}
+fi
+{% endif %}

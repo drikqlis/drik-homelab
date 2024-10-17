@@ -1,0 +1,9 @@
+---
+
+certbot_cloudflare_api_token: XXX
+certbot_email: email@example.com
+certbot_certs:
+  - name: example.com
+    domains:
+      - example.com
+      - mail.example.com

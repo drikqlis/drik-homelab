@@ -1,0 +1,29 @@
+---
+
+- name: Ensure nginx is installed
+  community.general.pacman:
+    name: nginx
+    state: present
+
+- name: Configure nginx
+  ansible.builtin.template:
+    src: nginx.conf.j2
+    dest: /etc/nginx/nginx.conf
+    owner: root
+    group: root
+    mode: "0644"
+  notify: Restart nginx
+
+- name: Make sure conf.d dir is present
+  ansible.builtin.file:
+    path: /etc/nginx/conf.d
+    state: directory
+    mode: "0755"
+    owner: root
+    group: root
+
+- name: Enable and start nginx service
+  ansible.builtin.systemd:
+    name: nginx
+    state: started
+    enabled: true

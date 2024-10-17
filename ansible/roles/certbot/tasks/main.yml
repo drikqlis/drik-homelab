@@ -1,0 +1,45 @@
+---
+
+- name: Ensure certbot is installed
+  community.general.pacman:
+    name:
+      - certbot
+      - certbot-dns-cloudflare
+    state: present
+
+- name: Add cloudflare credentials
+  ansible.builtin.template:
+    src: certbot-cloudflare.creds.ini.j2
+    dest: /etc/certbot-cloudflare.creds.ini
+    owner: root
+    group: root
+    mode: "0600"
+
+- name: Create or renew certificates
+  ansible.builtin.command:
+    cmd: "{{ lookup('template', 'certbot-command.j2') }}"
+  changed_when: true
+  loop: "{{ certbot_certs }}"
+  notify: Run renew hook
+
+- name: Make sure hook dir exists
+  ansible.builtin.file:
+    path: /etc/letsencrypt/renewal-hooks/post
+    state: directory
+    owner: root
+    group: root
+    mode: "0755"
+    recurse: true
+
+- name: Add nginx renew hook
+  ansible.builtin.template:
+    src: renew_hook.sh.j2
+    dest: /etc/letsencrypt/renewal-hooks/post/renew_hook.sh
+    owner: root
+    group: root
+    mode: "0700"
+
+- name: Enable timer to renew
+  ansible.builtin.systemd:
+    name: certbot-renew.timer
+    enabled: true

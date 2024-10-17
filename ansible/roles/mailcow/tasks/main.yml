@@ -1,0 +1,60 @@
+---
+
+- name: Ensure python-pexpect is installed
+  community.general.pacman:
+    name:
+      - python-pexpect
+    state: present
+
+- name: Check if dir exists
+  ansible.builtin.stat:
+    path: /opt/mailcow-dockerized
+  register: mailcow_dir_result
+
+- name: Clone mailcow repo # noqa latest
+  ansible.builtin.git:
+    repo: https://github.com/mailcow/mailcow-dockerized
+    dest: /opt/mailcow-dockerized
+  when: not mailcow_dir_result.stat.exists | bool
+
+- name: Check if config exists
+  ansible.builtin.stat:
+    path: /opt/mailcow-dockerized/mailcow.conf
+  register: mailcow_config_result
+
+- name: Generate config file
+  ansible.builtin.expect:
+    command: /opt/mailcow-dockerized/generate_config.sh
+    chdir: /opt/mailcow-dockerized
+    responses:
+      "config file exists":
+        - "n"
+      "Mail server hostname":
+        - "{{ mailcow_server_hostname }}"
+      "Timezone":
+        - "Europe/Warsaw"
+      "Choose the Branch":
+        - "1"
+  when: not mailcow_config_result.stat.exists | bool
+  notify: Run docker-compose pull
+
+- name: Set custom config options
+  ansible.builtin.lineinfile:
+    dest: /opt/mailcow-dockerized/mailcow.conf
+    regexp: "{{ item.regex }}"
+    line: "{{ item.line }}"
+  loop:
+    - {regex: "^HTTP_PORT=", line: "HTTP_PORT={{ mailcow_http_port }}"}
+    - {regex: "^HTTPS_PORT=", line: "HTTPS_PORT={{ mailcow_https_port }}"}
+    - {regex: "^SKIP_LETS_ENCRYPT=", line: "{{ 'SKIP_LETS_ENCRYPT=n' if mailcow_le_enabled else 'SKIP_LETS_ENCRYPT=y' }}"}
+    - {regex: "^SKIP_CLAMD=", line: "{{ 'SKIP_CLAMD=n' if mailcow_clamav_enabled else 'SKIP_CLAMD=y' }}"}
+  notify: Run docker-compose up
+
+- name: Add nginx config
+  ansible.builtin.template:
+    src: mailcow.conf.j2
+    dest: /etc/nginx/conf.d/mailcow.conf
+    owner: root
+    group: root
+    mode: "0644"
+  notify: Reload nginx

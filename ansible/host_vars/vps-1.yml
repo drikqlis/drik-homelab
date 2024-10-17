@@ -29,3 +29,16 @@ network_config:
   gw4: "172.31.1.1"
   dns4: "1.1.1.1"
   dns4_search: ""
+
+nginx_enabled: true
+
+mailcow_enabled: true
+mailcow_server_hostname: mail.drik.it
+
+certbot_enabled: true
+certbot_certs:
+  - name: mail.drik.it
+    domains:
+      - mail.drik.it
+      - autodiscover.drik.it
+      - autoconfig.drik.it

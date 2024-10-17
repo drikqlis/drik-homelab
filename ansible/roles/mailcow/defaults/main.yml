@@ -1,0 +1,7 @@
+---
+
+mailcow_server_hostname: mail.example.com
+mailcow_http_port: "8080"
+mailcow_https_port: "8443"
+mailcow_le_enabled: false
+mailcow_clamav_enabled: false

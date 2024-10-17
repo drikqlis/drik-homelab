@@ -76,6 +76,25 @@
           when: sanoid_enabled | bool
           tags: [sanoid]
 
+    - name: Server configuration
+      tags: [server]
+      block:
+        - name: Nginx configuration
+          ansible.builtin.import_role:
+            name: nginx
+          when: nginx_enabled | bool
+          tags: [nginx]
+        - name: Mailcow configuration
+          ansible.builtin.import_role:
+            name: mailcow
+          when: mailcow_enabled | bool
+          tags: [mailcow]
+        - name: Certbot configuration
+          ansible.builtin.import_role:
+            name: certbot
+          when: certbot_enabled | bool
+          tags: [certbot]
+
     - name: GUI configuration
       when: gui_enabled | bool
       block:
