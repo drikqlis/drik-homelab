@@ -14,3 +14,7 @@ variable "ssh_port" {
 variable "ssh_source_ips" {
   type = list(string)
 }
+
+variable "vps_1_ptr_record" {
+  type = string
+}

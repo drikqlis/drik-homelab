@@ -52,3 +52,9 @@ resource "hcloud_server" "vps_1" {
     ipv6_enabled = false
   }
 }
+
+resource "hcloud_rdns" "vps_1_ptr" {
+  server_id  = hcloud_server.vps_1.id
+  ip_address = hcloud_server.vps_1.ipv4_address
+  dns_ptr    = var.vps_1_ptr_record
+}
