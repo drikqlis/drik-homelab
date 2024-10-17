@@ -4,4 +4,5 @@ AddKeysToAgent yes
 Host {{ hostvars[host].inventory_hostname_short }}
     HostName {{ hostvars[host].inventory_hostname }}
     User {{ hostvars[host].user_name }}
+    Port {{ hostvars[host].ansible_port | default('22') }}
 {% endfor %}

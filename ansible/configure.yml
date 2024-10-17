@@ -111,7 +111,6 @@
           tags: [cli]
 
         - name: SSH configuration
-          when: ssh_client_enabled
           ansible.builtin.import_role:
             name: ssh
           tags: [ssh]

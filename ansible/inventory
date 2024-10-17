@@ -7,8 +7,7 @@ ansible_user=root
 [managed:children]
 personal
 work
-vm
-baremetal
+server
 
 [managed:vars]
 ansible_user="{{ user_name }}"

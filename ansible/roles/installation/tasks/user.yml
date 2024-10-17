@@ -33,10 +33,10 @@
     owner: root
     group: root
 
-- name: Force public key authentication
-  ansible.builtin.blockinfile:
-    path: /mnt/etc/ssh/sshd_config
-    insertbefore: BOF
-    block: |
-      PasswordAuthentication no
-      AuthenticationMethods publickey
+- name: Configure sshd options
+  ansible.builtin.template:
+    src: roles/ssh/templates/00-ansible.conf.j2
+    dest: /mnt/etc/ssh/sshd_config.d/00-ansible.conf
+    mode: "0644"
+    owner: root
+    group: root

@@ -1,39 +1,10 @@
 ---
 
-- name: Add required ENV variables
-  ansible.builtin.blockinfile:
-    path: /home/{{ user_name }}/.bash_profile
-    insertbefore: EOF
-    block: |
-      # Modified by Ansible
-      export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket"
-      export SSH_ASKPASS='/usr/bin/ksshaskpass'
+- name: Ssh client tasks
+  ansible.builtin.import_tasks: ssh_client.yml
+  tags: [ssh_client]
+  when: ssh_client_enabled
 
-- name: Enable ssh-agent service
-  ansible.builtin.systemd_service:
-    name: ssh-agent
-    state: started
-    enabled: true
-    scope: user
-  become: true
-  become_user: "{{ user_name }}"
-
-- name: Add ssh-add to autostart
-  ansible.builtin.copy:
-    content: |
-      [Desktop Entry]
-      Exec=ssh-add -q ~/.ssh/{{ ssh_key_name }}
-      Name=ssh-add
-      Type=Application
-    dest: /home/{{ user_name }}/.config/autostart/ssh-add.desktop
-    mode: "0644"
-    owner: "{{ user_name }}"
-    group: "{{ user_name }}"
-
-- name: Configure ssh config
-  ansible.builtin.template:
-    src: config.j2
-    dest: ~/.ssh/config
-    owner: "{{ user_name }}"
-    group: "{{ user_name }}"
-    mode: "0600"
+- name: Ssh server tasks
+  ansible.builtin.import_tasks: ssh_server.yml
+  tags: [ssh_server]

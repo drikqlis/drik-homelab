@@ -1,0 +1,10 @@
+---
+
+- name: Configure sshd options
+  ansible.builtin.template:
+    src: 00-ansible.conf.j2
+    dest: /etc/ssh/sshd_config.d/00-ansible.conf
+    mode: "0644"
+    owner: root
+    group: root
+  notify: Reload sshd
