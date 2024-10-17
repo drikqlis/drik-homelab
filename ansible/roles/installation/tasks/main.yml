@@ -31,6 +31,12 @@
 - name: Configure systemd-boot
   ansible.builtin.import_tasks: systemd_boot.yml
   tags: [systemd_boot]
+  when: installation_systemd_boot_enabled
+
+- name: Configure systemd-boot
+  ansible.builtin.import_tasks: grub.yml
+  tags: [grub]
+  when: installation_grub_enabled
 
 - name: Configure SecureBoot
   ansible.builtin.import_tasks: secure_boot.yml

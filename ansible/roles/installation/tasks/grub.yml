@@ -1,0 +1,17 @@
+---
+
+- name: Configure grub options
+  ansible.builtin.template:
+    src: grub.j2
+    dest: /mnt/etc/default/grub
+    owner: root
+    group: root
+    mode: "0644"
+
+- name: Install grub
+  ansible.builtin.command: "arch-chroot /mnt grub-install --target=i386-pc {{ installation_drive.name }}"
+  changed_when: true
+
+- name: Generate grub config file
+  ansible.builtin.command: "arch-chroot /mnt grub-mkconfig -o /boot/grub/grub.cfg"
+  changed_when: true

@@ -14,12 +14,24 @@
       - python-pexpect
     state: present
 
-- name: Create EFI partition
+- name: Create MBR partition
   community.general.parted:
     device: "{{ installation_drive.name }}"
     label: gpt
     number: 1
-    part_end: 512MiB
+    part_end: 1MiB
+    name: mbr
+    flags: [bios_grub]
+    state: present
+  when: installation_grub_enabled
+
+- name: Create EFI partition
+  community.general.parted:
+    device: "{{ installation_drive.name }}"
+    label: gpt
+    number: "{{ 1 if not installation_grub_enabled else 2 }}"
+    part_start: "{{ '0%' if not installation_grub_enabled else '1MiB' }}"
+    part_end: "{{ '512MiB' if not installation_grub_enabled else '513MiB' }}"
     name: efi
     flags: [esp]
     state: present
@@ -35,8 +47,8 @@
   community.general.parted:
     device: "{{ installation_drive.name }}"
     label: gpt
-    number: 2
-    part_start: 512MiB
+    number: "{{ 2 if not installation_grub_enabled else 3 }}"
+    part_start: "{{ '512MiB' if not installation_grub_enabled else '513MiB' }}"
     name: root
     state: present
 

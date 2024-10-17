@@ -3,7 +3,9 @@
 - name: Abort if the host is not booted from the Arch install media
   ansible.builtin.fail:
     msg: "This host is not booted from the Arch install media!"
-  when: ansible_nodename != 'archiso'
+  when:
+    - ansible_nodename != 'archiso'
+    - installation_no_hostname_check | default(true) | bool
 
 - name: Set polish keyboard
   ansible.builtin.command: loadkeys pl

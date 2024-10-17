@@ -13,6 +13,9 @@ installation_efi_partiton_mount_point: /efi
 installation_uki_enabled: true
 installation_secure_boot_enabled: true
 
+installation_systemd_boot_enabled: true
+installation_grub_enabled: false
+
 installation_zfs_virt_zpool_properties: >
   -O recordsize=64KiB
 installation_zfs_additional_zpool_properties: "{{ installation__zfs_virt_zpool_properties if gpu_manufacturer == 'virt' else '' }}"

@@ -1,5 +1,5 @@
 [install_medium]
-archiso
+archiso ansible_port=2137
 
 [install_medium:vars]
 ansible_user=root
@@ -20,6 +20,7 @@ work
 
 [server:children]
 vm
+vps
 baremetal
 
 [personal]
@@ -34,6 +35,12 @@ mkl-l5520
 
 [vm]
 nas-1
+
+[vps]
+vps-1
+
+[vps:vars]
+ansible_port=2137
 
 [vm:children]
 kube_nodes

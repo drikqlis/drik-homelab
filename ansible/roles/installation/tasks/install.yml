@@ -29,7 +29,7 @@
 - name: Run pacstrap to install base system
   ansible.builtin.command: >
     pacstrap /mnt base bind inetutils base-devel {{ installation_kernel_version }} {{ installation_kernel_version }}-headers linux-firmware zfs-dkms zfs-utils
-    vim nano sudo htop networkmanager e2fsprogs dosfstools ntfs-3g intel-ucode git openssh rsync
+    vim nano sudo htop networkmanager e2fsprogs dosfstools ntfs-3g intel-ucode git openssh rsync {{ 'grub' if installation_grub_enabled }}
     python python-pexpect python-lxml sudo tpm2-tools efibootmgr less {{ installation_additional_packages }}
     {{ 'sbctl' if installation_secure_boot_enabled else '' }}
   changed_when: true
@@ -55,7 +55,7 @@
     content: |
       127.0.0.1   localhost
       ::1         localhost
-      127.0.1.1   {{ hostname }}.{{ localdomain }}  {{ hostname }}
+      127.0.1.1   {{ hostname }}.{{ localdomain | default('local') }}  {{ hostname }}
     dest: /mnt/etc/hosts
     owner: root
     group: root

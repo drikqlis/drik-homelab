@@ -1,0 +1,29 @@
+---
+
+installation_drive:
+  name: "{{ lookup('community.general.bitwarden', 'host_vars_vps-1', field='installation_drive.name') | join }}"
+  mbr_partition_suffix: -part1
+  efi_partition_suffix: -part2
+  efi_partition_label: efi
+  root_partition_suffix: -part3
+  root_zpool: arch
+
+hostname: vps-1
+localdomain: drik.it
+gpu_manufacturer: virt
+# en_PL, pl_PL
+system_language: en_PL
+
+installation_secure_boot_enabled: false
+installation_uki_enabled: false
+installation_systemd_boot_enabled: false
+installation_grub_enabled: true
+installation_no_hostname_check: true
+
+network_interface: enp1s0
+network_config:
+  connection_name: "Wired connection 1"
+  ipv4: "188.245.196.99/32"
+  gw4: "172.31.1.1"
+  dns4: "1.1.1.1"
+  dns4_search: ""
