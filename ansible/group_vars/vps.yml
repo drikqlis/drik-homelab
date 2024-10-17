@@ -4,5 +4,7 @@ host_type: server
 gpu_manufacturer: virt
 kvm_enabled: false
 
+ufw_enabled: false
+
 network_interface: enp1s0
 sanoid_root_datasets_snapshot_enabled: false
