@@ -1,0 +1,40 @@
+---
+
+- name: Ensure docker is installed
+  community.general.pacman:
+    name:
+      - docker
+      - docker-compose
+    state: present
+
+- name: Make sure docker dir is present
+  ansible.builtin.file:
+    path: /etc/docker
+    state: directory
+    mode: "0755"
+    owner: root
+    group: root
+
+- name: Configure docker
+  ansible.builtin.template:
+    src: daemon.json.j2
+    dest: /etc/docker/daemon.json
+    owner: root
+    group: root
+    mode: "0644"
+  notify: Restart docker
+
+- name: Configure modules needed by docker
+  ansible.builtin.template:
+    src: docker-modules.conf.j2
+    dest: /etc/modules-load.d/docker.conf
+    owner: root
+    group: root
+    mode: "0644"
+  notify: Restart docker
+
+- name: Enable and start docker service
+  ansible.builtin.systemd:
+    name: docker
+    enabled: true
+    state: started

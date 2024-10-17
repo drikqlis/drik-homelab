@@ -52,6 +52,12 @@
           when: kvm_enabled | bool
           tags: [kvm]
 
+        - name: Docker configuration
+          ansible.builtin.import_role:
+            name: docker
+          when: docker_enabled | bool
+          tags: [docker]
+
         - name: ZFS configuration
           ansible.builtin.import_role:
             name: zfs
