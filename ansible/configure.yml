@@ -41,6 +41,11 @@
           when: ufw_enabled | bool
           tags: [ufw]
 
+        - name: SSH configuration
+          ansible.builtin.import_role:
+            name: ssh
+          tags: [ssh]
+
         - name: KVM configuration
           ansible.builtin.import_role:
             name: kvm
@@ -109,11 +114,6 @@
           ansible.builtin.import_role:
             name: cli
           tags: [cli]
-
-        - name: SSH configuration
-          ansible.builtin.import_role:
-            name: ssh
-          tags: [ssh]
 
     - name: GUI personalization
       when: gui_enabled | bool
