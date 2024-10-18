@@ -7,6 +7,7 @@
 - name: Install zfs on archiso # noqa risky-shell-pipe command-instead-of-module
   ansible.builtin.shell: curl -s https://raw.githubusercontent.com/eoli3n/archiso-zfs/master/init | bash
   changed_when: true
+  when: installation_install_zfs_on_archiso | default(true) | bool
 
 - name: Ensure python-pexpect is installed
   community.general.pacman:
