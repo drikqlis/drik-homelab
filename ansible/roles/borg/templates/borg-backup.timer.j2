@@ -1,0 +1,9 @@
+[Unit]
+Description=Run borg backup
+
+[Timer]
+OnCalendar=*-*-* {{ borg_backup_run_hour }}:00
+Persistent=true
+
+[Install]
+WantedBy=timers.target

@@ -16,7 +16,7 @@
     owner: 1000
     group: 1000
 
-- name: Copy over ssh pub keys as an authorized keys
+- name: Copy over ssh pub keys
   ansible.builtin.template:
     src: authorized_keys.j2
     dest: /mnt/home/{{ user_name }}/.ssh/authorized_keys

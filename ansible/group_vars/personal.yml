@@ -6,3 +6,5 @@ kvm_enabled: true
 kubernetes_enabled: false
 cli_enabled: true
 ssh_client_enabled: true
+borg_access_enabled: true
+borg_repo_ssh_alias: backup-1

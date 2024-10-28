@@ -1,0 +1,44 @@
+---
+
+- name: Make sure ssh dir is present
+  ansible.builtin.file:
+    path: /root/.ssh
+    state: directory
+    mode: "0700"
+    owner: root
+    group: root
+
+- name: Add root ssh config
+  ansible.builtin.template:
+    src: config.j2
+    dest: /root/.ssh/config
+    owner: root
+    group: root
+    mode: "0600"
+
+- name: Generate an OpenSSH keypair for backup repo access
+  community.crypto.openssh_keypair:
+    path: /root/.ssh/id_ed25519
+    type: ed25519
+    comment: "root@{{ ansible_hostname }}"
+  register: borg_ssh_key_gen_result
+
+- name: Transfer pubkey to backup repo # noqa no-handler
+  delegate_to: localhost
+  become: false
+  when: borg_ssh_key_gen_result.changed
+  block:
+    - name: Save public key
+      ansible.builtin.template:
+        src: pub_key.j2
+        dest: /tmp/pub_key.pub
+        mode: "0644"
+
+    - name: Copy public key to backup repo
+      ansible.builtin.command: ssh-copy-id -i /tmp/pub_key.pub -s {{ borg_repo_host }}
+      changed_when: true
+
+    - name: Copy public key to jumphost
+      ansible.builtin.command: ssh-copy-id -i /tmp/pub_key.pub -s {{ borg_repo_jumphost_alias }}
+      changed_when: true
+      when: borg_repo_jumphost_enabled

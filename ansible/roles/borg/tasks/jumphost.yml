@@ -1,0 +1,22 @@
+---
+
+- name: Create borg user
+  ansible.builtin.user:
+    name: borg
+    create_home: true
+
+- name: Make sure ssh dir is present
+  ansible.builtin.file:
+    path: /home/borg/.ssh
+    state: directory
+    mode: "0700"
+    owner: borg
+    group: borg
+
+- name: Copy over ssh pub keys
+  ansible.builtin.template:
+    src: authorized_keys.j2
+    dest: /home/borg/.ssh/authorized_keys
+    mode: "0600"
+    owner: borg
+    group: borg

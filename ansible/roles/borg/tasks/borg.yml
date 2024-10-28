@@ -1,0 +1,69 @@
+---
+
+- name: Ensure borg is installed
+  community.general.pacman:
+    name:
+      - borg
+      - python-pyfuse3
+    state: present
+
+- name: Make sure borg dir is present
+  ansible.builtin.file:
+    path: /opt/borg
+    state: directory
+    mode: "0700"
+    owner: root
+    group: root
+
+- name: Save borg passphrase
+  ansible.builtin.template:
+    src: passphrase.j2
+    dest: /opt/borg/.passphrase
+    owner: root
+    group: root
+    mode: "0600"
+  no_log: true
+
+- name: Make sure borg keyfile dir is present
+  ansible.builtin.file:
+    path: /root/.config/borg/keys
+    state: directory
+    mode: "0700"
+    owner: root
+    group: root
+    recurse: true
+
+- name: Save borg keyfile
+  ansible.builtin.template:
+    src: keyfile.j2
+    dest: /root/.config/borg/keys/{{ borg_keyfile_name }}
+    owner: root
+    group: root
+    mode: "0600"
+  no_log: true
+
+- name: Add backup script
+  ansible.builtin.template:
+    src: backup.sh.j2
+    dest: /opt/borg/backup.sh
+    owner: root
+    group: root
+    mode: "0700"
+
+- name: Add backup service
+  ansible.builtin.template:
+    src: borg-backup.service.j2
+    dest: /etc/systemd/system/borg-backup.service
+    owner: root
+    group: root
+    mode: "0644"
+  notify: Daemon reload
+
+- name: Add backup timer
+  ansible.builtin.template:
+    src: borg-backup.timer.j2
+    dest: /etc/systemd/system/borg-backup.timer
+    owner: root
+    group: root
+    mode: "0644"
+  notify: Daemon reload

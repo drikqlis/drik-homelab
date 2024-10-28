@@ -1,0 +1,14 @@
+---
+
+- name: Install and configure borg
+  ansible.builtin.import_tasks: borg.yml
+  tags: [borg_install]
+
+- name: Configure borg jumphost
+  ansible.builtin.import_tasks: jumphost.yml
+  when: borg_is_jumphost
+  tags: [borg_jumphost]
+
+- name: Configure ssh access
+  ansible.builtin.import_tasks: ssh.yml
+  tags: [borg_ssh]

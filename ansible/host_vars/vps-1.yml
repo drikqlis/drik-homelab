@@ -42,3 +42,9 @@ certbot_certs:
       - mail.drik.it
       - autodiscover.drik.it
       - autoconfig.drik.it
+
+borg_enabled: true
+borg_is_jumphost: true
+borg_backup_dirs: "/opt/mailcow-dockerized /var/lib/docker/volumes"
+borg_backup_run_hour: "1:00"
+borg_repo_jumphost_enabled: false

@@ -1,0 +1,16 @@
+StrictHostKeyChecking accept-new
+
+{% if borg_repo_jumphost_enabled %}
+Host {{ borg_repo_jumphost_alias }}
+    HostName {{ borg_repo_jumphost }}
+    User {{ borg_repo_jumphost_username }}
+    Port {{ borg_repo_jumphost_port }}
+{% endif %}
+
+Host {{ borg_repo_host }}
+    HostName {{ borg_repo_host }}
+    User {{ borg_repo_host_username }}
+    Port {{ borg_repo_host_port }}
+{% if borg_repo_jumphost_enabled %}
+    ProxyJump {{ borg_repo_jumphost_alias }}
+{% endif %}

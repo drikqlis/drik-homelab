@@ -63,3 +63,7 @@ nfs_server_shares:
     source: /mnt/media
   - mount_point: /srv/nfs/cloud
     source: /mnt/cloud
+
+borg_enabled: true
+borg_backup_dirs: "/mnt/cloud /mnt/kube-hdd /mnt/other-hdd"
+borg_backup_run_hour: "3:00"

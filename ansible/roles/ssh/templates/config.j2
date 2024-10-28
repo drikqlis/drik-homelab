@@ -1,8 +1,23 @@
 AddKeysToAgent yes
 
 {% for host in groups['managed'] %}
-Host {{ hostvars[host].inventory_hostname_short }}
+Host {{ hostvars[host].inventory_hostname_short }} {{ hostvars[host].inventory_hostname_short }}.{{ hostvars[host].localdomain }}
     HostName {{ hostvars[host].inventory_hostname }}
     User {{ hostvars[host].user_name }}
     Port {{ hostvars[host].ansible_port | default('22') }}
 {% endfor %}
+{% if borg_access_enabled | default(false) %}
+{% if borg_repo_jumphost_enabled %}
+Host {{ borg_repo_jumphost_alias }}
+    HostName {{ borg_repo_jumphost }}
+    User {{ borg_repo_jumphost_username }}
+    Port {{ borg_repo_jumphost_port }}
+{% endif %}
+Host {{ borg_repo_host }} {{ borg_repo_ssh_alias | default('') }}
+    HostName {{ borg_repo_host }}
+    User {{ borg_repo_host_username }}
+    Port {{ borg_repo_host_port }}
+{% if borg_repo_jumphost_enabled %}
+    ProxyJump {{ borg_repo_jumphost_alias }}
+{% endif %}
+{% endif %}

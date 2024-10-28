@@ -1,0 +1,23 @@
+---
+
+borg_passphrase: 12345
+borg_keyfile_name: example-host__backup
+borg_keyfile_value: BORG_KEY123
+
+borg_repo_host: example-host
+borg_repo_host_username: user
+borg_repo_host_port: "22"
+borg_is_jumphost: false
+borg_repo_jumphost_enabled: true
+borg_repo_jumphost: example-jumphost
+borg_repo_jumphost_alias: borg-jumphost
+borg_repo_jumphost_username: user
+borg_repo_jumphost_port: "22"
+
+borg_backup_dirs: "/etc /home /root /var"
+borg_compression: zstd,9
+borg_keep_daily: "14"
+borg_keep_weekly: "4"
+borg_keep_monthly: "1"
+
+borg_backup_run_hour: "4:00"

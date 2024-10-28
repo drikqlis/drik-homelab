@@ -6,3 +6,15 @@ pacman_local_mirror_url: "{{ lookup('community.general.bitwarden', 'group_vars_a
 
 certbot_cloudflare_api_token: "{{ lookup('community.general.bitwarden', 'group_vars_kube_nodes', field='cert_manager_cloudflare_api_token') | first }}"
 certbot_email: "{{ lookup('community.general.bitwarden', 'group_vars_kube_nodes', field='cert_manager_email') | first }}"
+
+borg_passphrase: "{{ lookup('community.general.bitwarden', 'group_vars_all', field='borg_passphrase') | first }}"
+borg_keyfile_name: "{{ lookup('community.general.bitwarden', 'group_vars_all', field='borg_keyfile_name') | first }}"
+borg_keyfile_value: "{{ lookup('community.general.bitwarden', 'borg_keyfile_value', field='notes') }}"
+borg_repo_host: "{{ lookup('community.general.bitwarden', 'group_vars_all', field='borg_repo_host') | first }}"
+borg_repo_host_username: "{{ lookup('community.general.bitwarden', 'group_vars_all', field='borg_repo_host_username') | first }}"
+borg_repo_host_port: "{{ lookup('community.general.bitwarden', 'group_vars_all', field='borg_repo_host_port') | first }}"
+borg_repo_jumphost_enabled: true
+borg_repo_jumphost_alias: borg-jumphost
+borg_repo_jumphost: "{{ lookup('community.general.bitwarden', 'group_vars_all', field='borg_repo_jumphost') | first }}"
+borg_repo_jumphost_username: "{{ lookup('community.general.bitwarden', 'group_vars_all', field='borg_repo_jumphost_username') | first }}"
+borg_repo_jumphost_port: "{{ lookup('community.general.bitwarden', 'group_vars_all', field='borg_repo_jumphost_port') | first }}"

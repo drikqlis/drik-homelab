@@ -1,0 +1,6 @@
+[Unit]
+Description=Run borg backup
+After=network.target
+[Service]
+Type=oneshot
+ExecStart=/opt/borg/backup.sh

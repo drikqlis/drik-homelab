@@ -76,6 +76,12 @@
           when: sanoid_enabled | bool
           tags: [sanoid]
 
+        - name: Borg configuration
+          ansible.builtin.import_role:
+            name: borg
+          when: borg_enabled | bool
+          tags: [borg]
+
     - name: Server configuration
       tags: [server]
       block:
