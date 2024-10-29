@@ -75,3 +75,4 @@
   ansible.builtin.systemd:
     name: borg-backup.timer
     enabled: true
+    state: started
