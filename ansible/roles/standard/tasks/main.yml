@@ -58,6 +58,6 @@
       - sudo
       - tpm2-tools
       - bash-completion
-      - screen
+      - tmux
       - fwupd
     state: present
