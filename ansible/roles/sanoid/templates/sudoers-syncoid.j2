@@ -3,5 +3,5 @@ Cmnd_Alias ZFS_COMANDS = /usr/bin/zfs send *, /usr/bin/zfs get *, /usr/bin/zfs s
 syncoid ALL=(root) NOPASSWD: ZFS_COMANDS
 {% endif %}
 {% if sanoid_syncoid_target %}
-syncoid ALL=(root) NOPASSWD: ZFS_COMANDS, /usr/bin/zfs receive *, /usr/bin/zfs create *, /usr/sbin/sanoid *
+syncoid ALL=(root) NOPASSWD: ZFS_COMANDS, /usr/bin/zfs receive *, /usr/bin/zfs create *, /usr/bin/zfs mount *, /usr/sbin/sanoid *
 {% endif %}
