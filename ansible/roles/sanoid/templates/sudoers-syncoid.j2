@@ -1,0 +1,7 @@
+Cmnd_Alias ZFS_COMANDS = /usr/bin/zfs send *, /usr/bin/zfs get *, /usr/bin/zfs set *, /usr/bin/zfs list *, /usr/bin/zfs destroy *, /usr/bin/zfs snapshot *, /usr/bin/zfs rollback *, /usr/bin/zfs hold *, /usr/bin/zfs release *, /usr/bin/zfs bookmark *, /usr/bin/zpool get *
+{% if sanoid_syncoid_source %}
+syncoid ALL=(root) NOPASSWD: ZFS_COMANDS
+{% endif %}
+{% if sanoid_syncoid_target %}
+syncoid ALL=(root) NOPASSWD: ZFS_COMANDS, /usr/bin/zfs receive *, /usr/bin/zfs create *, /usr/sbin/sanoid *
+{% endif %}

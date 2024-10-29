@@ -26,3 +26,10 @@ zfs_zpools:
       - "{{ lookup('community.general.bitwarden', 'host_vars_nas-1', field='zfs_devices_nvme_1') | first }}"
 
 zfs_default_recordsize: 128k
+
+sanoid_syncoid_enabled: true
+sanoid_syncoid_source: true
+sanoid_syncoid_run_hour: 0:30
+sanoid_syncoid_source_dataset: nvme1/kube-nvme
+sanoid_syncoid_target_dataset: hdd1/backup
+sanoid_syncoid_target_host: nas-1.serv.drik.it

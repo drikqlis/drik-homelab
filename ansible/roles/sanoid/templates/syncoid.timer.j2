@@ -1,0 +1,9 @@
+[Unit]
+Description=Run syncoid
+
+[Timer]
+OnCalendar=*-*-* {{ sanoid_syncoid_run_hour }}:00
+Persistent=true
+
+[Install]
+WantedBy=timers.target

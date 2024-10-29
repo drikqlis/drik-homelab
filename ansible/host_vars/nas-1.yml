@@ -65,5 +65,9 @@ nfs_server_shares:
     source: /mnt/cloud
 
 borg_enabled: true
-borg_backup_dirs: "/mnt/cloud /mnt/kube-hdd /mnt/other-hdd"
+borg_backup_dirs: "/mnt/cloud /mnt/kube-hdd /mnt/other-hdd /mnt/backup"
 borg_backup_run_hour: "3:00"
+
+sanoid_syncoid_enabled: true
+sanoid_syncoid_target: true
+sanoid_syncoid_target_dataset: hdd1/backup

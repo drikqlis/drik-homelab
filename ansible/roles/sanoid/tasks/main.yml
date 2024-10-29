@@ -1,21 +1,10 @@
 ---
 
-- name: Ensure sanoid is installed
-  community.general.pacman:
-    name:
-      - sanoid
-    state: present
+- name: Install and configure sanoid
+  ansible.builtin.import_tasks: sanoid.yml
+  tags: [sanoid_configure]
 
-- name: Add sanoid configuration
-  ansible.builtin.template:
-    src: sanoid.conf.j2
-    dest: /etc/sanoid/sanoid.conf
-    mode: "0644"
-    owner: root
-    group: root
-
-- name: Enable sanoid.timer
-  ansible.builtin.systemd:
-    name: sanoid.timer
-    enabled: true
-    state: started
+- name: Configure syncoid
+  ansible.builtin.import_tasks: syncoid.yml
+  when: sanoid_syncoid_enabled
+  tags: [syncoid_configure]

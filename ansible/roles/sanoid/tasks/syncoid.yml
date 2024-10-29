@@ -1,0 +1,109 @@
+---
+
+- name: Grant zfs permissions on source
+  community.general.zfs_delegate_admin:
+    name: "{{ sanoid_syncoid_source_dataset }}"
+    users: "{{ sanoid_syncoid_user }}"
+    permissions: send,hold,mount,snapshot,destroy
+  when: sanoid_syncoid_source
+
+- name: Grant zfs permissions on target
+  community.general.zfs_delegate_admin:
+    name: "{{ sanoid_syncoid_target_dataset }}"
+    users: "{{ sanoid_syncoid_user }}"
+    permissions: compression,mountpoint,create,mount,receive,rollback,destroy
+  when: sanoid_syncoid_target
+
+- name: Give zfs access to syncoid user
+  ansible.builtin.template:
+    src: sudoers-syncoid.j2
+    dest: /etc/sudoers.d/syncoid
+    validate: /usr/sbin/visudo --check --file=%s
+    mode: "0640"
+    owner: root
+    group: root
+
+- name: Create syncoid user
+  ansible.builtin.user:
+    name: "{{ sanoid_syncoid_user }}"
+    create_home: true
+
+- name: Make sure ssh dir is present
+  ansible.builtin.file:
+    path: /home/{{ sanoid_syncoid_user }}/.ssh
+    state: directory
+    mode: "0700"
+    owner: "{{ sanoid_syncoid_user }}"
+    group: "{{ sanoid_syncoid_user }}"
+
+- name: Add ssh config
+  ansible.builtin.template:
+    src: config.j2
+    dest: /home/{{ sanoid_syncoid_user }}/.ssh/config
+    owner: "{{ sanoid_syncoid_user }}"
+    group: "{{ sanoid_syncoid_user }}"
+    mode: "0600"
+  when: sanoid_syncoid_source
+
+- name: Copy over ssh pub keys
+  ansible.builtin.blockinfile:
+    block: "{{ lookup('template', 'authorized_keys.j2') }}"
+    dest: /home/{{ sanoid_syncoid_user }}/.ssh/authorized_keys
+    mode: "0600"
+    owner: "{{ sanoid_syncoid_user }}"
+    group: "{{ sanoid_syncoid_user }}"
+
+- name: Generate an OpenSSH keypair for access
+  community.crypto.openssh_keypair:
+    path: /home/{{ sanoid_syncoid_user }}/.ssh/id_ed25519
+    type: ed25519
+    comment: "{{ sanoid_syncoid_user }}@{{ ansible_hostname }}"
+    owner: "{{ sanoid_syncoid_user }}"
+    group: "{{ sanoid_syncoid_user }}"
+  register: sanoid_ssh_key_gen_result
+  when: sanoid_syncoid_source
+
+- name: Transfer pubkey to target host # noqa no-handler
+  delegate_to: localhost
+  become: false
+  when: sanoid_ssh_key_gen_result.changed
+  block:
+    - name: Save public key
+      ansible.builtin.template:
+        src: pub_key.j2
+        dest: /tmp/pub_key.pub
+        mode: "0644"
+
+    - name: Copy public key to target host
+      ansible.builtin.command: ssh-copy-id -fs -i /tmp/pub_key.pub -p {{ sanoid_syncoid_target_port }} {{ sanoid_syncoid_user }}@{{ sanoid_syncoid_target_host }}
+      changed_when: true
+
+- name: Prepare scripts on source
+  when: sanoid_syncoid_source
+  block:
+    - name: Add syncoid service
+      ansible.builtin.template:
+        src: syncoid.service.j2
+        dest: /etc/systemd/system/syncoid.service
+        owner: root
+        group: root
+        mode: "0644"
+      notify: "sanoid : Daemon reload"
+
+    - name: Add backup timer
+      ansible.builtin.template:
+        src: syncoid.timer.j2
+        dest: /etc/systemd/system/syncoid.timer
+        owner: root
+        group: root
+        mode: "0644"
+      notify: "sanoid : Daemon reload"
+
+    - name: Flush handlers
+      ansible.builtin.meta: flush_handlers
+
+    - name: Enable syncoid timer
+      ansible.builtin.systemd:
+        name: syncoid.timer
+        enabled: true
+        state: started

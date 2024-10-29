@@ -14,6 +14,7 @@ installation_kernel_version: linux-lts
 gui_enabled: false
 kvm_enabled: false
 docker_enabled: false
+borg_enabled: false
 nfs_enabled: false
 kubernetes_enabled: false
 cli_enabled: false

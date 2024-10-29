@@ -1,3 +1,13 @@
 ---
 
 sanoid_root_datasets_snapshot_enabled: true
+
+sanoid_syncoid_enabled: false
+sanoid_syncoid_source: false
+sanoid_syncoid_target: false
+sanoid_syncoid_user: syncoid
+sanoid_syncoid_run_hour: 0:05
+sanoid_syncoid_source_dataset: sourcedatapool/dataset1
+sanoid_syncoid_target_dataset: targetdatapool/dataset1
+sanoid_syncoid_target_host: example.com
+sanoid_syncoid_target_port: 22

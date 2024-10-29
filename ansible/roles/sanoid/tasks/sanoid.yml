@@ -1,0 +1,29 @@
+---
+
+- name: Ensure sanoid is installed
+  community.general.pacman:
+    name:
+      - sanoid
+      - gzip
+      - lz4
+      - lzop
+      - mbuffer
+      - pigz
+      - pv
+      - xz
+      - zstd
+    state: present
+
+- name: Add sanoid configuration
+  ansible.builtin.template:
+    src: sanoid.conf.j2
+    dest: /etc/sanoid/sanoid.conf
+    mode: "0644"
+    owner: root
+    group: root
+
+- name: Enable sanoid.timer
+  ansible.builtin.systemd:
+    name: sanoid.timer
+    enabled: true
+    state: started

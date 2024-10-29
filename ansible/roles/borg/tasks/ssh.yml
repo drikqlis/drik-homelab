@@ -35,10 +35,10 @@
         mode: "0644"
 
     - name: Copy public key to backup repo
-      ansible.builtin.command: ssh-copy-id -i /tmp/pub_key.pub -s {{ borg_repo_host }}
+      ansible.builtin.command: ssh-copy-id -fs -i /tmp/pub_key.pub {{ borg_repo_host }}
       changed_when: true
 
     - name: Copy public key to jumphost
-      ansible.builtin.command: ssh-copy-id -i /tmp/pub_key.pub -s {{ borg_repo_jumphost_alias }}
+      ansible.builtin.command: ssh-copy-id -fs -i /tmp/pub_key.pub {{ borg_repo_jumphost_alias }}
       changed_when: true
       when: borg_repo_jumphost_enabled
