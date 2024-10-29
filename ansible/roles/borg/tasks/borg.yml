@@ -67,3 +67,11 @@
     group: root
     mode: "0644"
   notify: Daemon reload
+
+- name: Flush handlers
+  ansible.builtin.meta: flush_handlers
+
+- name: Enable borg timer
+  ansible.builtin.systemd:
+    name: borg-backup.timer
+    enabled: true
