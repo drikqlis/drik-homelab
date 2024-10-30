@@ -1,0 +1,26 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mumble-values
+  namespace: mumble
+data:
+  values.yaml: |-
+    mumble:
+      server_name: "Mumble | Drik.IT"
+      welcome_text: "Welcome to Mumble | Drik.IT!"
+      max_users: "100"
+
+    service:
+      type: LoadBalancer
+
+    tls:
+      enabled: true
+      commonName: mumble.drik.it
+      dnsNames:
+        - 'mumble.drik.it'
+
+    persistence:
+      data:
+        enabled: true
+        size: 10Gi
