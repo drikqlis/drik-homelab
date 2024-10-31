@@ -26,5 +26,5 @@ spec:
     name: dagonite-empire-dev-values
     valuesKey: values.yaml
   - kind: Secret
-    name: dagonite-empire-secret-dev-values
+    name: dagonite-empire-dev-secret-values
     valuesKey: notesPlain
