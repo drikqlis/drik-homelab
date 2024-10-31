@@ -23,7 +23,7 @@ spec:
       tag: dev.2024-10-31T18-16-41-master # {"$imagepolicy": "flux-system:dagonite-empire-dev:tag"}
     postgresql:
       commonLabels:
-        rollme: "{{ randAlphaNum 5 | quote }}"
+        rollme: "{{ randAlphaNum 5 }}"
   valuesFrom:
   - kind: ConfigMap
     name: dagonite-empire-dev-values
