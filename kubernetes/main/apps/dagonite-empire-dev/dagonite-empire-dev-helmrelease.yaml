@@ -21,6 +21,9 @@ spec:
     image:
       repository: docker.io/drikqlis/dagonite-empire # {"$imagepolicy": "flux-system:dagonite-empire-dev:name"}
       tag: dev.2024-10-31T17-44-36-master # {"$imagepolicy": "flux-system:dagonite-empire-dev:tag"}
+    postgresql:
+      commonAnnotations:
+        rollme: "{{ randAlphaNum 5 | quote }}"
   valuesFrom:
   - kind: ConfigMap
     name: dagonite-empire-dev-values

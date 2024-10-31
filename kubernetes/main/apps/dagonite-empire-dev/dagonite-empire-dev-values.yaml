@@ -30,5 +30,3 @@ data:
       primary:
         persistence:
           enabled: false
-      commonAnnotations:
-        rollme: \{\{ randAlphaNum 5 \| quote \}\}
