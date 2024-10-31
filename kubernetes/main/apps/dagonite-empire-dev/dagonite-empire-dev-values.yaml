@@ -31,4 +31,4 @@ data:
         persistence:
           enabled: false
       commonAnnotations:
-        rollme: {{ randAlphaNum 5 | quote }}
+        rollme: \{\{ randAlphaNum 5 \| quote \}\}
