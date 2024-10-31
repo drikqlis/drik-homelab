@@ -8,7 +8,7 @@ spec:
     force: true
   chart:
     spec:
-      chart: dagonite-empire-dev
+      chart: dagonite-empire
       version: 0.1.*
       sourceRef:
         kind: HelmRepository
