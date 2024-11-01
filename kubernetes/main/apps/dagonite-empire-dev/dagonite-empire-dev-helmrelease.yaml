@@ -20,7 +20,7 @@ spec:
   values:
     image:
       repository: docker.io/drikqlis/dagonite-empire # {"$imagepolicy": "flux-system:dagonite-empire-dev:name"}
-      tag: dev.2024-11-01T11-25-15-master # {"$imagepolicy": "flux-system:dagonite-empire-dev:tag"}
+      tag: dev.2024-11-01T14-42-35-master # {"$imagepolicy": "flux-system:dagonite-empire-dev:tag"}
     postgresql:
       commonLabels:
         rollme: "{{ randAlphaNum 5 }}"
