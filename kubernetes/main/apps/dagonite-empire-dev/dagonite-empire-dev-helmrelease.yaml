@@ -19,7 +19,7 @@ spec:
   releaseName: dagonite-empire-dev
   values:
     image:
-      repository: ghcr.io/KrystianKempski/dagoniteempire # {"$imagepolicy": "flux-system:dagonite-empire-dev:name"}
+      repository: docker.io/drikqlis/dagonite-empire # {"$imagepolicy": "flux-system:dagonite-empire-dev:name"}
       tag: dev.2024-11-01T14-42-35-master # {"$imagepolicy": "flux-system:dagonite-empire-dev:tag"}
     postgresql:
       commonLabels:
