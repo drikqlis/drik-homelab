@@ -17,7 +17,7 @@ spec:
   releaseName: dagonite-empire
   values:
     image:
-      repository: ghcr.io/KrystianKempski/dagoniteempire # {"$imagepolicy": "flux-system:dagonite-empire:name"}
+      repository: ghcr.io/krystiankempski/dagoniteempire # {"$imagepolicy": "flux-system:dagonite-empire:name"}
       tag: 3.3.5 # {"$imagepolicy": "flux-system:dagonite-empire:tag"}
   valuesFrom:
   - kind: ConfigMap

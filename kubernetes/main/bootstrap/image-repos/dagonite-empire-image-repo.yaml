@@ -5,5 +5,5 @@ metadata:
   name: dagonite-empire
   namespace: flux-system
 spec:
-  image: ghcr.io/KrystianKempski/dagoniteempire
+  image: ghcr.io/krystiankempski/dagoniteempire
   interval: 5m
