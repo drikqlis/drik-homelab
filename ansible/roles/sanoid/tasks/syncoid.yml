@@ -81,6 +81,22 @@
 - name: Prepare scripts on source
   when: sanoid_syncoid_source
   block:
+    - name: Make sure syncoid dir is present
+      ansible.builtin.file:
+        path: /opt/syncoid
+        state: directory
+        mode: "0700"
+        owner: "{{ sanoid_syncoid_user }}"
+        group: "{{ sanoid_syncoid_user }}"
+
+    - name: Add backup script
+      ansible.builtin.template:
+        src: syncoid.sh.j2
+        dest: /opt/syncoid/syncoid.sh
+        owner: "{{ sanoid_syncoid_user }}"
+        group: "{{ sanoid_syncoid_user }}"
+        mode: "0700"
+
     - name: Add syncoid service
       ansible.builtin.template:
         src: syncoid.service.j2

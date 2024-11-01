@@ -5,4 +5,4 @@ After=network.target
 Type=oneshot
 User={{ sanoid_syncoid_user }}
 Group={{ sanoid_syncoid_user }}
-ExecStart=/usr/sbin/syncoid --recursive {{ sanoid_syncoid_source_dataset }} {{ sanoid_syncoid_target_host }}:{{ sanoid_syncoid_target_dataset }}/{{ ansible_host }} --no-stream
+ExecStart=/opt/syncoid/syncoid.sh

@@ -15,10 +15,12 @@
 # {{ zpool.name }} datasets
 
 {% for dataset in zpool.datasets %}
+{% if dataset.snapshots_enabled | default(true) %}
 [{{ zpool.name }}/{{ dataset.name }}]
 	use_template = default
 	recursive = yes
 
+{% endif %}
 {% endfor %}
 {% endfor %}
 {% endif %}

@@ -31,6 +31,7 @@ zfs_zpools:
       - name: kube-hdd
       - name: other-hdd
       - name: backup
+        snapshots_enabled: false
         properties: >
           -o compression=zstd-9
     devices:

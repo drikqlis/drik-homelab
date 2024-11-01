@@ -1,0 +1,9 @@
+#!/bin/sh
+
+# Run syncoid
+/usr/sbin/syncoid --recursive {{ sanoid_syncoid_source_dataset }} {{ sanoid_syncoid_target_host }}:{{ sanoid_syncoid_target_dataset }}/{{ ansible_host }} --no-stream
+
+# Unmount datasets
+ssh {{ sanoid_syncoid_target_host }} "sudo /usr/bin/zfs umount {{ sanoid_syncoid_target_dataset }}/{{ ansible_host }}"
+# Remount datasets
+ssh {{ sanoid_syncoid_target_host }} "sudo /usr/bin/zfs mount -a"
