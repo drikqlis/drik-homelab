@@ -2,5 +2,5 @@
 
 pacman_local_mirror_enabled: false
 pacman_local_mirror_url: ""
-pacman_aur_repo_url: https://arch.drik.it
+pacman_aur_repo_url: https://aur.drik.it
 pacman_aur_repo_enabled: true
