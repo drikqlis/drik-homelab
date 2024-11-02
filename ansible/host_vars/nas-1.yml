@@ -67,6 +67,7 @@ nfs_server_shares:
 
 borg_enabled: true
 borg_backup_dirs: "/mnt/cloud /mnt/kube-hdd /mnt/other-hdd /mnt/backup"
+borg_additional_exclude: "/mnt/kube-hdd/pvc-cdfebc46-ffa4-4a72-8f03-9626624672e0/*"
 borg_backup_run_hour: "3:00"
 
 sanoid_syncoid_enabled: true
