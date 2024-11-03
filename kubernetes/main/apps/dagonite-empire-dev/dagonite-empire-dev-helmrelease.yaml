@@ -20,7 +20,7 @@ spec:
   values:
     image:
       repository: ghcr.io/krystiankempski/dagoniteempire # {"$imagepolicy": "flux-system:dagonite-empire-dev:name"}
-      tag: dev.2024-11-02T22-34-18-master # {"$imagepolicy": "flux-system:dagonite-empire-dev:tag"}
+      tag: dev.2024-11-03T12-38-48-master # {"$imagepolicy": "flux-system:dagonite-empire-dev:tag"}
     postgresql:
       commonLabels:
         rollme: "{{ randAlphaNum 5 }}"
