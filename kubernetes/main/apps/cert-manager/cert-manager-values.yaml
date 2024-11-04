@@ -10,7 +10,7 @@ data:
       enabled: true
     replicaCount: 1
     resources: {}
-    dns01RecursiveNameservers: "1.1.1.1:853"
+    dns01RecursiveNameservers: "https://1.1.1.1/dns-query,https://8.8.8.8/dns-query"
     dns01RecursiveNameserversOnly: true
     enableCertificateOwnerRef: true
     global:
