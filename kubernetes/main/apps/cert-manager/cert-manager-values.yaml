@@ -13,5 +13,3 @@ data:
     dns01RecursiveNameservers: "https://1.1.1.1/dns-query,https://8.8.8.8/dns-query"
     dns01RecursiveNameserversOnly: true
     enableCertificateOwnerRef: true
-    global:
-      logLevel: 6
