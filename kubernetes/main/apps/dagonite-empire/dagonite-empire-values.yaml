@@ -27,3 +27,12 @@ data:
 
     postgresql:
       clusterDomain: cluster.drik.it
+      primary:
+        persistence:
+          enabled: true
+          size: 10Gi
+
+    persistence:
+      upload:
+        enabled: true
+        size: 10Gi
