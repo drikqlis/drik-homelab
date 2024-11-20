@@ -39,3 +39,4 @@ data:
 
     enableTestAccounts: true
     aspnetcoreEnvironment: Development
+    detailedErrors: true
