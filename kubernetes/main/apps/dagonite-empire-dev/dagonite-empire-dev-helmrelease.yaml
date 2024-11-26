@@ -20,7 +20,7 @@ spec:
   values:
     image:
       repository: ghcr.io/krystiankempski/dagoniteempire # {"$imagepolicy": "flux-system:dagonite-empire-dev:name"}
-      tag: dev.2024-11-25T20-25-11-master # {"$imagepolicy": "flux-system:dagonite-empire-dev:tag"}
+      tag: dev.2024-11-26T21-40-38-master # {"$imagepolicy": "flux-system:dagonite-empire-dev:tag"}
   valuesFrom:
   - kind: ConfigMap
     name: dagonite-empire-dev-values
