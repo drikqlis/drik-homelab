@@ -4,8 +4,6 @@ metadata:
   name: dagonite-empire-dev
   namespace: dagonite-empire-dev
 spec:
-  upgrade:
-    force: true
   chart:
     spec:
       chart: dagonite-empire
