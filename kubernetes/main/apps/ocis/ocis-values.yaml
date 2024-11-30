@@ -6,6 +6,8 @@ metadata:
   namespace: ocis
 data:
   values.yaml: |-
+    logging:
+      level: "debug"
     http:
       cors:
         allow_origins:
