@@ -3,6 +3,7 @@
 - name: Post installation configration
   hosts: managed
   become: true
+  force_handlers: true
   tasks:
 
     - name: Basic configuration
