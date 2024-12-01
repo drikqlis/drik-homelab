@@ -14,7 +14,7 @@
     - { direction: 'incoming', policy: 'deny' }
     - { direction: 'outgoing', policy: 'allow' }
   notify:
-    - Restart ufw
+    - "ufw : Restart ufw"
 
 - name: Configure ufw ssh rules
   community.general.ufw:
@@ -23,7 +23,7 @@
     proto: tcp
     src: 192.168.0.0/16
   notify:
-    - Restart ufw
+    - "ufw : Restart ufw"
 
 - name: Configure ufw nfs rules
   community.general.ufw:
@@ -32,14 +32,14 @@
     proto: tcp
     src: 192.168.0.0/16
   notify:
-    - Restart ufw
+    - "ufw : Restart ufw"
   when: nfs_enabled | bool
 
 - name: Enable ufw logging
   community.general.ufw:
     logging: true
   notify:
-    - Restart ufw
+    - "ufw : Restart ufw"
 
 - name: Enable ufw
   community.general.ufw:
