@@ -1,4 +1,5 @@
 ansible-core==2.17.4
 ansible-lint==24.9.0
+passlib
 lxml
 libvirt-python

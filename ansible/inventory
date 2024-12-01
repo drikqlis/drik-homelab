@@ -1,5 +1,5 @@
 [install_medium]
-archiso ansible_port=2137
+archiso ansible_port=22
 
 [install_medium:vars]
 ansible_user=root

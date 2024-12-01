@@ -4,10 +4,58 @@
   ansible.builtin.command: find /dev -wholename "{{ installation_drive.name }}*" -exec wipefs --force --all {} \;
   changed_when: true
 
-- name: Install zfs on archiso # noqa risky-shell-pipe command-instead-of-module
-  ansible.builtin.shell: curl -s https://raw.githubusercontent.com/eoli3n/archiso-zfs/master/init | bash
+- name: Increase cowspace to half of RAM # noqa command-instead-of-module
+  ansible.builtin.command: mount -o remount,size=50% /run/archiso/cowspace
+  changed_when: true
+
+- name: Get archiso version # noqa command-instead-of-module
+  ansible.builtin.command: sed 's-\.-/-g' /version
+  register: installation_archiso_version
+  changed_when: false
+
+- name: Set archive as mirror
+  ansible.builtin.template:
+    src: mirrorlist.j2
+    dest: /etc/pacman.d/mirrorlist
+    owner: root
+    group: root
+    mode: "0644"
+
+- name: Ensure aur.drik.it repo is added
+  ansible.builtin.blockinfile:
+    path: /etc/pacman.conf
+    insertafter: EOF
+    block: |
+      [aur]
+      SigLevel = Optional TrustAll
+      Server = https://aur.drik.it
+
+- name: Update cache and upgrade packages
+  community.general.pacman:
+    update_cache: true
+    upgrade: true
+
+- name: Install zfs requirements on archiso
+  community.general.pacman:
+    name:
+      - base-devel
+      - linux-headers
+      - git
+    state: present
   changed_when: true
   when: installation_install_zfs_on_archiso | default(true) | bool
+
+- name: Install zfs on archiso
+  community.general.pacman:
+    name:
+      - zfs-dkms
+    state: present
+  changed_when: true
+  when: installation_install_zfs_on_archiso | default(true) | bool
+
+- name: Enable zfs on archiso
+  ansible.builtin.command: modprobe zfs
+  changed_when: true
 
 - name: Ensure python-pexpect is installed
   community.general.pacman:

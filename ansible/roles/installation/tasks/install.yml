@@ -13,15 +13,6 @@
     - { section: "extra", option: "Server", value: "{{ pacman_local_mirror_url }}" }
   when: pacman_local_mirror_enabled | default(false)
 
-- name: Ensure arch.drik.it repo is added
-  ansible.builtin.blockinfile:
-    path: /etc/pacman.conf
-    insertafter: EOF
-    block: |
-      [aur]
-      SigLevel = Optional TrustAll
-      Server = https://arch.drik.it
-
 - name: Update cache
   community.general.pacman:
     update_cache: true
