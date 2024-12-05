@@ -84,8 +84,8 @@
         stp: false
         ip4: "{{ network_config.ipv4 }}"
         gw4: "{{ network_config.gw4 }}"
-        dns4: "{{ network_config.dns4 }}"
-        dns4_search: "{{ network_config.dns4_search }}"
+        dns4: "{{ network_config.dns4 | default(undef()) }}"
+        dns4_search: "{{ network_config.dns4_search | default(undef()) }}"
         state: present
       when: network_config is defined
       register: kvm_master_bridge_result

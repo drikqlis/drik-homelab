@@ -7,14 +7,14 @@ installation_drive:
   root_partition_suffix: -part2
   root_zpool: arch
 
-hostname: kube-4
+hostname: kube-5
 gpu_manufacturer: virt
 # en_PL, pl_PL
 system_language: en_PL
 
 network_config:
   connection_name: "Wired connection 1"
-  ipv4: 192.168.100.84/24
+  ipv4: 192.168.100.85/24
   gw4: 192.168.100.1
 
 zfs_additional_drives_enabled: true
@@ -23,13 +23,13 @@ zfs_zpools:
     datasets:
       - name: kube-nvme
     devices:
-      - "{{ lookup('community.general.bitwarden', 'host_vars_kube-4', field='zfs_devices_nvme_1') | first }}"
+      - "{{ lookup('community.general.bitwarden', 'host_vars_kube-5', field='zfs_devices_nvme_1') | first }}"
 
 zfs_default_recordsize: 128k
 
 sanoid_syncoid_enabled: true
 sanoid_syncoid_source: true
-sanoid_syncoid_run_hour: 0:30
+sanoid_syncoid_run_hour: "23:30"
 sanoid_syncoid_source_dataset: nvme1/kube-nvme
 sanoid_syncoid_target_dataset: hdd1/backup
 sanoid_syncoid_target_host: nas-1.serv.drik.it

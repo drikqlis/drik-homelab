@@ -45,7 +45,7 @@
   ansible.builtin.command: arch-chroot /mnt sbctl sign --save {{ item }}
   changed_when: true
   loop:
-    - "{{ installation_efi_partiton_mount_point }}/EFI/Linux/arch-linux.efi"
-    - "{{ installation_efi_partiton_mount_point }}/EFI/Linux/arch-linux-fallback.efi"
+    - "{{ installation_efi_partiton_mount_point }}/EFI/Linux/arch-linux-lts.efi"
+    - "{{ installation_efi_partiton_mount_point }}/EFI/Linux/arch-linux-lts-fallback.efi"
     - "{{ installation_efi_partiton_mount_point }}/EFI/BOOT/BOOTX64.EFI"
     - "{{ installation_efi_partiton_mount_point }}/EFI/systemd/systemd-bootx64.efi"

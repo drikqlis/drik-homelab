@@ -55,6 +55,7 @@ kube-3
 
 [kube_workers]
 kube-4
+kube-5
 
 [baremetal]
 bm-1

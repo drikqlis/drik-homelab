@@ -50,6 +50,7 @@
     block: "{{ lookup('template', 'authorized_keys.j2') }}"
     dest: /home/{{ sanoid_syncoid_user }}/.ssh/authorized_keys
     mode: "0600"
+    create: true
     owner: "{{ sanoid_syncoid_user }}"
     group: "{{ sanoid_syncoid_user }}"
 

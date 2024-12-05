@@ -17,6 +17,7 @@
   ansible.builtin.blockinfile:
     block: "{{ lookup('template', 'authorized_keys.j2') }}"
     dest: /home/borg/.ssh/authorized_keys
+    create: true
     mode: "0600"
     owner: borg
     group: borg
