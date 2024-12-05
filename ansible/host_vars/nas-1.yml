@@ -57,6 +57,7 @@ nfs_server_root_access:
   - client: "{{ lookup('community.general.bitwarden', 'host_vars_nas-1', field='nfs_server_root_access.client7') | first }}"
   - client: "{{ lookup('community.general.bitwarden', 'host_vars_nas-1', field='nfs_server_root_access.client8') | first }}"
   - client: "{{ lookup('community.general.bitwarden', 'host_vars_nas-1', field='nfs_server_root_access.client9') | first }}"
+  - client: "{{ lookup('community.general.bitwarden', 'host_vars_nas-1', field='nfs_server_root_access.client10') | first }}"
 nfs_server_shares:
   - mount_point: /srv/nfs/kube-hdd
     source: /mnt/kube-hdd
