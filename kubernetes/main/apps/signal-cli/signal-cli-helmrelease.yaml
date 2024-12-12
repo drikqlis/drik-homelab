@@ -1,0 +1,22 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: signal-cli
+  namespace: signal-cli
+spec:
+  chart:
+    spec:
+      chart: signal-cli
+      version: 0.1.*
+      sourceRef:
+        kind: HelmRepository
+        name: drik-homelab
+        namespace: flux-system
+  interval: 30m
+  timeout: 15m
+  releaseName: signal-cli
+  valuesFrom:
+  - kind: ConfigMap
+    name: signal-cli-values
+    valuesKey: values.yaml
