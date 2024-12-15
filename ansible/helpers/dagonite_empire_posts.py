@@ -5,7 +5,7 @@ from datetime import datetime, timedelta
 # Define a function to fetch post counts for a character over a specific time period
 def fetch_post_count(api_url, character_id, date_from, date_to):
     try:
-        response = requests.get(f"{api_url}/api/CharacterPosts/{character_id}", params={"date_from": date_from, "date_to": date_to})
+        response = requests.get(f"{api_url}/api/CharacterPosts/{character_id}", headers={"DateFrom": date_from, "DateTo": date_to})
         response.raise_for_status()
         return int(response.text)  # API returns a plain int value
     except requests.RequestException as e:
