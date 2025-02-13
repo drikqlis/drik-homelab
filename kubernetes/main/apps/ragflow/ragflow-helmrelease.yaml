@@ -20,3 +20,6 @@ spec:
   - kind: ConfigMap
     name: ragflow-values
     valuesKey: values.yaml
+  - kind: Secret
+    name: ocis-secret-values
+    valuesKey: notesPlain

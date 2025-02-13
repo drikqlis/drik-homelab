@@ -7,9 +7,6 @@ metadata:
 data:
   values.yaml: |-
     infinity:
-      image:
-        repository: infiniflow/infinity
-        tag: v0.5.2
       storage:
         className:
         capacity: 5Gi
