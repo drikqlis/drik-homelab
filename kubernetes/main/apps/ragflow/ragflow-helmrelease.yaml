@@ -21,5 +21,5 @@ spec:
     name: ragflow-values
     valuesKey: values.yaml
   - kind: Secret
-    name: ocis-secret-values
+    name: ragflow-secret-values
     valuesKey: notesPlain
