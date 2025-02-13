@@ -7,10 +7,10 @@ metadata:
 spec:
   chart:
     spec:
-      chart: helm
+      chart: ragflow
       version: 0.1.*
       sourceRef:
-        kind: GitRepository
+        kind: HelmRepository
         name: ragflow
         namespace: flux-system
   interval: 30m
