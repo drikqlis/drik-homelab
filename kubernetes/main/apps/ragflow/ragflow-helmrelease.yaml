@@ -7,7 +7,7 @@ metadata:
 spec:
   chart:
     spec:
-      chart: helm/ragflow
+      chart: ragflow
       version: 0.1.*
       sourceRef:
         kind: GitRepository
