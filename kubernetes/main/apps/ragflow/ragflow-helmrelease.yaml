@@ -10,7 +10,7 @@ spec:
       chart: helm/ragflow
       version: 0.1.*
       sourceRef:
-        kind: HelmRepository
+        kind: GitRepository
         name: ragflow
         namespace: flux-system
   interval: 30m
