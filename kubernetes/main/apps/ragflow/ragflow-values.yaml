@@ -6,10 +6,6 @@ metadata:
   namespace: ragflow
 data:
   values.yaml: |-
-    env:
-      RAGFLOW_IMAGE: infiniflow/ragflow:v0.16.0
-      TIMEZONE: "Europe/Warsaw"
-
     infinity:
       storage:
         className:
