@@ -1,0 +1,22 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: ragflow
+  namespace: ragflow
+spec:
+  chart:
+    spec:
+      chart: ragflow
+      version: 0.1.*
+      sourceRef:
+        kind: HelmRepository
+        name: ragflow
+        namespace: flux-system
+  interval: 30m
+  timeout: 15m
+  releaseName: ragflow
+  valuesFrom:
+  - kind: ConfigMap
+    name: ragflow-values
+    valuesKey: values.yaml
