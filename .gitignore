@@ -1,6 +1,7 @@
 ansible/roles/remmina/files/*-connections
 ansible/group_vars/all/users.yml
 ansible/files/*-keys
+.ansible
 *.salt
 *.kwl
 *.remmina

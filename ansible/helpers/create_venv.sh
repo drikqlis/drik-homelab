@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Specify the Python version you want to use (optional)
-PYTHON_VERSION="3.12"
+PYTHON_VERSION="3.13"
 
 # Get the parent directory of the script
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
