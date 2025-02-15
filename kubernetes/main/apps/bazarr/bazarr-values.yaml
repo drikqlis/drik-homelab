@@ -38,3 +38,11 @@ data:
         storageClass: nfs-media
         accessMode: ReadWriteMany
         size: 41Ti
+
+    resources:
+      limits:
+        cpu: 500m
+        memory: 512Mi
+      requests:
+        cpu: 100m
+        memory: 256Mi
