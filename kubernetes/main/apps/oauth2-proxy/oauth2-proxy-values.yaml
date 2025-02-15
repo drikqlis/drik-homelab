@@ -42,9 +42,30 @@ data:
         enabled: true
       clusterDomain: cluster.drik.it
       enabled: true
+      master:
+        resources:
+          requests:
+            cpu: 50m
+            memory: 128Mi
+          limits:
+            cpu: 250m
+            memory: 256Mi
       replica:
+        resources:
+          requests:
+            cpu: 50m
+            memory: 128Mi
+          limits:
+            cpu: 250m
+            memory: 256Mi
         replicaCount: 1
     replicaCount: 1
-    resources: {}
+    resources:
+      requests:
+        cpu: 50m
+        memory: 128Mi
+      limits:
+        cpu: 250m
+        memory: 256Mi
     sessionStorage:
       type: redis
