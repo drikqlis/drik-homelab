@@ -10,4 +10,10 @@ data:
     args:
       - --kubelet-preferred-address-types=InternalIP
       - --kubelet-insecure-tls
-    resources: {}
+    resources:
+      requests:
+        cpu: 100m
+        memory: 128Mi
+      limits:
+        cpu: 250m
+        memory: 256Mi
