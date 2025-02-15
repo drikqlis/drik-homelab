@@ -21,6 +21,7 @@ patches:
                     memory: 256Mi
                   limits:
                     memory: 256Mi
+                    cpu:
     target:
       kind: Deployment
       name: "(kustomize-controller|helm-controller|source-controller|notification-controller|image-automation-controller|image-reflector-controller)"
