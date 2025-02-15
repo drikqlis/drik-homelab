@@ -12,8 +12,8 @@ spec:
         kind: HelmRepository
         name: drik-homelab
         namespace: flux-system
-  interval: 15m
-  timeout: 5m
+  interval: 30m
+  timeout: 25m
   releaseName: dagonite-empire
   values:
     image:
