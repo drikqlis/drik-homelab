@@ -9,7 +9,13 @@ data:
     nameOverride: ingress-nginx-internal
     controller:
       replicaCount: 1
-      resources: {}
+      resources:
+        requests:
+          cpu: 250m
+          memory: 512Mi
+        limits:
+          cpu: 1
+          memory: 1024Mi
       ingressClassResource:
         name: nginx-internal
         controllerValue: "k8s.io/ingress-nginx-internal"

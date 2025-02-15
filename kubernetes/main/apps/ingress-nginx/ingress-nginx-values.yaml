@@ -8,7 +8,13 @@ data:
   values.yaml: |-
     controller:
       replicaCount: 1
-      resources: {}
+      resources:
+        requests:
+          cpu: 250m
+          memory: 512Mi
+        limits:
+          cpu: 1
+          memory: 1024Mi
       ingressClassResource:
         name: nginx
         default: true
