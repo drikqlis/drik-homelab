@@ -10,28 +10,25 @@ data:
       enabled: true
     replicaCount: 1
     resources:
-      limits:
-        cpu: 250m
-        memory: 256Mi
       requests:
         cpu: 100m
-        memory: 128Mi
+        memory: 256Mi
+      limits:
+        memory: 256Mi
     webhook:
       resources:
-        limits:
-          cpu: 250m
-          memory: 256Mi
         requests:
           cpu: 100m
-          memory: 128Mi
+          memory: 256Mi
+        limits:
+          memory: 256Mi
     cainjector:
       resources:
-        limits:
-          cpu: 250m
-          memory: 256Mi
         requests:
           cpu: 100m
-          memory: 128Mi
+          memory: 256Mi
+        limits:
+          memory: 256Mi
     dns01RecursiveNameservers: "https://1.1.1.1/dns-query,https://8.8.8.8/dns-query"
     dns01RecursiveNameserversOnly: true
     enableCertificateOwnerRef: true

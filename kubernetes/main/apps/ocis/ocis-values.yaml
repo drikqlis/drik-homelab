@@ -97,6 +97,12 @@ data:
 
     services:
       nats:
+        resources:
+          requests:
+            cpu: 250m
+            memory: 512Mi
+          limits:
+            memory: 512Mi
         persistence:
           enabled: true
           accessModes:
@@ -161,3 +167,10 @@ data:
         config:
           feedbackLink:
             enabled: false
+
+    resources:
+      requests:
+        cpu: 100m
+        memory: 128Mi
+      limits:
+        memory: 128Mi

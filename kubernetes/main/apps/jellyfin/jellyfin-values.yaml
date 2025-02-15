@@ -9,11 +9,10 @@ data:
     replicaCount: 1
     resources:
       requests:
-        cpu: 500m
+        cpu: 1
         memory: 1Gi
       limits:
-        cpu: 2
-        memory: 2Gi
+        memory: 1Gi
     ingress:
       enabled: true
       className: "nginx"

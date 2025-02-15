@@ -24,11 +24,10 @@ data:
     server:
       resources:
         requests:
-          cpu: 250m
-          memory: 512Mi
+          cpu: 500m
+          memory: 1Gi
         limits:
-          cpu: 1000m
-          memory: 1024Mi
+          memory: 1Gi
       replicas: 1
       ingress:
         enabled: true
@@ -52,11 +51,10 @@ data:
     worker:
       resources:
         requests:
-          cpu: 250m
-          memory: 512Mi
+          cpu: 500m
+          memory: 1Gi
         limits:
-          cpu: 1000m
-          memory: 1024Mi
+          memory: 1Gi
       replicas: 1
       dnsConfig:
         options:
@@ -74,19 +72,17 @@ data:
       primary:
         resources:
           requests:
-            cpu: 100m
+            cpu: 250m
             memory: 256Mi
           limits:
-            cpu: 500m
-            memory: 512Mi
+            memory: 256Mi
       readReplicas:
         resources:
           requests:
-            cpu: 100m
+            cpu: 250m
             memory: 256Mi
           limits:
-            cpu: 500m
-            memory: 512Mi
+            memory: 256Mi
 
     redis:
       enabled: true
@@ -96,8 +92,7 @@ data:
       master:
         resources:
           requests:
-            cpu: 50m
+            cpu: 100m
             memory: 128Mi
           limits:
-            cpu: 250m
-            memory: 256Mi
+            memory: 128Mi

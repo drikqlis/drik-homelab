@@ -34,9 +34,8 @@ data:
         size: 100Gi
 
     resources:
-      limits:
-        cpu: 4000m
-        memory: 4Gi
       requests:
         cpu: 100m
-        memory: 128Mi
+        memory: 2Gi
+      limits:
+        memory: 2Gi

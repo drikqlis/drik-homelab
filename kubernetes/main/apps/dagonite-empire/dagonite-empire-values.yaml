@@ -8,12 +8,11 @@ data:
   values.yaml: |-
     replicaCount: 1
     resources:
-      limits:
-        cpu: 500m
-        memory: 512Mi
       requests:
-        cpu: 100m
-        memory: 256Mi
+        cpu: 250m
+        memory: 512Mi
+      limits:
+        memory: 512Mi
     ingress:
       enabled: true
       className: "nginx"
@@ -36,22 +35,20 @@ data:
       primary:
         resources:
           requests:
-            cpu: 100m
+            cpu: 250m
             memory: 256Mi
           limits:
-            cpu: 500m
-            memory: 512Mi
+            memory: 256Mi
         persistence:
           enabled: true
           size: 10Gi
       readReplicas:
         resources:
           requests:
-            cpu: 100m
+            cpu: 250m
             memory: 256Mi
           limits:
-            cpu: 500m
-            memory: 512Mi
+            memory: 256Mi
 
     persistence:
       upload:
