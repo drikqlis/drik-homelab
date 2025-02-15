@@ -151,7 +151,7 @@ data:
       thumbnails:
         quota:
           maxFileSize: 50MB
-          maxInputWitdth: 7680
+          maxInputWidth: 7680
           maxInputHeight: 7680
         persistence:
           enabled: true
