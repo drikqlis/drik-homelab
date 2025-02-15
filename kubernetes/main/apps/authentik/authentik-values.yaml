@@ -24,11 +24,11 @@ data:
     server:
       resources:
         requests:
-          cpu: 100m
+          cpu: 250m
           memory: 512Mi
         limits:
-          cpu: 500m
-          memory: 512Mi
+          cpu: 1000m
+          memory: 1024Mi
       replicas: 1
       ingress:
         enabled: true
@@ -52,11 +52,11 @@ data:
     worker:
       resources:
         requests:
-          cpu: 100m
+          cpu: 250m
           memory: 512Mi
         limits:
-          cpu: 500m
-          memory: 512Mi
+          cpu: 1000m
+          memory: 1024Mi
       replicas: 1
       dnsConfig:
         options:
