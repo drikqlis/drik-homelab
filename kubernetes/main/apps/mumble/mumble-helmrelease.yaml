@@ -14,7 +14,7 @@ spec:
         name: drik-homelab
         namespace: flux-system
   interval: 30m
-  timeout: 10m
+  timeout: 25m
   releaseName: mumble
   valuesFrom:
   - kind: ConfigMap

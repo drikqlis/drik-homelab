@@ -13,8 +13,8 @@ spec:
         kind: HelmRepository
         name: kubernetes-dashboard
         namespace: flux-system
-  interval: 15m
-  timeout: 5m
+  interval: 30m
+  timeout: 25m
   releaseName: kubernetes-dashboard
   valuesFrom:
   - kind: ConfigMap
