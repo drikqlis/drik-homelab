@@ -8,3 +8,54 @@ data:
   values.yaml: |-
     controller:
       replicas: 1
+      resources:
+        csiProvisioner:
+          limits:
+            memory: 128Mi
+          requests:
+            cpu: 50m
+            memory: 128Mi
+        csiResizer:
+          limits:
+            memory: 128Mi
+          requests:
+            cpu: 50m
+            memory: 128Mi
+        csiSnapshotter:
+          limits:
+            memory: 128Mi
+          requests:
+            cpu: 50m
+            memory: 128Mi
+        livenessProbe:
+          limits:
+            memory: 64Mi
+          requests:
+            cpu: 50m
+            memory: 64Mi
+        nfs:
+          limits:
+            memory: 256Mi
+          requests:
+            cpu: 100m
+            memory: 256Mi
+    node:
+      resources:
+        livenessProbe:
+          limits:
+            memory: 128Mi
+          requests:
+            cpu: 50m
+            memory: 128Mi
+        nodeDriverRegistrar:
+          limits:
+            memory: 128Mi
+          requests:
+            cpu: 50m
+            memory: 128Mi
+        nfs:
+          limits:
+            memory: 256Mi
+          requests:
+            cpu: 100m
+            memory: 256Mi
