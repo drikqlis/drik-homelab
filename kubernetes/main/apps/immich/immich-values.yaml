@@ -26,11 +26,11 @@ data:
       primary:
         resources:
           requests:
-            cpu: 100m
-            memory: 256Mi
-          limits:
             cpu: 500m
             memory: 512Mi
+          limits:
+            cpu: 1
+            memory: 1Gi
       global:
         postgresql:
           auth:
@@ -65,8 +65,8 @@ data:
           cpu: 250m
           memory: 512Mi
         limits:
-          cpu: 1
-          memory: 1024Mi
+          cpu: 2
+          memory: 2Gi
       ingress:
         main:
           enabled: true
