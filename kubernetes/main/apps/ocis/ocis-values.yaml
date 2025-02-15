@@ -99,10 +99,10 @@ data:
       nats:
         resources:
           requests:
-            cpu: 250m
-            memory: 512Mi
+            cpu: 500m
+            memory: 1Gi
           limits:
-            memory: 512Mi
+            memory: 1Gi
         persistence:
           enabled: true
           accessModes:
