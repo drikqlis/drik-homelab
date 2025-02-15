@@ -7,7 +7,7 @@ metadata:
 data:
   values.yaml: |-
     image:
-      tag: v1.120.2
+      tag: v1.126.1
     env:
       DB_PASSWORD:
         valueFrom:
@@ -26,11 +26,11 @@ data:
       primary:
         resources:
           requests:
-            cpu: 2
+            cpu: 100m
             memory: 256Mi
           limits:
-            cpu: 4
-            memory: 1024Mi
+            cpu: 500m
+            memory: 512Mi
       global:
         postgresql:
           auth:
@@ -49,9 +49,24 @@ data:
       clusterDomain: cluster.drik.it
       auth:
         enabled: false
+      master:
+        resources:
+          requests:
+            cpu: 50m
+            memory: 128Mi
+          limits:
+            cpu: 250m
+            memory: 256Mi
 
     server:
       enabled: true
+      resources:
+        requests:
+          cpu: 250m
+          memory: 512Mi
+        limits:
+          cpu: 1
+          memory: 1024Mi
       ingress:
         main:
           enabled: true
@@ -72,6 +87,13 @@ data:
 
     machine-learning:
       enabled: true
+      resources:
+        requests:
+          cpu: 250m
+          memory: 512Mi
+        limits:
+          cpu: 2
+          memory: 2Gi
       persistence:
         cache:
           enabled: true
