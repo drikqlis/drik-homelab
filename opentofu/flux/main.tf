@@ -47,4 +47,6 @@ resource "flux_bootstrap_git" "this" {
   path = "kubernetes/main/bootstrap"
   cluster_domain = var.cluster_domain
   components_extra = ["image-reflector-controller", "image-automation-controller"]
+  embedded_manifests = true
+  kustomization_override = file("${path.root}/resources/flux-kustomization-patch.yaml")
 }

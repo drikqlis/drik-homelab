@@ -13,6 +13,7 @@ data:
         memory: 512Mi
       limits:
         memory: 512Mi
+        cpu: null
     settings:
       clusterName: Kubernetes | Drik.IT
       itemsPerPage: 10
