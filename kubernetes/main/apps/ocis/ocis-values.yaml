@@ -144,7 +144,6 @@ data:
         persistence:
           enabled: true
           storageClassName: nfs-cloud
-          chownInitContainer: false
           accessModes:
             - ReadWriteMany
           size: 5Ti
@@ -167,9 +166,3 @@ data:
         config:
           feedbackLink:
             enabled: false
-
-    securityContext:
-      fsGroup: 1099
-      fsGroupChangePolicy: OnRootMismatch
-      runAsUser: 1000
-      runAsGroup: 1000
