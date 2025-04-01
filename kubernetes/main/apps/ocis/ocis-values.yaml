@@ -122,7 +122,6 @@ data:
             - ReadWriteMany
           size: 5Ti
       storageusers:
-      nats:
         resources:
           requests:
             cpu: 500m
