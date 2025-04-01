@@ -6,6 +6,11 @@ metadata:
   namespace: ocis
 data:
   values.yaml: |-
+    image:
+      repository: owncloud/ocis
+      tag: 6.5.1
+      pullPolicy: IfNotPresent
+      pullSecrets: []
     logging:
       level: "info"
     http:
