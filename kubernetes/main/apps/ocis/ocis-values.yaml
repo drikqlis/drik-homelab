@@ -8,7 +8,7 @@ data:
   values.yaml: |-
     image:
       repository: owncloud/ocis
-      tag: 6.5.1
+      tag: 7.1.2
       pullPolicy: IfNotPresent
       pullSecrets: []
     logging:
@@ -102,12 +102,6 @@ data:
 
     services:
       nats:
-        resources:
-          requests:
-            cpu: 500m
-            memory: 1Gi
-          limits:
-            memory: 1Gi
         persistence:
           enabled: true
           accessModes:
@@ -172,10 +166,3 @@ data:
         config:
           feedbackLink:
             enabled: false
-
-    resources:
-      requests:
-        cpu: 250m
-        memory: 512Mi
-      limits:
-        memory: 512Mi
