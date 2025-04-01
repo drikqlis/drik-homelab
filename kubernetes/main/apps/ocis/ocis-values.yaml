@@ -122,12 +122,6 @@ data:
             - ReadWriteMany
           size: 5Ti
       storageusers:
-        resources:
-          requests:
-            cpu: 250m
-            memory: 1Gi
-          limits:
-            memory: 1Gi
         events:
           consumer:
             concurrency: 10
