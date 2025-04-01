@@ -124,7 +124,7 @@ data:
       storageusers:
         resources:
           requests:
-            cpu: 500m
+            cpu: 250m
             memory: 1Gi
           limits:
             memory: 1Gi
