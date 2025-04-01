@@ -166,3 +166,9 @@ data:
         config:
           feedbackLink:
             enabled: false
+
+    securityContext:
+      fsGroup: 1099
+      fsGroupChangePolicy: OnRootMismatch
+      runAsUser: 1000
+      runAsGroup: 1000
