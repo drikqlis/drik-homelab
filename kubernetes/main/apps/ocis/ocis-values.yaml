@@ -40,9 +40,9 @@ data:
       externalUserManagement:
         enabled: true
         oidc:
-          issuerURI: "https://auth.drik.it./application/o/ocis/"
-          sessionManagementLink: "https://auth.drik.it./if/user/#/settings"
-          editAccountLink: "https://auth.drik.it./if/user/#/settings"
+          issuerURI: "https://auth.drik.it/application/o/ocis/"
+          sessionManagementLink: "https://auth.drik.it/if/user/#/settings"
+          editAccountLink: "https://auth.drik.it/if/user/#/settings"
           userIDClaim: email
           userIDClaimAttributeMapping: mail
           accessTokenVerifyMethod: "none"
@@ -57,7 +57,7 @@ data:
                 claim_value: ocis-users
         ldap:
           writeable: false
-          uri: ldaps://ldap.auth.drik.it.
+          uri: ldaps://ldap.auth.drik.it
           bindDN: cn=ldap,ou=users,dc=ldap,dc=auth,dc=drik,dc=it
           user:
             schema:
