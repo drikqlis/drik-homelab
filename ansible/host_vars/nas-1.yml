@@ -65,6 +65,7 @@ nfs_server_shares:
     source: /mnt/media
   - mount_point: /srv/nfs/cloud
     source: /mnt/cloud
+    options: rw,async,nohide,all_squash,anonuid=1000,anongid=1000,no_subtree_check
 
 borg_enabled: true
 borg_backup_dirs: "/mnt/cloud /mnt/kube-hdd /mnt/other-hdd /mnt/backup"
