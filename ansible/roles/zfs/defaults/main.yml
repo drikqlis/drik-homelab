@@ -15,3 +15,12 @@ zfs_zpools:
 
 zfs_default_zpool_compression: lz4
 zfs_default_recordsize: 1M
+
+zfs_lts_packages:
+  - zfs-dkms
+  - zfs-utils
+zfs_git_packages:
+  - zfs-linux-git
+  - zfs-linux-git-headers
+  - zfs-utils
+zfs_packages: "{{ zfs_lts_packages if installation_kernel_version == 'linux-lts' else zfs_git_packages }}"

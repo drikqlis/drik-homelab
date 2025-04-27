@@ -9,6 +9,10 @@ installation_drive:
 
 installation_kernel_version: linux-lts
 
+installation_zfs_lts_packages: zfs-dkms zfs-utils
+installation_zfs_git_packages: zfs-linux-git zfs-linux-git-headers zfs-utils
+installation_zfs_packages: "{{ installation_zfs_lts_packages if installation_kernel_version == 'linux-lts' else installation_zfs_git_packages }}"
+
 installation_efi_partiton_mount_point: /efi
 installation_uki_enabled: true
 installation_secure_boot_enabled: true

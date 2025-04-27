@@ -2,9 +2,7 @@
 
 - name: Ensure zfs is installed
   community.general.pacman:
-    name:
-      - zfs-dkms
-      - zfs-utils
+    name: "{{ zfs_packages }}"
     state: present
 
 - name: Create required services and timers
