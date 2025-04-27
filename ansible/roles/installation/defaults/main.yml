@@ -23,28 +23,34 @@ installation_zfs_zpool_compression: lz4
 installation_zfs_root_dataset: "{{ installation_drive.root_zpool }}/root"
 
 installation_intel_packages: mesa vulkan-intel intel-media-driver intel-gpu-tools
+installation_amd_packages: mesa vulkan-radeon
 installation_nvidia_packages: nvidia-open-dkms nvidia-settings
 installation_virt_packages: qemu-guest-agent
 installation_additional_packages: >
   {{ installation_intel_packages if gpu_manufacturer == 'intel'
+  else installation_amd_packages if gpu_manufacturer == 'amd'
   else installation_nvidia_packages if gpu_manufacturer == 'nvidia'
   else installation_virt_packages if gpu_manufacturer == 'virt'
   else '' }}
 
 installation_intel_kernel_cmdline: nowatchdog
+installation_amd_kernel_cmdline: nowatchdog
 installation_nvidia_kernel_cmdline: nvidia-drm.modeset=1 nowatchdog
 installation_virt_kernel_cmdline:
 installation_kernel_cmdline: >
   {{ installation_intel_kernel_cmdline if gpu_manufacturer == 'intel'
+  else installation_amd_kernel_cmdline if gpu_manufacturer == 'amd'
   else installation_nvidia_kernel_cmdline if gpu_manufacturer == 'nvidia'
   else installation_virt_kernel_cmdline if gpu_manufacturer == 'virt'
   else '' }}
 
 installation_intel_mkinicpio_modules: zfs i915
+installation_amd_mkinicpio_modules: zfs amdgpu
 installation_nvidia_mkinicpio_modules: zfs nvidia nvidia_modeset nvidia_uvm nvidia_drm
 installation_virt_mkinicpio_modules: zfs virtio virtio_blk virtio_pci virtio_net virtio_ring
 installation_mkinicpio_modules: >
   {{ installation_intel_mkinicpio_modules if gpu_manufacturer == 'intel'
+  else installation_amd_mkinicpio_modules if gpu_manufacturer == 'amd'
   else installation_nvidia_mkinicpio_modules if gpu_manufacturer == 'nvidia'
   else installation_virt_mkinicpio_modules if gpu_manufacturer == 'virt'
   else '' }}

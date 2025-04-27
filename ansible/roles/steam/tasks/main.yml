@@ -38,6 +38,14 @@
   when:
     - gpu_manufacturer == "nvidia"
 
+- name: Additional packages for AMD
+  community.general.pacman:
+    name:
+      - lib32-vulkan-radeon
+    state: present
+  when:
+    - gpu_manufacturer == "amd"
+
 - name: Ensure gamemode group exists
   ansible.builtin.group:
     name: gamemode
