@@ -38,7 +38,7 @@ installation_additional_packages: >
   else '' }}
 
 installation_intel_kernel_cmdline: nowatchdog
-installation_amd_kernel_cmdline: nowatchdog
+installation_amd_kernel_cmdline: nowatchdog split_lock_detect=off
 installation_nvidia_kernel_cmdline: nvidia-drm.modeset=1 nowatchdog
 installation_virt_kernel_cmdline:
 installation_kernel_cmdline: >
