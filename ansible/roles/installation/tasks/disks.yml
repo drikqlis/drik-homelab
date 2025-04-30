@@ -47,8 +47,7 @@
 
 - name: Install zfs on archiso
   community.general.pacman:
-    name:
-      - zfs-dkms
+    name: "{{ installation_zfs_packages | split }}"
     state: present
   changed_when: true
   when: installation_install_zfs_on_archiso | default(true) | bool
