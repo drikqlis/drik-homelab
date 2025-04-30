@@ -1,22 +1,34 @@
 ---
 
 installation_drive:
-  name: /dev/nvme0n1
-  efi_partition_suffix: p1
+  name: "{{ lookup('community.general.bitwarden', 'host_vars_mm-b850', field='installation_drive.name') | join }}"
+  efi_partition_suffix: -part1
   efi_partition_label: efi
-  root_partition_suffix: p2
+  root_partition_suffix: -part2
   root_zpool: arch
+
 installation_kernel_version: linux
 
 hostname: mm-b850
 # nvidia, intel, virt
 gpu_manufacturer: amd
 # en_PL, pl_PL
-system_lang: pl_PL
+system_language: pl_PL
 
 kvm_enabled: false
 cli_enabled: false
 ssh_client_enabled: false
+
+installation_secure_boot_enabled: false
+
+localdomain: "{{ lookup('community.general.bitwarden', 'group_vars_pc', field='localdomain') | join }}"
+
+network_config:
+  connection_name: "Wired connection 1"
+  ipv4: 192.168.60.7/24
+  gw4: 192.168.60.1
+  dns4: 192.168.60.1
+  dns4_search: "{{ localdomain }}"
 
 crypt_passphrase: "{{ lookup('community.general.bitwarden', 'mm_secrets', field='crypt_passphrase') | join }}"
 user_name: "{{ mm_user_name }}"

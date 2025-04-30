@@ -20,7 +20,6 @@ zfs_lts_packages:
   - zfs-dkms
   - zfs-utils
 zfs_git_packages:
-  - zfs-linux-git
-  - zfs-linux-git-headers
-  - zfs-utils
+  - zfs-dkms-git
+  - zfs-utils-git
 zfs_packages: "{{ zfs_lts_packages if installation_kernel_version == 'linux-lts' else zfs_git_packages }}"

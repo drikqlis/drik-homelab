@@ -30,10 +30,9 @@
       SigLevel = Optional TrustAll
       Server = https://aur.drik.it
 
-- name: Update cache and upgrade packages
+- name: Update cache packages
   community.general.pacman:
     update_cache: true
-    upgrade: true
 
 - name: Install zfs requirements on archiso
   community.general.pacman:
@@ -43,14 +42,18 @@
       - git
     state: present
   changed_when: true
-  when: installation_install_zfs_on_archiso | default(true) | bool
+  when:
+    - installation_install_zfs_on_archiso | default(true) | bool
+    - not installation_install_zfs_custom_archiso | bool
 
 - name: Install zfs on archiso
   community.general.pacman:
     name: "{{ installation_zfs_packages | split }}"
     state: present
   changed_when: true
-  when: installation_install_zfs_on_archiso | default(true) | bool
+  when:
+    - installation_install_zfs_on_archiso | default(true) | bool
+    - not installation_install_zfs_custom_archiso | bool
 
 - name: Enable zfs on archiso
   ansible.builtin.command: modprobe zfs
@@ -123,7 +126,7 @@
       {{ installation_drive.root_zpool }} {{ installation_drive.name }}{{ installation_drive.root_partition_suffix }}
     responses:
       (?i)passphrase: "{{ crypt_passphrase }}"
-  no_log: true
+  no_log: false
   changed_when: true
 
 - name: Create datasets
