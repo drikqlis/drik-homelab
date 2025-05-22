@@ -4,8 +4,6 @@
   community.general.pacman:
     name:
       - plasma
-      - kdenetwork-filesharing
-      - kio-fuse
       - kdeconnect
       - sshfs
       - avahi

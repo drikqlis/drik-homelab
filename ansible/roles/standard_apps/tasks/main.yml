@@ -4,7 +4,7 @@
   community.general.pacman:
     name:
       - signal-desktop
-      - spotify
+      - spotify-launcher
       - noisetorch
       - piper
       - kdepim-addons
@@ -12,7 +12,7 @@
       - libreoffice
       - libvncserver
       - thunderbird
-      - nextcloud-client
+      - owncloud-client
       - vscodium-bin
       - bitwarden
     state: present

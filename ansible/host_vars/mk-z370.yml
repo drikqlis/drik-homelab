@@ -17,6 +17,7 @@ installation_secure_boot_enabled: false
 sanoid_enabled: true
 localdomain: "{{ lookup('community.general.bitwarden', 'group_vars_pc', field='localdomain') | join }}"
 
+network_interface: enp9s0
 network_config:
   connection_name: "Wired connection 1"
   ipv4: 192.168.60.6/24

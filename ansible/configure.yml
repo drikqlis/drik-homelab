@@ -103,6 +103,7 @@
           tags: [certbot]
 
     - name: GUI configuration
+      tags: [gui_config]
       when: gui_enabled | bool
       block:
         - name: Plasma configuration
@@ -148,6 +149,7 @@
           tags: [cli]
 
     - name: GUI personalization
+      tags: [gui_personal]
       when: gui_enabled | bool
       block:
         - name: System settings configuration
@@ -224,6 +226,7 @@
           ansible.builtin.import_role:
             name: hardcode_tray
           tags: [hardcode_tray]
+          when: hardcode_tray_enabled | default(false)
 
         - name: Clear plasma cache
           ansible.builtin.import_role:
