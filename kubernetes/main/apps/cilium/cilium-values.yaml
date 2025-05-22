@@ -8,21 +8,21 @@ data:
   values.yaml: |-
     resources:
       requests:
-        cpu: 250m
+        cpu: 255m
         memory: 512Mi
       limits:
         memory: 512Mi
     envoy:
       resources:
         requests:
-          cpu: 250m
+          cpu: 255m
           memory: 256Mi
         limits:
           memory: 256Mi
     operator:
       resources:
         requests:
-          cpu: 250m
+          cpu: 255m
           memory: 512Mi
         limits:
           memory: 512Mi
