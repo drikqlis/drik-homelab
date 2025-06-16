@@ -25,7 +25,7 @@ data:
     postgresql:
       enabled: true
       image:
-        repository: https://ghcr.io/immich-app/postgres
+        repository: ghcr.io/immich-app/postgres
         tag: 15-vectorchord0.4.2-pgvectors0.2.0
       clusterDomain: cluster.drik.it
       primary:
