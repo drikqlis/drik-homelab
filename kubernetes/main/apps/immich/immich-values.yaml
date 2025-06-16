@@ -27,7 +27,7 @@ data:
       image:
         registry: ghcr.io
         repository: immich-app/postgres
-        tag: 15-vectorchord0.4.2-pgvectors0.2.0
+        tag: 14-vectorchord0.3.0-pgvectors0.3.0
       clusterDomain: cluster.drik.it
       primary:
         resources:
