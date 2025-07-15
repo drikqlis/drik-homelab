@@ -31,7 +31,37 @@ Press the big Jellyfin button in Authentik and you should get automatically logg
 Leave this page open, we will need it later.
 
 ### Login to Jellyfin apps on your PC, phone or TV
-However we would like to login Jellyfin app on your phone, PC or TV! To do that go to your app of choice and press **Use Quick Connect** button:
+However we would like to login Jellyfin app on your phone, PC or TV! First we must install the app.
+
+#### PC
+Go to this link: https://github.com/jellyfin/jellyfin-media-player/releases and in the first box marked as latest we find the installer for our system.
+In almost all cases it's name will end in `windows-x64.exe` like here:
+
+![image](https://github.com/user-attachments/assets/ad4236f5-e93f-4100-8a1f-87e33c3f0ecf)
+
+Click it and an installer should download to our PC:
+
+![image](https://github.com/user-attachments/assets/442e6406-aff1-4010-96e2-ef64de4006ef)
+
+Open the installer and you should see this screen. Press install:
+
+![image](https://github.com/user-attachments/assets/531ae9a5-a7fb-48c2-ae08-d598a1775298)
+
+When it finishes press Launch. Installation complete!
+
+![image](https://github.com/user-attachments/assets/d50c2f02-014b-4085-9b2d-b153e6042bf1")
+
+#### Android
+Go to the Play Store and search for Jellyfin. Press install. Done!
+
+#### iOS
+Go to App Store and search for Jellyfin Press install. Done!
+
+#### Android TV
+Go to the Play Store and search for Jellyfin. There should be an app called Jellyfin for Android TV. Press install. Done!
+
+#### Authentication
+After we installed our apps we must login in them. To do that go to your app of choice and press **Use Quick Connect** button:
 
 ![image](https://github.com/drikqlis/drik-homelab/assets/19647553/1ab4b40d-9270-403a-adf7-73e9ac112ddc)
 
