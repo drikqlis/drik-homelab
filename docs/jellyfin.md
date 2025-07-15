@@ -49,7 +49,7 @@ Open the installer and you should see this screen. Press install:
 
 When it finishes press Launch. Installation complete!
 
-![image](https://github.com/user-attachments/assets/d50c2f02-014b-4085-9b2d-b153e6042bf1")
+![image](https://github.com/user-attachments/assets/d50c2f02-014b-4085-9b2d-b153e6042bf1)
 
 #### Android
 Go to the Play Store and search for Jellyfin. Press install. Done!
