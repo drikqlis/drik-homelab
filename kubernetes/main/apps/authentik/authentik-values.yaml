@@ -68,6 +68,8 @@ data:
 
     postgresql:
       enabled: true
+      image:
+        tag: 15.4.0-debian-11-r45
       clusterDomain: cluster.drik.it
       primary:
         resources:
