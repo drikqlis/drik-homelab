@@ -33,9 +33,9 @@ data:
         resources:
           requests:
             cpu: 500m
-            memory: 2Gi
+            memory: 3Gi
           limits:
-            memory: 2Gi
+            memory: 3Gi
       global:
         postgresql:
           auth:
@@ -58,18 +58,18 @@ data:
         resources:
           requests:
             cpu: 100m
-            memory: 128Mi
+            memory: 256Mi
           limits:
-            memory: 128Mi
+            memory: 256Mi
 
     server:
       enabled: true
       resources:
         requests:
           cpu: 500m
-          memory: 2Gi
+          memory: 3Gi
         limits:
-          memory: 2Gi
+          memory: 3Gi
       ingress:
         main:
           enabled: true
