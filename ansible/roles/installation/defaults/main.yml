@@ -9,7 +9,7 @@ installation_drive:
 
 installation_kernel_version: linux-lts
 
-installation_install_zfs_custom_archiso: true
+installation_install_zfs_on_archiso: false
 installation_zfs_lts_packages: zfs-dkms zfs-utils
 installation_zfs_git_packages: zfs-dkms-git zfs-utils-git
 installation_zfs_packages: "{{ installation_zfs_lts_packages if installation_kernel_version == 'linux-lts' else installation_zfs_git_packages }}"
