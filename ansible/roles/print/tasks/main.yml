@@ -18,7 +18,6 @@
   ansible.builtin.systemd:
     name: cups.socket
     enabled: true
-  notify: Set papersize
 
 - name: Set paper size
   ansible.builtin.copy:

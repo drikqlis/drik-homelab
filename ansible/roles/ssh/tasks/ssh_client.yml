@@ -18,6 +18,14 @@
   become: true
   become_user: "{{ user_name }}"
 
+- name: Create autostart directory
+  ansible.builtin.file:
+    path: /home/{{ user_name }}/.config/autostart
+    state: directory
+    owner: "{{ user_name }}"
+    group: "{{ user_name }}"
+    mode: "0755"
+
 - name: Add ssh-add to autostart
   ansible.builtin.copy:
     content: |

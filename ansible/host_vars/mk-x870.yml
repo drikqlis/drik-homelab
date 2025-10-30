@@ -13,16 +13,14 @@ hostname: mk-x870
 # nvidia, intel, virt
 gpu_manufacturer: amd
 # en_PL, pl_PL
-system_language: pl_PL
-
-kvm_enabled: false
-cli_enabled: false
-ssh_client_enabled: false
+system_language: en_PL
 
 installation_secure_boot_enabled: false
 
+sanoid_enabled: true
 localdomain: "{{ lookup('community.general.bitwarden', 'group_vars_pc', field='localdomain') | join }}"
 
+network_interface: enp8s0
 network_config:
   connection_name: "Wired connection 1"
   ipv4: 192.168.60.8/24

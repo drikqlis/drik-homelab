@@ -39,7 +39,6 @@
       - vi
       - less
       - rsync
-      - netcat
       - nfs-utils
       - wget
       - nano

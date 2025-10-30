@@ -51,3 +51,4 @@
 - name: Run sddm sync script # noqa command-instead-of-shell
   ansible.builtin.shell: /tmp/sddm_sync.sh
   changed_when: true
+  failed_when: false
