@@ -126,6 +126,12 @@
             name: bluetooth
           tags: [bluetooth]
 
+        - name: RGB configuration
+          ansible.builtin.import_role:
+            name: rgb
+          when: rgb_enabled | bool
+          tags: [rgb]
+
         - name: Print configuration
           ansible.builtin.import_role:
             name: print

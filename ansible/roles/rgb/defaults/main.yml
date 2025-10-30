@@ -1,0 +1,3 @@
+---
+
+rgb_i2c_driver: "{{ 'i2c-i801' if gpu_manufacturer == 'intel' else 'i2c-piix4' if gpu_manufacturer == 'amd' else 'i2c-i801' }}"

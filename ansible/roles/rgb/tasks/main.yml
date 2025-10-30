@@ -1,0 +1,23 @@
+---
+
+- name: Ensure i2c-tools is installed
+  community.general.pacman:
+    name:
+      - i2c-tools
+    state: present
+
+- name: Load i2c modules
+  community.general.modprobe:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - i2c-dev
+    - "{{ rgb_i2c_driver }}"
+
+- name: Configure i2c modules to load at boot
+  ansible.builtin.template:
+    src: i2c.conf.j2
+    dest: /etc/modules-load.d/i2c.conf
+    owner: root
+    group: root
+    mode: "0644"

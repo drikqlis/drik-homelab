@@ -18,6 +18,7 @@ system_language: en_PL
 installation_secure_boot_enabled: false
 
 sanoid_enabled: true
+rgb_enabled: true
 localdomain: "{{ lookup('community.general.bitwarden', 'group_vars_pc', field='localdomain') | join }}"
 
 network_interface: enp8s0
