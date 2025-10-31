@@ -21,3 +21,12 @@
     owner: root
     group: root
     mode: "0644"
+
+- name: Configure RGB kernel parameters
+  ansible.builtin.copy:
+    content: "acpi_enforce_resources=lax"
+    dest: /etc/cmdline.d/rgb.conf
+    owner: root
+    group: root
+    mode: "0644"
+  notify: Rebuild initramfs
