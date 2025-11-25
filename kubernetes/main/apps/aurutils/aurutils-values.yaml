@@ -36,6 +36,6 @@ data:
     resources:
       requests:
         cpu: 100m
-        memory: 5Gi
+        memory: 512m
       limits:
-        memory: 5Gi
+        memory: 512m
