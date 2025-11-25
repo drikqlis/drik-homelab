@@ -16,6 +16,10 @@ spec:
   interval: 30m
   timeout: 10m
   releaseName: aurutils
+  values:
+    image:
+      repository: ghcr.io/drikqlis/aurutils-docker # {"$imagepolicy": "flux-system:aurutils:name"}
+      tag: "" # {"$imagepolicy": "flux-system:aurutils:tag"}
   valuesFrom:
   - kind: ConfigMap
     name: aurutils-values

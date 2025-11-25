@@ -1,0 +1,9 @@
+---
+apiVersion: image.toolkit.fluxcd.io/v1beta1
+kind: ImageRepository
+metadata:
+  name: aurutils
+  namespace: flux-system
+spec:
+  image: ghcr.io/drikqlis/aurutils-docker
+  interval: 5m
