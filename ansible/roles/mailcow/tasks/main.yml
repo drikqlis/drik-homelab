@@ -1,9 +1,10 @@
 ---
 
-- name: Ensure python-pexpect is installed
+- name: Ensure requirements are installed
   community.general.pacman:
     name:
       - python-pexpect
+      - jq
     state: present
 
 - name: Check if dir exists
