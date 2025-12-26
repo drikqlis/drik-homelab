@@ -1,0 +1,15 @@
+---
+apiVersion: image.toolkit.fluxcd.io/v1beta2
+kind: ImagePolicy
+metadata:
+  name: wish-journal
+  namespace: flux-system
+spec:
+  imageRepositoryRef:
+    name: wish-journal
+  filterTags:
+    pattern: '^(?P<timestamp>\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2})-main$'
+    extract: '$timestamp'
+  policy:
+    alphabetical:
+      order: asc

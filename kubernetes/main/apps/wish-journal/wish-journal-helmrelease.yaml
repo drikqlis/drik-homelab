@@ -1,0 +1,28 @@
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
+kind: HelmRelease
+metadata:
+  name: wish-journal
+  namespace: wish-journal
+spec:
+  chart:
+    spec:
+      chart: wish-journal
+      version: 0.1.*
+      sourceRef:
+        kind: HelmRepository
+        name: drik-homelab
+        namespace: flux-system
+  interval: 30m
+  timeout: 25m
+  releaseName: wish-journal
+  values:
+    image:
+      repository: ghcr.io/drikqlis/wish-journal # {"$imagepolicy": "flux-system:wish-journal:name"}
+      tag: latest # {"$imagepolicy": "flux-system:wish-journal:tag"}
+  valuesFrom:
+  - kind: ConfigMap
+    name: wish-journal-values
+    valuesKey: values.yaml
+  - kind: Secret
+    name: wish-journal-secret-values
+    valuesKey: values.yaml
