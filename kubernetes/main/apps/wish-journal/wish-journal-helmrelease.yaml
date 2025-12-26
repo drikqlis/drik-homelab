@@ -25,4 +25,4 @@ spec:
     valuesKey: values.yaml
   - kind: Secret
     name: wish-journal-secret-values
-    valuesKey: values.yaml
+    valuesKey: notesPlain
