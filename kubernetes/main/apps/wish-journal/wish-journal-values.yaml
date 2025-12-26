@@ -38,5 +38,5 @@ data:
       content:
         enabled: true
         size: 30Gi
-        storageClass: nfs-media
+        storageClass: nfs-hdd
         accessMode: ReadWriteMany
