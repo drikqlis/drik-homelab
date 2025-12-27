@@ -18,7 +18,7 @@ spec:
   values:
     image:
       repository: ghcr.io/drikqlis/wish-journal # {"$imagepolicy": "flux-system:wish-journal:name"}
-      tag: 2025-12-27T15-31-05-main # {"$imagepolicy": "flux-system:wish-journal:tag"}
+      tag: 2025-12-27T16-50-37-main # {"$imagepolicy": "flux-system:wish-journal:tag"}
   valuesFrom:
   - kind: ConfigMap
     name: wish-journal-values
