@@ -47,6 +47,15 @@ zfs_zpools:
       - "{{ lookup('community.general.bitwarden', 'host_vars_nas-1', field='zfs_devices_10') | first }}"
 
 nfs_enabled: true
+smb_enabled: true
+smb_shares:
+  - name: wish-journal
+    path: /mnt/kube-hdd/pvc-7f56a874-0050-4222-a949-51ab11576329
+    browseable: true
+    read_only: false
+    guest_ok: false
+    valid_users: "{{ smb_user_name }}"
+    force_user: nas
 nfs_server_root_access:
   - client: "{{ lookup('community.general.bitwarden', 'host_vars_nas-1', field='nfs_server_root_access.client1') | first }}"
   - client: "{{ lookup('community.general.bitwarden', 'host_vars_nas-1', field='nfs_server_root_access.client2') | first }}"

@@ -1,0 +1,43 @@
+---
+
+- name: Install samba
+  community.general.pacman:
+    name:
+      - samba
+    state: present
+
+- name: Create smb user
+  ansible.builtin.user:
+    name: "{{ smb_user_name }}"
+    state: present
+
+- name: Set smb.conf
+  ansible.builtin.template:
+    src: smb.conf.j2
+    dest: /etc/samba/smb.conf
+    owner: root
+    group: root
+    mode: "0644"
+  notify: "smb : Restart smb"
+
+- name: Enable and start smb service
+  ansible.builtin.systemd:
+    name: smb.service
+    enabled: true
+    state: started
+
+- name: Fetch current smbpasswd users
+  ansible.builtin.command: /usr/bin/pdbedit -L
+  register: pdb_users
+  changed_when: false
+
+- name: Set Samba password for user
+  ansible.builtin.command:
+    cmd: /usr/bin/smbpasswd -s -a {{ smb_user_name }}
+    stdin: |
+      {{ smb_user_password }}
+      {{ smb_user_password }}
+  when: pdb_users.stdout.find(smb_user_name) == -1
+  changed_when: true
+  no_log: true
+  notify: "smb : Restart smb"

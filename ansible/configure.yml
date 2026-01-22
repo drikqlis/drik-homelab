@@ -71,6 +71,12 @@
           when: nfs_enabled | bool and nfs_configure | default(false) | bool
           tags: [nfs]
 
+        - name: SMB configuration
+          ansible.builtin.import_role:
+            name: smb
+          when: smb_enabled | bool
+          tags: [smb]
+
         - name: Sanoid configuration
           ansible.builtin.import_role:
             name: sanoid

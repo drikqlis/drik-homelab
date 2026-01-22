@@ -1,0 +1,14 @@
+---
+
+smb_user_name: "{{ user_name }}"
+smb_user_password: "{{ user_password }}"
+smb_workgroup: drik.it
+smb_server_string: nas-1
+smb_shares: []
+# Example share:
+#   - name: share_name
+#     path: /path/to/share
+#     browseable: true
+#     read_only: false
+#     guest_ok: false
+#     valid_users: "{{ smb_user_name }}"

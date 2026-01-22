@@ -16,6 +16,7 @@ kvm_enabled: false
 docker_enabled: false
 borg_enabled: false
 nfs_enabled: false
+smb_enabled: false
 kubernetes_enabled: false
 cli_enabled: false
 ssh_client_enabled: false
