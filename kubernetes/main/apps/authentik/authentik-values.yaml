@@ -69,6 +69,7 @@ data:
     postgresql:
       enabled: true
       image:
+        repository: bitnamilegacy/postgresql
         tag: 15.4.0-debian-11-r45
       clusterDomain: cluster.drik.it
       primary:
@@ -87,6 +88,8 @@ data:
             memory: 256Mi
 
     redis:
+      image:
+        repository: bitnamilegacy/redis
       enabled: true
       auth:
         enabled: true

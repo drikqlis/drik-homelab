@@ -31,6 +31,8 @@ data:
             - dagonite-empire-dev.drik.it
 
     postgresql:
+      image:
+        repository: bitnamilegacy/postgresql
       clusterDomain: cluster.drik.it
       primary:
         resources:

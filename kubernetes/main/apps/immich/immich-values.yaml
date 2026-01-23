@@ -51,6 +51,8 @@ data:
 
     redis:
       enabled: true
+      image:
+        repository: bitnamilegacy/redis
       clusterDomain: cluster.drik.it
       auth:
         enabled: false
