@@ -6,6 +6,9 @@ metadata:
   namespace: kubernetes-dashboard
 data:
   values.yaml: |-
+    global:
+      security:
+        allowInsecureImages: true
     replicaCount: 1
     resources:
       requests:
@@ -37,5 +40,8 @@ data:
     extraArgs:
       - --enable-insecure-login
     redis:
+      global:
+        security:
+          allowInsecureImages: true
       image:
         repository: bitnamilegacy/redis
