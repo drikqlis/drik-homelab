@@ -40,13 +40,13 @@ data:
       - hosts:
         - kube.drik.it
         secretName: oauth2-proxy-certs
-    kubectl:
-      global:
-        security:
-          allowInsecureImages: true
-      image:
-        repository: bitnamilegacy/kubectl
     redis:
+      kubectl:
+        global:
+          security:
+            allowInsecureImages: true
+        image:
+          repository: bitnamilegacy/kubectl
       global:
         security:
           allowInsecureImages: true
