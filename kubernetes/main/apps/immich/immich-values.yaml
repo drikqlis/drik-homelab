@@ -6,6 +6,9 @@ metadata:
   namespace: immich
 data:
   values.yaml: |-
+    global:
+      security:
+        allowInsecureImages: true
     image:
       tag: v2.4.1
     env:
@@ -50,6 +53,9 @@ data:
               replicationPasswordKey: ""
 
     redis:
+      global:
+        security:
+          allowInsecureImages: true
       enabled: true
       image:
         repository: bitnamilegacy/redis
