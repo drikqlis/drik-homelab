@@ -40,13 +40,11 @@ data:
       - hosts:
         - kube.drik.it
         secretName: oauth2-proxy-certs
-    redis:
-      kubectl:
-        global:
-          security:
-            allowInsecureImages: true
+    initContainers:
+      waitForRedis:
         image:
-          repository: bitnamilegacy/kubectl
+          repository: "docker.io/bitnamilegacy/kubectl"
+    redis:
       global:
         security:
           allowInsecureImages: true
