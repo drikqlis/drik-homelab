@@ -39,9 +39,3 @@ data:
           memory: 256Mi
     extraArgs:
       - --enable-insecure-login
-    redis:
-      global:
-        security:
-          allowInsecureImages: true
-      image:
-        repository: bitnamilegacy/redis

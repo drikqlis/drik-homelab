@@ -6,6 +6,9 @@ metadata:
   namespace: kubernetes-dashboard
 data:
   values.yaml: |-
+    global:
+      security:
+        allowInsecureImages: true
     config:
       annotations: {}
       configFile: |-
@@ -38,6 +41,11 @@ data:
         - kube.drik.it
         secretName: oauth2-proxy-certs
     redis:
+      global:
+        security:
+          allowInsecureImages: true
+      image:
+        repository: bitnamilegacy/redis
       auth:
         enabled: true
       clusterDomain: cluster.drik.it
