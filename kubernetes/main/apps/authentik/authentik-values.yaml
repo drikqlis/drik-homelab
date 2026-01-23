@@ -90,6 +90,9 @@ data:
             memory: 256Mi
 
     redis:
+      global:
+        security:
+          allowInsecureImages: true
       image:
         repository: bitnamilegacy/redis
       enabled: true
