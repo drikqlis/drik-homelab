@@ -43,7 +43,7 @@ data:
     initContainers:
       waitForRedis:
         image:
-          repository: "docker.io/bitnamilegacy/kubectl"
+          repository: "docker.io/alpine/kubectl"
     redis:
       global:
         security:
