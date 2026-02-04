@@ -1,0 +1,25 @@
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
+kind: HelmRelease
+metadata:
+  name: jagodanki
+  namespace: jagodanki
+spec:
+  chart:
+    spec:
+      chart: jagodanki
+      version: 0.1.*
+      sourceRef:
+        kind: HelmRepository
+        name: drik-homelab
+        namespace: flux-system
+  interval: 30m
+  timeout: 25m
+  releaseName: jagodanki
+  values:
+    image:
+      repository: ghcr.io/drikqlis/jagodanki # {"$imagepolicy": "flux-system:jagodanki:name"}
+      tag: 2026-02-04T22-44-56-main # {"$imagepolicy": "flux-system:jagodanki:tag"}
+  valuesFrom:
+  - kind: ConfigMap
+    name: jagodanki-values
+    valuesKey: values.yaml
