@@ -18,7 +18,7 @@ spec:
   values:
     image:
       repository: ghcr.io/drikqlis/jagodanki # {"$imagepolicy": "flux-system:jagodanki:name"}
-      tag: 2026-02-04T22-44-56-main # {"$imagepolicy": "flux-system:jagodanki:tag"}
+      tag: 2026-02-09T20-00-19-main # {"$imagepolicy": "flux-system:jagodanki:tag"}
   valuesFrom:
   - kind: ConfigMap
     name: jagodanki-values
