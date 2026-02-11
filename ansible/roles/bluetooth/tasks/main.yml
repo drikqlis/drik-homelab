@@ -5,6 +5,7 @@
     name:
       - bluez
       - bluez-utils
+      - bluez-obex
     state: present
 
 - name: Enable bluetooth service
