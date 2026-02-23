@@ -75,9 +75,9 @@ data:
       resources:
         requests:
           cpu: 500m
-          memory: 5Gi
+          memory: 6Gi
         limits:
-          memory: 5Gi
+          memory: 6Gi
       ingress:
         main:
           enabled: true
