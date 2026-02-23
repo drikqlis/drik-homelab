@@ -10,7 +10,7 @@ data:
       security:
         allowInsecureImages: true
     image:
-      tag: v2.4.1
+      tag: v2.5.6
     env:
       DB_PASSWORD:
         valueFrom:
@@ -75,9 +75,9 @@ data:
       resources:
         requests:
           cpu: 500m
-          memory: 3Gi
+          memory: 5Gi
         limits:
-          memory: 3Gi
+          memory: 5Gi
       ingress:
         main:
           enabled: true
@@ -101,9 +101,9 @@ data:
       resources:
         requests:
           cpu: 1
-          memory: 2048Mi
+          memory: 4Gi
         limits:
-          memory: 2048Mi
+          memory: 4Gi
       persistence:
         cache:
           enabled: true
