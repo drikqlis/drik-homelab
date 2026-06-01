@@ -69,8 +69,9 @@ data:
       scribeResources:
         enabled: true
         size: 256Mi
-        accessMode: ReadWriteOnce
+        accessMode: ReadWriteMany
         mountPath: /app/Resources
+        storageClass: nfs-hdd
 
     enableTestAccounts: true
     aspnetcoreEnvironment: Development
