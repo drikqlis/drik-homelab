@@ -66,6 +66,11 @@ data:
       upload:
         enabled: true
         size: 10Gi
+      scribeResources:
+        enabled: true
+        size: 256Mi
+        accessMode: ReadWriteOnce
+        mountPath: /app/Resources
 
     enableTestAccounts: true
     aspnetcoreEnvironment: Development
