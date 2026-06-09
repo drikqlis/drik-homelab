@@ -32,7 +32,13 @@ data:
 
     postgresql:
       image:
-        repository: bitnamilegacy/postgresql
+        registry: ghcr.io
+        repository: drikqlis/postgresql-pgvector
+        tag: "16"
+        pullPolicy: Always
+      global:
+        security:
+          allowInsecureImages: true
       clusterDomain: cluster.drik.it
       primary:
         resources:
@@ -44,6 +50,10 @@ data:
         persistence:
           enabled: true
           size: 10Gi
+        initdb:
+          scripts:
+            01-enable-pgvector.sql: |
+              CREATE EXTENSION IF NOT EXISTS vector;
       readReplicas:
         resources:
           requests:
