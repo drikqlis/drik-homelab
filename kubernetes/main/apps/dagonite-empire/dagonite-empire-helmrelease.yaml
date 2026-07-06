@@ -18,7 +18,8 @@ spec:
   values:
     image:
       repository: ghcr.io/krystiankempski/dagoniteempire # {"$imagepolicy": "flux-system:dagonite-empire:name"}
-      tag: 1.2.8 # {"$imagepolicy": "flux-system:dagonite-empire:tag"}
+      # tag: 1.2.8 # {"$imagepolicy": "flux-system:dagonite-empire:tag"}
+      tag: 1.2.6
   valuesFrom:
   - kind: ConfigMap
     name: dagonite-empire-values
