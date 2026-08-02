@@ -34,7 +34,7 @@ data:
       config:
         enabled: true
         accessMode: ReadWriteOnce
-        size: 30Gi
+        size: 50Gi
       cache:
         enabled: true
         accessMode: ReadWriteOnce

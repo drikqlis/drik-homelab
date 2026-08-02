@@ -5,6 +5,7 @@ metadata:
   annotations:
     storageclass.kubernetes.io/is-default-class: 'true'
   name: localpv-nvme
+allowVolumeExpansion: true
 parameters:
   fstype: zfs
   poolname: nvme1/kube-nvme
