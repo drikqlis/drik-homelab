@@ -1,0 +1,10 @@
+---
+# Tokens for the chart's auth proxy: 1Password item with field "tokens.json" =
+# {"<sha256 hex of token>": {"name": "claude", "number": "<bot>", "recipients": ["<you>"]}}
+apiVersion: onepassword.com/v1
+kind: OnePasswordItem
+metadata:
+  name: signal-cli-proxy-tokens
+  namespace: signal-cli
+spec:
+  itemPath: "vaults/Kubernetes/items/signal-cli-proxy-tokens"

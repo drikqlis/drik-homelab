@@ -14,6 +14,12 @@ data:
     # resident signal-cli daemon; incoming messages via websocket (Claude Code reply listener)
     mode: json-rpc
 
+    # token auth proxy in front of the API (chart files/auth-proxy.py); only its port is reachable.
+    # Tokens: Secret from 1Password (signal-cli-proxy-tokens.yaml). Without a token the API answers 401.
+    proxy:
+      enabled: true
+      tokensSecret: signal-cli-proxy-tokens
+
     ingress:
       enabled: true
       className: "nginx-internal"
