@@ -8,7 +8,7 @@ spec:
   chart:
     spec:
       chart: signal-cli
-      version: 0.1.*  # proxy.tokens needs >= 0.1.8
+      version: 0.1.*
       sourceRef:
         kind: HelmRepository
         name: drik-homelab
