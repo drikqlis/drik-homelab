@@ -15,10 +15,9 @@ data:
     mode: json-rpc
 
     # token auth proxy in front of the API (chart files/auth-proxy.py); only its port is reachable.
-    # Tokens: Secret from 1Password (signal-cli-proxy-tokens.yaml). Without a token the API answers 401.
+    # Tokens (proxy.tokens): secret values from 1Password (signal-cli-secret-values.yaml). Without a token: 401.
     proxy:
       enabled: true
-      tokensSecret: signal-cli-proxy-tokens
 
     ingress:
       enabled: true
