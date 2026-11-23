@@ -8,6 +8,9 @@ data:
   values.yaml: |-
     replicaCount: 1
 
+    image:
+      tag: "0.101"
+
     ingress:
       enabled: true
       className: "nginx-internal"
