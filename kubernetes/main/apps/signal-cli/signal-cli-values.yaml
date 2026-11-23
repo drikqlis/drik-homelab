@@ -11,6 +11,9 @@ data:
     image:
       tag: "0.101"
 
+    # resident signal-cli daemon; incoming messages via websocket (Claude Code reply listener)
+    mode: json-rpc
+
     ingress:
       enabled: true
       className: "nginx-internal"
@@ -39,4 +42,4 @@ data:
         cpu: 100m
         memory: 256Mi
       limits:
-        memory: 256Mi
+        memory: 512Mi
