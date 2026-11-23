@@ -20,3 +20,6 @@ spec:
   - kind: ConfigMap
     name: signal-cli-values
     valuesKey: values.yaml
+  - kind: Secret
+    name: signal-cli-secret-values
+    valuesKey: notesPlain
