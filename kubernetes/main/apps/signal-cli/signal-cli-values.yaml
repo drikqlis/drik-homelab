@@ -19,6 +19,8 @@ data:
 
     proxy:
       enabled: true
+      queue:
+        enabled: true
 
     ingress:
       enabled: true
