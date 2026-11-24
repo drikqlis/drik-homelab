@@ -9,10 +9,13 @@ data:
     replicaCount: 1
 
     image:
-      tag: "0.101"
+      tag: "0.102"
 
     # resident signal-cli daemon; incoming messages via websocket (Claude Code reply listener)
     mode: json-rpc
+    extraEnv:
+      - name: JSON_RPC_RECEIVE_MODE
+        value: manual
 
     proxy:
       enabled: true
