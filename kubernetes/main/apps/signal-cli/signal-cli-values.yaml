@@ -29,6 +29,7 @@ data:
         kubernetes.io/tls-acme: "true"
         cert-manager.io/cluster-issuer: "letsencrypt-prod"
         kubernetes.io/ingress.class: nginx-internal
+        nginx.ingress.kubernetes.io/proxy-body-size: "64m"  # base64 attachments; matches the auth proxy MAX_BODY
       hosts:
         - host: signal.drik.it
           paths:
